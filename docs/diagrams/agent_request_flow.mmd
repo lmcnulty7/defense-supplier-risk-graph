@@ -1,0 +1,35 @@
+sequenceDiagram
+  autonumber
+  actor A as Analyst
+  participant UI as Streamlit, app/streamlit_app.py
+  participant L as ask(), agent/agent.py
+  participant B as costs.py budget guard and ledger
+  participant C as Claude API, beta.messages.create
+  participant T as tools.py
+  participant Q as queries.py graph backend
+  participant G as NetworkX graph and DuckDB
+  A->>UI: "Which offices depend on Sikorsky?"
+  UI->>L: ask(question)
+  loop up to 8 steps
+    L->>B: check_budget(): spent + 0.05 must stay under BUDGET_USD
+    L->>C: system prompt + 4 tool schemas + messages, effort low, prompt caching
+    C-->>L: response with stop_reason and content blocks
+    L->>B: record(usage), append cost to logs/spend_ledger.jsonl
+    alt stop_reason is tool_use
+      L->>T: resolve_supplier("Sikorsky...")
+      T->>G: fuzzy match over name variants (rapidfuzz)
+      G-->>T: candidates with UEI and match_score
+      T-->>L: tool_result JSON
+      L->>T: run_query("dependent_offices", supplier_id)
+      T->>Q: QUERIES registry checks name and params
+      Q->>G: traverse AWARDED_TO and SUBCONTRACTS_TO edges
+      G-->>Q: offices, award IDs
+      Q-->>T: summary + rows + citation IDs, truncated to 10 rows
+      T-->>L: tool_result JSON
+    else stop_reason is end_turn
+      L->>L: parse_final_json(): last json block = answerable, answer, citations
+    end
+  end
+  L->>L: write run to logs/agent_runs/name.jsonl
+  L-->>UI: AgentRun with text, JSON, tool trace, cost, latency
+  UI-->>A: prose with linked award citations and a tool-call trace

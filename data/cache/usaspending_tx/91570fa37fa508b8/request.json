@@ -1,0 +1,58 @@
+{
+  "filters": {
+    "agencies": [
+      {
+        "type": "awarding",
+        "tier": "toptier",
+        "name": "Department of Defense"
+      }
+    ],
+    "award_type_codes": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "time_period": [
+      {
+        "start_date": "2021-10-01",
+        "end_date": "2025-09-30"
+      }
+    ],
+    "psc_codes": {
+      "require": [
+        [
+          "Service",
+          "J"
+        ]
+      ]
+    }
+  },
+  "columns": [
+    "contract_transaction_unique_key",
+    "contract_award_unique_key",
+    "award_id_piid",
+    "modification_number",
+    "federal_action_obligation",
+    "action_date",
+    "action_date_fiscal_year",
+    "action_type_code",
+    "action_type",
+    "award_type_code",
+    "period_of_performance_start_date",
+    "period_of_performance_current_end_date",
+    "awarding_office_code",
+    "recipient_uei",
+    "recipient_parent_uei",
+    "recipient_name",
+    "primary_place_of_performance_country_code",
+    "product_or_service_code",
+    "extent_competed_code",
+    "number_of_offers_received",
+    "contracting_officers_determination_of_business_size_code",
+    "dod_acquisition_program_code",
+    "transaction_description"
+  ],
+  "file_format": "csv",
+  "limit": 500000
+}

@@ -1,0 +1,49 @@
+{
+  "built_at_utc": "2026-11-19T07:10:38.022334+00:00",
+  "nodes": {
+    "Award": 57596,
+    "Supplier": 11658,
+    "ParentCompany": 9096,
+    "Office": 757,
+    "Country": 95,
+    "ProductServiceCode": 79
+  },
+  "edges": {
+    "AWARDED_TO": 57596,
+    "AWARDED_BY": 57596,
+    "CATEGORIZED_AS": 57596,
+    "PERFORMED_IN": 53689,
+    "SUBCONTRACTS_TO": 35156,
+    "SUBSIDIARY_OF": 10198
+  },
+  "subawards_dropped_prime_out_of_scope": 686,
+  "flags": {
+    "flag_concentrated": 430,
+    "flag_sole_source": 3380,
+    "flag_geo_exposed": 957
+  },
+  "suppliers_any_flag": 4312,
+  "suppliers_with_feed_country_exposure": 65,
+  "risk_feed": {
+    "source": "data/feeds/mena/risk_feed_20261119T062924Z.parquet",
+    "is_fixture": false,
+    "note": "MENA feed from committed snapshot (risk_feed_20261119T062924Z.parquet)",
+    "schema_version": "2.0.0",
+    "skill_status": "beats_base_rate",
+    "skill_text": "The feed's model beats the regional base rate but not each country's own historical rate; use its ranking of countries, not the exact level.",
+    "likelihood_allowed": true,
+    "label": "escalated_next4w_ucdp",
+    "notices": []
+  },
+  "scope": {
+    "n_prime_awards": 57596,
+    "total_prime_obligations": 225218413446.33,
+    "n_subawards": 35842,
+    "obligation_share_to_flagged_suppliers": 0.8675,
+    "prime_awards_with_subawards_in_scope": 2166,
+    "prime_award_ids_referenced_by_subawards": 2262,
+    "awards_missing_pop_country": 3907,
+    "awards_with_program_code": 2201,
+    "program_code_obligation_share": 0.2004
+  }
+}

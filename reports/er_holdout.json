@@ -1,0 +1,218 @@
+{
+  "n_present": 620,
+  "n_absent": 500,
+  "index_size": 11158,
+  "matchers": {
+    "rule, name blocking only (v1)": {
+      "threshold": 0.64,
+      "present_correct": 0.5581,
+      "present_wrong_link": 0.0532,
+      "present_unresolved": 0.3887,
+      "absent_false_link": 0.07,
+      "precision_of_links": 0.8357
+    },
+    "rule + facility blocking": {
+      "threshold": 0.64,
+      "present_correct": 0.7,
+      "present_wrong_link": 0.0565,
+      "present_unresolved": 0.2435,
+      "absent_false_link": 0.086,
+      "precision_of_links": 0.8477
+    },
+    "learned, name blocking only": {
+      "threshold": 0.51,
+      "present_correct": 0.55,
+      "present_wrong_link": 0.0468,
+      "present_unresolved": 0.4032,
+      "absent_false_link": 0.074,
+      "precision_of_links": 0.8378
+    },
+    "learned + facility blocking": {
+      "threshold": 0.51,
+      "present_correct": 0.8274,
+      "present_wrong_link": 0.0355,
+      "present_unresolved": 0.1371,
+      "absent_false_link": 0.084,
+      "precision_of_links": 0.8891
+    }
+  },
+  "operating_point": {
+    "rule": "utility = correct-link rate - 2 x (wrong-link rate + absent false-link rate); fixed before the curve was computed",
+    "n_tune": {
+      "present": 303,
+      "absent": 248
+    },
+    "n_confirm": {
+      "present": 317,
+      "absent": 252
+    },
+    "grid_size": 140,
+    "curve": [
+      {
+        "threshold": 0.51,
+        "margin": 0.1,
+        "t_addr": null,
+        "tune": {
+          "present_correct": 0.7921,
+          "present_wrong_link": 0.0132,
+          "present_unresolved": 0.1947,
+          "absent_false_link": 0.0685,
+          "precision_of_links": 0.9195
+        },
+        "utility_tune": 0.6287
+      },
+      {
+        "threshold": 0.6,
+        "margin": 0.1,
+        "t_addr": null,
+        "tune": {
+          "present_correct": 0.7921,
+          "present_wrong_link": 0.0099,
+          "present_unresolved": 0.198,
+          "absent_false_link": 0.0605,
+          "precision_of_links": 0.9302
+        },
+        "utility_tune": 0.6513
+      },
+      {
+        "threshold": 0.7,
+        "margin": 0.2,
+        "t_addr": null,
+        "tune": {
+          "present_correct": 0.7822,
+          "present_wrong_link": 0.0033,
+          "present_unresolved": 0.2145,
+          "absent_false_link": 0.0484,
+          "precision_of_links": 0.948
+        },
+        "utility_tune": 0.6788
+      },
+      {
+        "threshold": 0.8,
+        "margin": 0.2,
+        "t_addr": null,
+        "tune": {
+          "present_correct": 0.7558,
+          "present_wrong_link": 0.0099,
+          "present_unresolved": 0.2343,
+          "absent_false_link": 0.0363,
+          "precision_of_links": 0.9502
+        },
+        "utility_tune": 0.6634
+      },
+      {
+        "threshold": 0.85,
+        "margin": 0.05,
+        "t_addr": null,
+        "tune": {
+          "present_correct": 0.6964,
+          "present_wrong_link": 0.0165,
+          "present_unresolved": 0.2871,
+          "absent_false_link": 0.0403,
+          "precision_of_links": 0.9336
+        },
+        "utility_tune": 0.5828
+      },
+      {
+        "threshold": 0.9,
+        "margin": 0.05,
+        "t_addr": null,
+        "tune": {
+          "present_correct": 0.5776,
+          "present_wrong_link": 0.0099,
+          "present_unresolved": 0.4125,
+          "absent_false_link": 0.0282,
+          "precision_of_links": 0.9459
+        },
+        "utility_tune": 0.5014
+      },
+      {
+        "threshold": 0.95,
+        "margin": 0.05,
+        "t_addr": null,
+        "tune": {
+          "present_correct": 0.3729,
+          "present_wrong_link": 0.0066,
+          "present_unresolved": 0.6205,
+          "absent_false_link": 0.004,
+          "precision_of_links": 0.9741
+        },
+        "utility_tune": 0.3517
+      }
+    ],
+    "default": {
+      "threshold": 0.51,
+      "margin": 0.02,
+      "t_addr": null,
+      "tune": {
+        "present_correct": 0.8185,
+        "present_wrong_link": 0.033,
+        "present_unresolved": 0.1485,
+        "absent_false_link": 0.0806,
+        "precision_of_links": 0.8921
+      },
+      "utility_tune": 0.5913,
+      "confirm": {
+        "present_correct": 0.836,
+        "present_wrong_link": 0.0379,
+        "present_unresolved": 0.1262,
+        "absent_false_link": 0.0873,
+        "precision_of_links": 0.8863
+      },
+      "all": {
+        "present_correct": 0.8274,
+        "present_wrong_link": 0.0355,
+        "present_unresolved": 0.1371,
+        "absent_false_link": 0.084,
+        "precision_of_links": 0.8891
+      }
+    },
+    "selected_point": {
+      "threshold": 0.7,
+      "margin": 0.2,
+      "t_addr": null,
+      "tune": {
+        "present_correct": 0.7822,
+        "present_wrong_link": 0.0033,
+        "present_unresolved": 0.2145,
+        "absent_false_link": 0.0484,
+        "precision_of_links": 0.948
+      },
+      "utility_tune": 0.6788,
+      "confirm": {
+        "present_correct": 0.7855,
+        "present_wrong_link": 0.0063,
+        "present_unresolved": 0.2082,
+        "absent_false_link": 0.0437,
+        "precision_of_links": 0.9504
+      },
+      "all": {
+        "present_correct": 0.7839,
+        "present_wrong_link": 0.0048,
+        "present_unresolved": 0.2113,
+        "absent_false_link": 0.046,
+        "precision_of_links": 0.9492
+      }
+    },
+    "selected": {
+      "matcher": "learned + facility blocking",
+      "threshold": 0.7,
+      "margin": 0.2,
+      "t_addr": null,
+      "false_merge_weight": 2.0,
+      "chosen_on": "tuning half of the held-out records (utility = correct - 2 x (wrong + absent false))"
+    },
+    "weight_sensitivity": {
+      "1.0": {
+        "threshold": 0.7,
+        "margin": 0.05,
+        "t_addr": null
+      },
+      "3.0": {
+        "threshold": 0.7,
+        "margin": 0.2,
+        "t_addr": null
+      }
+    }
+  }
+}

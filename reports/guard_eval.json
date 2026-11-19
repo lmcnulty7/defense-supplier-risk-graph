@@ -1,0 +1,147 @@
+{
+  "er_pairs_test": {
+    "identifier:neg": {
+      "n": 1747,
+      "flag_rate": 0.2645
+    },
+    "identifier:uei": {
+      "n": 1743,
+      "flag_rate": 0.078
+    },
+    "synthetic:neg": {
+      "n": 1394,
+      "flag_rate": 0.2805
+    },
+    "synthetic:pos": {
+      "n": 1378,
+      "flag_rate": 0.0718
+    }
+  },
+  "synthetic_pos_excluding_acronym": {
+    "n": 1277,
+    "flag_rate": 0.0008,
+    "note": "acronym queries bypass the guard (resolved by the acronym rule)"
+  },
+  "synthetic_pos_flag_rate_by_perturbation": {
+    "abbreviation": {
+      "n": 264,
+      "flag_rate": 0.0341
+    },
+    "punctuation": {
+      "n": 357,
+      "flag_rate": 0.0364
+    },
+    "suffix": {
+      "n": 410,
+      "flag_rate": 0.0659
+    },
+    "typo": {
+      "n": 366,
+      "flag_rate": 0.0328
+    },
+    "address": {
+      "n": 373,
+      "flag_rate": 0.0509
+    },
+    "case": {
+      "n": 420,
+      "flag_rate": 0.05
+    },
+    "acronym": {
+      "n": 101,
+      "flag_rate": 0.9703
+    },
+    "token_drop": {
+      "n": 175,
+      "flag_rate": 0.0229
+    }
+  },
+  "agent_questions": {
+    "hard_noisy_name": {
+      "n": 3,
+      "flagged": 0
+    },
+    "u_near_miss": {
+      "n": 8,
+      "flagged": 8
+    }
+  },
+  "agent_question_rows": [
+    {
+      "qid": "hard_noisy_name-3b531f36",
+      "template": "hard_noisy_name",
+      "name": "ORACME ELEVATOR HOLDCO, LIMITED",
+      "flagged": false
+    },
+    {
+      "qid": "hard_noisy_name-c13f18c0",
+      "template": "hard_noisy_name",
+      "name": "AEROSNIC, LLC",
+      "flagged": false
+    },
+    {
+      "qid": "hard_noisy_name-eef87083",
+      "template": "hard_noisy_name",
+      "name": "BRINDLEE MUNTAIN FIRE APPARATUS CORP",
+      "flagged": false
+    },
+    {
+      "qid": "u_near_miss-2464e18e",
+      "template": "u_near_miss",
+      "name": "Epsilon Sys Solns Mission Rotorcraft Grp LLC",
+      "flagged": true
+    },
+    {
+      "qid": "u_near_miss-ebf5d8f3",
+      "template": "u_near_miss",
+      "name": "Execujet Mro Svcs Middle East Dwc Optics LLC",
+      "flagged": true
+    },
+    {
+      "qid": "u_near_miss-a165f23e",
+      "template": "u_near_miss",
+      "name": "Massachusetts Fire Hydraulics LLC",
+      "flagged": true
+    },
+    {
+      "qid": "u_near_miss-5edbffaa",
+      "template": "u_near_miss",
+      "name": "Kratos Tech & Training Munitions LLC",
+      "flagged": true
+    },
+    {
+      "qid": "u_near_miss-aec033c1",
+      "template": "u_near_miss",
+      "name": "Chugach Technical Propulsion LLC",
+      "flagged": true
+    },
+    {
+      "qid": "u_near_miss-f1e8c4a8",
+      "template": "u_near_miss",
+      "name": "Aero Products Component Shipyard LLC",
+      "flagged": true
+    },
+    {
+      "qid": "u_near_miss-d0d546a8",
+      "template": "u_near_miss",
+      "name": "Western States Munitions LLC",
+      "flagged": true
+    },
+    {
+      "qid": "u_near_miss-df2dae8e",
+      "template": "u_near_miss",
+      "name": "Air Pollution Control Propulsion LLC",
+      "flagged": true
+    }
+  ],
+  "replay_logged_opus_resolver_calls": {
+    "answerable": {
+      "calls": 88,
+      "flagged": 0
+    },
+    "unanswerable": {
+      "calls": 34,
+      "flagged": 24
+    }
+  }
+}

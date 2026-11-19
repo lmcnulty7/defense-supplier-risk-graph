@@ -1,0 +1,18 @@
+{
+  "schema_version": "2.0.0",
+  "skill_status": "beats_base_rate",
+  "copied_from": "risk_feed_20261119T062924Z.parquet",
+  "model_version": "6268b40",
+  "generated_at": "2026-11-19 06:29:24+00:00",
+  "rows": 168,
+  "countries": 14,
+  "week_start_min": "2026-08-24",
+  "week_start_max": "2026-11-09",
+  "parquet": "risk_feed_20261119T062924Z.parquet",
+  "sha256": {
+    "risk_feed_20261119T062924Z.parquet": "f043ecc8c1ecf6b0ebab0cce58b8901d64d5c9752eceffb7c690d30214d8323f"
+  },
+  "notices": [],
+  "label": "escalated_next4w_ucdp",
+  "attribution": "Model output of the author's MENA escalation project, trained on openly licensed inputs: the UCDP Georeferenced Event Dataset and UCDP Candidate Events Dataset (CC BY 4.0; Sundberg & Melander 2013; Davies, Pettersson & Oberg 2026; Hegre et al. 2020; ucdp.uu.se) and The GDELT Project (gdeltproject.org). Contains model outputs only."
+}

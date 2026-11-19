@@ -1,0 +1,534 @@
+[
+  {
+    "key": "n_prime_awards",
+    "text": "57,596",
+    "label": "DoD PSC-J prime awards, FY2023-FY2025",
+    "source": "graph_summary.json",
+    "section": "Data",
+    "alts": []
+  },
+  {
+    "key": "total_obligations",
+    "text": "$225.2B",
+    "label": "lifetime obligations on those awards",
+    "source": "graph_summary.json",
+    "section": "Data",
+    "alts": []
+  },
+  {
+    "key": "n_subawards",
+    "text": "35,842",
+    "label": "subawards",
+    "source": "graph_summary.json",
+    "section": "Data",
+    "alts": []
+  },
+  {
+    "key": "n_suppliers",
+    "text": "11,658",
+    "label": "resolved suppliers",
+    "source": "graph_summary.json",
+    "section": "Data",
+    "alts": []
+  },
+  {
+    "key": "n_parents",
+    "text": "9,096",
+    "label": "parent companies",
+    "source": "graph_summary.json",
+    "section": "Data",
+    "alts": []
+  },
+  {
+    "key": "n_offices",
+    "text": "757",
+    "label": "awarding offices",
+    "source": "graph_summary.json",
+    "section": "Data",
+    "alts": []
+  },
+  {
+    "key": "n_transactions",
+    "text": "187,320",
+    "label": "contract transactions FY2022-FY2025",
+    "source": "risk_backtest.json",
+    "section": "Data",
+    "alts": []
+  },
+  {
+    "key": "sub_coverage",
+    "text": "3.8%",
+    "label": "share of prime awards with any reported subaward",
+    "source": "graph_summary.json",
+    "section": "Data",
+    "alts": []
+  },
+  {
+    "key": "flagged_share",
+    "text": "86.75%",
+    "label": "obligations going to a supplier with at least one flag",
+    "source": "graph_summary.json",
+    "section": "Data",
+    "alts": [
+      "87%"
+    ]
+  },
+  {
+    "key": "n_flagged",
+    "text": "4,312",
+    "label": "suppliers with at least one flag",
+    "source": "graph_summary.json",
+    "section": "Data",
+    "alts": []
+  },
+  {
+    "key": "feed_skill",
+    "text": "beats_base_rate",
+    "label": "MENA feed skill_status",
+    "source": "graph_summary.json",
+    "section": "Data",
+    "alts": []
+  },
+  {
+    "key": "feed_version",
+    "text": "schema 2.0.0, label escalated_next4w_ucdp",
+    "label": "MENA feed version and forecast target",
+    "source": "graph_summary.json",
+    "section": "Data",
+    "alts": []
+  },
+  {
+    "key": "feed_gate_p",
+    "text": "not adopted: 0% point-in-time coverage",
+    "label": "p_escalation as a termination-likelihood input (backtest gate)",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "feed_gate_exposure",
+    "text": "AP -0.0004 [-0.0073, 0.0071]",
+    "label": "feed-country exposure added to the likelihood model: AP gain, 95% CI (not adopted)",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "er_id_pr",
+    "text": "P 0.949 / R 0.909",
+    "label": "pairwise, identifier-derived test pairs (learned weights)",
+    "source": "er_metrics.json",
+    "section": "Entity resolution",
+    "alts": []
+  },
+  {
+    "key": "er_syn_pr",
+    "text": "P 0.954 / R 1.000",
+    "label": "pairwise, synthetic test pairs (learned weights)",
+    "source": "er_metrics.json",
+    "section": "Entity resolution",
+    "alts": []
+  },
+  {
+    "key": "er_acronym",
+    "text": "0.10 → 1.00",
+    "label": "acronym recall, v1 → learned",
+    "source": "er_metrics.json",
+    "section": "Entity resolution",
+    "alts": []
+  },
+  {
+    "key": "er_index",
+    "text": "11,158",
+    "label": "suppliers in the end-to-end index",
+    "source": "er_holdout.json",
+    "section": "Entity resolution",
+    "alts": []
+  },
+  {
+    "key": "er_n_present",
+    "text": "620",
+    "label": "renamed records resolved end to end (UEI withheld)",
+    "source": "er_holdout.json",
+    "section": "Entity resolution",
+    "alts": []
+  },
+  {
+    "key": "er_v1_correct",
+    "text": "55.8%",
+    "label": "end-to-end correct links, v1 matcher",
+    "source": "er_holdout.json",
+    "section": "Entity resolution",
+    "alts": [
+      "56%"
+    ]
+  },
+  {
+    "key": "er_blocking_correct",
+    "text": "82.7%",
+    "label": "end-to-end correct links after facility blocking + learned weights (dev threshold)",
+    "source": "er_holdout.json",
+    "section": "Entity resolution",
+    "alts": [
+      "83%"
+    ]
+  },
+  {
+    "key": "er_v1_wrong",
+    "text": "5.32%",
+    "label": "wrong links, v1",
+    "source": "er_holdout.json",
+    "section": "Entity resolution",
+    "alts": []
+  },
+  {
+    "key": "er_blocking_wrong",
+    "text": "3.55%",
+    "label": "wrong links after the blocking fix",
+    "source": "er_holdout.json",
+    "section": "Entity resolution",
+    "alts": []
+  },
+  {
+    "key": "er_v1_absent",
+    "text": "7.0%",
+    "label": "absent-company false links, v1",
+    "source": "er_holdout.json",
+    "section": "Entity resolution",
+    "alts": []
+  },
+  {
+    "key": "er_blocking_absent",
+    "text": "8.4%",
+    "label": "absent-company false links after the blocking fix",
+    "source": "er_holdout.json",
+    "section": "Entity resolution",
+    "alts": []
+  },
+  {
+    "key": "er_op_point",
+    "text": "threshold 0.70, margin 0.20",
+    "label": "shipped operating point (chosen on the tuning half)",
+    "source": "er_holdout.json",
+    "section": "Entity resolution",
+    "alts": []
+  },
+  {
+    "key": "er_op_absent",
+    "text": "8.7% → 4.4%",
+    "label": "absent-company false links, previous → shipped point (confirmation half)",
+    "source": "er_holdout.json",
+    "section": "Entity resolution",
+    "alts": []
+  },
+  {
+    "key": "er_op_wrong",
+    "text": "3.8% → 0.6%",
+    "label": "wrong links, previous → shipped point (confirmation half)",
+    "source": "er_holdout.json",
+    "section": "Entity resolution",
+    "alts": []
+  },
+  {
+    "key": "er_op_correct",
+    "text": "83.6% → 78.5%",
+    "label": "correct links, previous → shipped point (confirmation half)",
+    "source": "er_holdout.json",
+    "section": "Entity resolution",
+    "alts": []
+  },
+  {
+    "key": "neo4j_blast",
+    "text": "30/30",
+    "label": "Cypher blast radius equal to NetworkX (sampled suppliers); all node/edge counts equal",
+    "source": "neo4j_parity.json",
+    "section": "Graph",
+    "alts": []
+  },
+  {
+    "key": "bt_n",
+    "text": "5,541",
+    "label": "test supplier-years (FY2024 features → FY2025 outcomes)",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "bt_pos",
+    "text": "145",
+    "label": "of which had a termination/cancellation event",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "auc_flags",
+    "text": "0.635",
+    "label": "ROC-AUC, current flags",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": [
+      "0.64"
+    ]
+  },
+  {
+    "key": "auc_size",
+    "text": "0.758",
+    "label": "ROC-AUC, contract count only",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": [
+      "0.76"
+    ]
+  },
+  {
+    "key": "auc_model",
+    "text": "0.772",
+    "label": "ROC-AUC, logistic model",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": [
+      "0.77"
+    ]
+  },
+  {
+    "key": "auc_gain",
+    "text": "+0.013 [-0.013, 0.039]",
+    "label": "model AUC gain over size, 95% CI (not significant)",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "ap_gain",
+    "text": "+0.070 [0.028, 0.110]",
+    "label": "model average-precision gain over size, 95% CI",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "or_conc",
+    "text": "3.06 → 0.77",
+    "label": "concentrated: raw → size-adjusted odds ratio",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "or_sole",
+    "text": "0.66 [0.52, 0.82]",
+    "label": "sole-source size-adjusted odds ratio",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "or_geo",
+    "text": "1.75 → 1.00",
+    "label": "geo-exposed size-adjusted odds ratio → without the Japan office cluster",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "cluster_share",
+    "text": "17%-38%",
+    "label": "share of each year's events from one Navy office in Japan",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "outlook_n",
+    "text": "36",
+    "label": "FY2026 suppliers with >= 2x the size-predicted likelihood and >= $10M at stake",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "v1_opus",
+    "text": "87/88",
+    "label": "v1: Opus answerable correct",
+    "source": "comparison.json",
+    "section": "Agent",
+    "alts": []
+  },
+  {
+    "key": "v1_opus_ref",
+    "text": "13/13",
+    "label": "v1: Opus correct refusals",
+    "source": "comparison.json",
+    "section": "Agent",
+    "alts": []
+  },
+  {
+    "key": "v1_opus_fab",
+    "text": "0",
+    "label": "v1: Opus fabricated IDs",
+    "source": "eval_results.json",
+    "section": "Agent",
+    "alts": []
+  },
+  {
+    "key": "v1_haiku",
+    "text": "83/88, 83/88, 83/88",
+    "label": "v1: Haiku answerable correct, three runs",
+    "source": "comparison.json",
+    "section": "Agent",
+    "alts": []
+  },
+  {
+    "key": "v1_haiku_guard",
+    "text": "82/88, 83/88, 83/88",
+    "label": "v1: Haiku + guard answerable correct, three runs",
+    "source": "comparison.json",
+    "section": "Agent",
+    "alts": []
+  },
+  {
+    "key": "v1_haiku_fab",
+    "text": "0, 0, 3 (guard: 0, 0, 4)",
+    "label": "v1: Haiku citation IDs not found, per run (real supplier IDs cited under the parent: prefix)",
+    "source": "comparison.json",
+    "section": "Agent",
+    "alts": []
+  },
+  {
+    "key": "draft_haiku",
+    "text": "44/44, 44/44, 44/44",
+    "label": "first challenge draft: Haiku answerable correct (saturated; set revised)",
+    "source": "comparison_challenge_draft.json",
+    "section": "Agent",
+    "alts": []
+  },
+  {
+    "key": "ch_opus",
+    "text": "38/38",
+    "label": "challenge: Opus answerable correct",
+    "source": "comparison.json",
+    "section": "Agent",
+    "alts": []
+  },
+  {
+    "key": "ch_opus_traps",
+    "text": "13/14",
+    "label": "challenge: Opus traps declined",
+    "source": "comparison.json",
+    "section": "Agent",
+    "alts": []
+  },
+  {
+    "key": "ch_haiku",
+    "text": "38/38, 38/38, 38/38",
+    "label": "challenge: Haiku answerable, three runs",
+    "source": "comparison.json",
+    "section": "Agent",
+    "alts": []
+  },
+  {
+    "key": "ch_haiku_traps",
+    "text": "7/14, 9/14, 9/14",
+    "label": "challenge: Haiku traps declined",
+    "source": "comparison.json",
+    "section": "Agent",
+    "alts": []
+  },
+  {
+    "key": "ch_guard_traps",
+    "text": "13/14, 14/14, 13/14",
+    "label": "challenge: Haiku + guard traps declined",
+    "source": "comparison.json",
+    "section": "Agent",
+    "alts": []
+  },
+  {
+    "key": "ch_notools",
+    "text": "0/38",
+    "label": "challenge: Opus without tools, answerable",
+    "source": "comparison.json",
+    "section": "Agent",
+    "alts": []
+  },
+  {
+    "key": "nm_haiku",
+    "text": "1/8, 3/8, 3/8",
+    "label": "near-miss traps caught, Haiku",
+    "source": "comparison.json",
+    "section": "Agent",
+    "alts": []
+  },
+  {
+    "key": "nm_guard",
+    "text": "7/8, 8/8, 7/8",
+    "label": "near-miss traps caught, Haiku + guard",
+    "source": "comparison.json",
+    "section": "Agent",
+    "alts": []
+  },
+  {
+    "key": "nm_opus",
+    "text": "7/8, 7/8, 7/8",
+    "label": "near-miss traps caught, Opus (three runs of the trap template)",
+    "source": "comparison.json",
+    "section": "Agent",
+    "alts": []
+  },
+  {
+    "key": "cost_opus",
+    "text": "$0.041",
+    "label": "Opus cost per challenge question",
+    "source": "comparison.json",
+    "section": "Agent",
+    "alts": []
+  },
+  {
+    "key": "cost_ratio",
+    "text": "1/49",
+    "label": "Haiku cost relative to Opus per challenge question",
+    "source": "comparison.json",
+    "section": "Agent",
+    "alts": []
+  },
+  {
+    "key": "guard_replay",
+    "text": "0 of 88",
+    "label": "logged Opus resolver calls on answerable questions where the guard fires",
+    "source": "guard_eval.json",
+    "section": "Agent",
+    "alts": []
+  },
+  {
+    "key": "judge_blatant",
+    "text": "40/40",
+    "label": "LLM judge agreement, blatant corruptions",
+    "source": "judge_validation.json",
+    "section": "Trust and cost",
+    "alts": []
+  },
+  {
+    "key": "judge_subtle",
+    "text": "30/30",
+    "label": "LLM judge agreement, subtle corruptions in real agent prose",
+    "source": "judge_validation_subtle.json",
+    "section": "Trust and cost",
+    "alts": []
+  },
+  {
+    "key": "spend",
+    "text": "$9.00",
+    "label": "total Anthropic API spend (cap $10)",
+    "source": "logs/spend_ledger.jsonl",
+    "section": "Trust and cost",
+    "alts": []
+  },
+  {
+    "key": "tests",
+    "text": "108 tests",
+    "label": "pytest tests collected (`make test`)",
+    "source": "pytest --collect-only",
+    "section": "Trust and cost",
+    "alts": []
+  }
+]

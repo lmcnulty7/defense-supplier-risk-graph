@@ -1,0 +1,21 @@
+schema_version,country_iso3,week_start,p_escalation,model_version,calibration,top_drivers,data_cutoff,generated_at
+1.0.0,ARE,2026-06-29,0.05,FIXTURE-synthetic-not-a-model,none (synthetic fixture),"[{""feature"": ""synthetic_fixture"", ""shap_value"": 0.0}]",2026-06-29T23:59:59Z,2026-11-18T00:00:00Z
+1.0.0,ARE,2026-07-06,0.06,FIXTURE-synthetic-not-a-model,none (synthetic fixture),"[{""feature"": ""synthetic_fixture"", ""shap_value"": 0.0}]",2026-07-06T23:59:59Z,2026-11-18T00:00:00Z
+1.0.0,BHR,2026-06-29,0.04,FIXTURE-synthetic-not-a-model,none (synthetic fixture),"[{""feature"": ""synthetic_fixture"", ""shap_value"": 0.0}]",2026-06-29T23:59:59Z,2026-11-18T00:00:00Z
+1.0.0,BHR,2026-07-06,0.05,FIXTURE-synthetic-not-a-model,none (synthetic fixture),"[{""feature"": ""synthetic_fixture"", ""shap_value"": 0.0}]",2026-07-06T23:59:59Z,2026-11-18T00:00:00Z
+1.0.0,EGY,2026-06-29,0.06,FIXTURE-synthetic-not-a-model,none (synthetic fixture),"[{""feature"": ""synthetic_fixture"", ""shap_value"": 0.0}]",2026-06-29T23:59:59Z,2026-11-18T00:00:00Z
+1.0.0,EGY,2026-07-06,0.07,FIXTURE-synthetic-not-a-model,none (synthetic fixture),"[{""feature"": ""synthetic_fixture"", ""shap_value"": 0.0}]",2026-07-06T23:59:59Z,2026-11-18T00:00:00Z
+1.0.0,ISR,2026-06-29,0.12,FIXTURE-synthetic-not-a-model,none (synthetic fixture),"[{""feature"": ""synthetic_fixture"", ""shap_value"": 0.0}]",2026-06-29T23:59:59Z,2026-11-18T00:00:00Z
+1.0.0,ISR,2026-07-06,0.13,FIXTURE-synthetic-not-a-model,none (synthetic fixture),"[{""feature"": ""synthetic_fixture"", ""shap_value"": 0.0}]",2026-07-06T23:59:59Z,2026-11-18T00:00:00Z
+1.0.0,JOR,2026-06-29,0.05,FIXTURE-synthetic-not-a-model,none (synthetic fixture),"[{""feature"": ""synthetic_fixture"", ""shap_value"": 0.0}]",2026-06-29T23:59:59Z,2026-11-18T00:00:00Z
+1.0.0,JOR,2026-07-06,0.06,FIXTURE-synthetic-not-a-model,none (synthetic fixture),"[{""feature"": ""synthetic_fixture"", ""shap_value"": 0.0}]",2026-07-06T23:59:59Z,2026-11-18T00:00:00Z
+1.0.0,KWT,2026-06-29,0.03,FIXTURE-synthetic-not-a-model,none (synthetic fixture),"[{""feature"": ""synthetic_fixture"", ""shap_value"": 0.0}]",2026-06-29T23:59:59Z,2026-11-18T00:00:00Z
+1.0.0,KWT,2026-07-06,0.04,FIXTURE-synthetic-not-a-model,none (synthetic fixture),"[{""feature"": ""synthetic_fixture"", ""shap_value"": 0.0}]",2026-07-06T23:59:59Z,2026-11-18T00:00:00Z
+1.0.0,QAT,2026-06-29,0.03,FIXTURE-synthetic-not-a-model,none (synthetic fixture),"[{""feature"": ""synthetic_fixture"", ""shap_value"": 0.0}]",2026-06-29T23:59:59Z,2026-11-18T00:00:00Z
+1.0.0,QAT,2026-07-06,0.04,FIXTURE-synthetic-not-a-model,none (synthetic fixture),"[{""feature"": ""synthetic_fixture"", ""shap_value"": 0.0}]",2026-07-06T23:59:59Z,2026-11-18T00:00:00Z
+1.0.0,SAU,2026-06-29,0.07,FIXTURE-synthetic-not-a-model,none (synthetic fixture),"[{""feature"": ""synthetic_fixture"", ""shap_value"": 0.0}]",2026-06-29T23:59:59Z,2026-11-18T00:00:00Z
+1.0.0,SAU,2026-07-06,0.08,FIXTURE-synthetic-not-a-model,none (synthetic fixture),"[{""feature"": ""synthetic_fixture"", ""shap_value"": 0.0}]",2026-07-06T23:59:59Z,2026-11-18T00:00:00Z
+1.0.0,TUR,2026-06-29,0.05,FIXTURE-synthetic-not-a-model,none (synthetic fixture),"[{""feature"": ""synthetic_fixture"", ""shap_value"": 0.0}]",2026-06-29T23:59:59Z,2026-11-18T00:00:00Z
+1.0.0,TUR,2026-07-06,0.06,FIXTURE-synthetic-not-a-model,none (synthetic fixture),"[{""feature"": ""synthetic_fixture"", ""shap_value"": 0.0}]",2026-07-06T23:59:59Z,2026-11-18T00:00:00Z
+1.0.0,YEM,2026-06-29,0.3,FIXTURE-synthetic-not-a-model,none (synthetic fixture),"[{""feature"": ""synthetic_fixture"", ""shap_value"": 0.0}]",2026-06-29T23:59:59Z,2026-11-18T00:00:00Z
+1.0.0,YEM,2026-07-06,0.31,FIXTURE-synthetic-not-a-model,none (synthetic fixture),"[{""feature"": ""synthetic_fixture"", ""shap_value"": 0.0}]",2026-07-06T23:59:59Z,2026-11-18T00:00:00Z

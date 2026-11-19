@@ -1,0 +1,224 @@
+{
+  "generated_at_utc": "2026-11-19T07:10:19.281579+00:00",
+  "threshold": 0.64,
+  "threshold_tuned_on": "dev split (30% of anchor UEIs), max F1, pooled label sets",
+  "excluded_ambiguous_negatives": 68,
+  "label_counts": {
+    "dev": {
+      "identifier:neg": 753,
+      "identifier:uei": 757,
+      "synthetic:neg": 606,
+      "synthetic:pos": 622
+    },
+    "test": {
+      "identifier:neg": 1747,
+      "identifier:uei": 1743,
+      "synthetic:neg": 1394,
+      "synthetic:pos": 1378
+    }
+  },
+  "identifier": {
+    "precision": 0.9099,
+    "recall": 0.9558,
+    "f1": 0.9323,
+    "tp": 1666,
+    "fp": 165,
+    "fn": 77,
+    "tn": 1582,
+    "n": 3490
+  },
+  "synthetic": {
+    "precision": 0.9241,
+    "recall": 0.9891,
+    "f1": 0.9555,
+    "tp": 1363,
+    "fp": 112,
+    "fn": 15,
+    "tn": 1282,
+    "n": 2772
+  },
+  "identifier_pos_share_normalized_identical": 0.51,
+  "identifier_recall_on_non_trivial_pos": 0.9098,
+  "synthetic_recall_by_perturbation": {
+    "abbreviation": {
+      "n": 264,
+      "recall": 0.9962
+    },
+    "punctuation": {
+      "n": 357,
+      "recall": 0.9944
+    },
+    "suffix": {
+      "n": 410,
+      "recall": 0.9927
+    },
+    "typo": {
+      "n": 366,
+      "recall": 0.9891
+    },
+    "address": {
+      "n": 373,
+      "recall": 0.9973
+    },
+    "case": {
+      "n": 420,
+      "recall": 0.9929
+    },
+    "acronym": {
+      "n": 101,
+      "recall": 0.8614
+    },
+    "token_drop": {
+      "n": 175,
+      "recall": 0.9714
+    }
+  },
+  "ablation_v1_no_acronyms": {
+    "threshold": 0.63,
+    "identifier": {
+      "precision": 0.908,
+      "recall": 0.957,
+      "f1": 0.9318,
+      "tp": 1668,
+      "fp": 169,
+      "fn": 75,
+      "tn": 1578,
+      "n": 3490
+    },
+    "synthetic": {
+      "precision": 0.9192,
+      "recall": 0.9332,
+      "f1": 0.9262,
+      "tp": 1286,
+      "fp": 113,
+      "fn": 92,
+      "tn": 1281,
+      "n": 2772
+    },
+    "acronym_recall": 0.099
+  },
+  "learned_linkage": {
+    "threshold": 0.51,
+    "weights": {
+      "name_sim": 2.6619,
+      "acronym": 1.5554,
+      "addr": 3.1838,
+      "addr_missing": -0.0421,
+      "zip": 0.2909,
+      "zip_missing": -0.1656,
+      "city": 1.6667,
+      "city_missing": -0.0421,
+      "state": 3.2647,
+      "state_missing": 2.7829,
+      "country": 2.5258,
+      "country_missing": 0.0
+    },
+    "intercept": -9.9716,
+    "dev_f1": {
+      "learned": 0.9519,
+      "rule": 0.9451
+    },
+    "selected": "learned",
+    "identifier": {
+      "precision": 0.9485,
+      "recall": 0.9094,
+      "f1": 0.9285,
+      "tp": 1585,
+      "fp": 86,
+      "fn": 158,
+      "tn": 1661,
+      "n": 3490
+    },
+    "synthetic": {
+      "precision": 0.9536,
+      "recall": 1.0,
+      "f1": 0.9763,
+      "tp": 1378,
+      "fp": 67,
+      "fn": 0,
+      "tn": 1327,
+      "n": 2772
+    },
+    "acronym_recall": 1.0
+  },
+  "acronym_collisions_real_data": {
+    "single_token_names": 1618,
+    "collide_with_other_uei": 68,
+    "collide_same_state": 9,
+    "examples": [
+      "TTS",
+      "WCR",
+      "FEI",
+      "ISC",
+      "OSI"
+    ]
+  },
+  "sensitivity": {
+    "0.59": {
+      "identifier": {
+        "precision": 0.8891,
+        "recall": 0.9662,
+        "f1": 0.926,
+        "tp": 1684,
+        "fp": 210,
+        "fn": 59,
+        "tn": 1537,
+        "n": 3490
+      },
+      "synthetic": {
+        "precision": 0.9048,
+        "recall": 0.9927,
+        "f1": 0.9467,
+        "tp": 1368,
+        "fp": 144,
+        "fn": 10,
+        "tn": 1250,
+        "n": 2772
+      }
+    },
+    "0.64": {
+      "identifier": {
+        "precision": 0.9099,
+        "recall": 0.9558,
+        "f1": 0.9323,
+        "tp": 1666,
+        "fp": 165,
+        "fn": 77,
+        "tn": 1582,
+        "n": 3490
+      },
+      "synthetic": {
+        "precision": 0.9241,
+        "recall": 0.9891,
+        "f1": 0.9555,
+        "tp": 1363,
+        "fp": 112,
+        "fn": 15,
+        "tn": 1282,
+        "n": 2772
+      }
+    },
+    "0.69": {
+      "identifier": {
+        "precision": 0.9311,
+        "recall": 0.9151,
+        "f1": 0.923,
+        "tp": 1595,
+        "fp": 118,
+        "fn": 148,
+        "tn": 1629,
+        "n": 3490
+      },
+      "synthetic": {
+        "precision": 0.9445,
+        "recall": 0.9884,
+        "f1": 0.966,
+        "tp": 1362,
+        "fp": 80,
+        "fn": 16,
+        "tn": 1314,
+        "n": 2772
+      }
+    }
+  }
+}

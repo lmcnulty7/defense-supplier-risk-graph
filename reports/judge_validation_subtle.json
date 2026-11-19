@@ -1,0 +1,294 @@
+{
+  "model": "claude-opus-5-5",
+  "n_cases": 30,
+  "pool_size": 28,
+  "agreement": 1.0,
+  "agreement_by_case": {
+    "real_correct_prose": {
+      "n": 15,
+      "agreement": 1.0
+    },
+    "off_by_one_count": {
+      "n": 12,
+      "agreement": 1.0
+    },
+    "share_plus_5_points": {
+      "n": 3,
+      "agreement": 1.0
+    }
+  },
+  "label_source": "PASS = agent prose whose answer the deterministic scorer marked correct; FAIL = the same prose with one synthetic subtle corruption",
+  "cost_usd": 0.1785,
+  "results": [
+    {
+      "qid": "dependent_offices_count-3cfcee09",
+      "case": "real_correct_prose",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The answer gives a count of 2 offices, SP4702 and W912P4, which matches the reference facts. It answers directly, and none of the extra details contradict the reference.",
+      "cost_usd": 0.0056
+    },
+    {
+      "qid": "dependent_offices_count-3cfcee09",
+      "case": "off_by_one_count",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The candidate's headline count is 3 offices, but the reference gives 2 (SP4702 and W912P4). The answer also contradicts itself by saying 'Both' and listing only two offices.",
+      "cost_usd": 0.00578
+    },
+    {
+      "qid": "dependent_offices_count-4b2df80a",
+      "case": "real_correct_prose",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The answer gives a count of 2 offices, W519TC and W912HZ, which matches the reference facts. It answers the question directly, and the extra details do not contradict the reference.",
+      "cost_usd": 0.005304
+    },
+    {
+      "qid": "dependent_offices_count-4b2df80a",
+      "case": "off_by_one_count",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The headline count of 3 offices contradicts the reference count of 2. The candidate's own text also says 'Both' and lists only two offices (W519TC, W912HZ), so the answer is internally inconsistent.",
+      "cost_usd": 0.005564
+    },
+    {
+      "qid": "sole_source_share-08bd5a0b",
+      "case": "real_correct_prose",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The answer gives a share of 0.4302 and totals of $3,538,506.01 sole-source out of $8,224,876.29, all matching the reference facts. The extra details it adds do not contradict them.",
+      "cost_usd": 0.00608
+    },
+    {
+      "qid": "sole_source_share-08bd5a0b",
+      "case": "share_plus_5_points",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The answer states 0.4302, which matches the reference, but then adds '(48%)', which contradicts it. 3,538,506.01 / 8,224,876.29 is about 43%, not 48%. This internal inconsistency misstates the headline share.",
+      "cost_usd": 0.0064
+    },
+    {
+      "qid": "subcontractor_count-4634ca3c",
+      "case": "real_correct_prose",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The candidate gives 4 distinct subcontractors, 9 subawards and about 5.69M in total, all matching the reference. The per-subcontractor breakdown is consistent: 2+4+2+1=9 subawards, and 4.75+0.78+0.114+0.038\u22485.68M. It answers the question directly.",
+      "cost_usd": 0.006892
+    },
+    {
+      "qid": "subcontractor_count-4634ca3c",
+      "case": "off_by_one_count",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The candidate's headline count is 5 distinct subcontractors, but the reference says 4. The answer also contradicts itself, since it lists only four subcontractors. The subaward count (9) and total (~5.69M) match, but the headline count is wrong.",
+      "cost_usd": 0.006432
+    },
+    {
+      "qid": "country_prime_awards-595148ff",
+      "case": "real_correct_prose",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The answer gives 2 prime awards and 69,376.93 in obligations, both matching the reference. It names two suppliers, consistent with n_suppliers=2, and the per-award amounts sum to 69,376.93. The extra details do not contradict the reference.",
+      "cost_usd": 0.005544
+    },
+    {
+      "qid": "country_prime_awards-595148ff",
+      "case": "off_by_one_count",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The candidate gives a headline count of 3 prime awards, but the reference says 2. The answer is also internally inconsistent: it lists only two awards, one 'the other'.",
+      "cost_usd": 0.004984
+    },
+    {
+      "qid": "parent_subsidiaries-cfad86ee",
+      "case": "real_correct_prose",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The answer gives a count of 3 subsidiaries, matching the reference. Its statement that all three show 0 prime obligations matches the reference total of 0.0. The added note about the parent's own UEI is extra detail and does not contradict the reference.",
+      "cost_usd": 0.005564
+    },
+    {
+      "qid": "parent_subsidiaries-cfad86ee",
+      "case": "off_by_one_count",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The reference count is 3 subsidiaries. The candidate gives 4 as its headline number, then lists only 3 and offers 2 as an alternative, so the stated count contradicts the reference and the answer is internally inconsistent.",
+      "cost_usd": 0.005484
+    },
+    {
+      "qid": "country_prime_awards-ff7cbdce",
+      "case": "real_correct_prose",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The answer gives 234 prime awards, $465.2M in obligations and 41 suppliers, which all match the reference facts. The extra details about suppliers and the subaward do not contradict anything in the reference.",
+      "cost_usd": 0.00522
+    },
+    {
+      "qid": "country_prime_awards-ff7cbdce",
+      "case": "off_by_one_count",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The headline count says 235 prime awards, which contradicts the reference count of 234. The answer is also internally inconsistent, because it later refers to 'the 234'. The obligations (~$465.2M) and the 41 suppliers match the reference.",
+      "cost_usd": 0.00548
+    },
+    {
+      "qid": "country_prime_awards-18951a64",
+      "case": "real_correct_prose",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The answer gives a count of 3 prime awards, matching the reference. The single supplier and the total obligations of 161477.95 also match. The extra details (award IDs, subawards, risk feed) don't contradict the reference facts.",
+      "cost_usd": 0.005304
+    },
+    {
+      "qid": "country_prime_awards-18951a64",
+      "case": "off_by_one_count",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The headline count is 4, but the reference says 3 prime awards. The answer also contradicts itself by saying 'All three' and listing three awards.",
+      "cost_usd": 0.004784
+    },
+    {
+      "qid": "subcontractor_count-31e24051",
+      "case": "real_correct_prose",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The answer gives 2 distinct subcontractors, which matches the reference. It also states 2 subawards totalling 2083185.61, and the two amounts (1128345.62 + 954839.99) sum to that figure. Nothing contradicts the reference facts.",
+      "cost_usd": 0.005748
+    },
+    {
+      "qid": "subcontractor_count-31e24051",
+      "case": "off_by_one_count",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The candidate states 3 distinct subcontractors and 3 subawards. The reference gives 2 subcontractors and 2 subawards. The answer also contradicts itself, since it lists only two subcontractors.",
+      "cost_usd": 0.005448
+    },
+    {
+      "qid": "subcontractor_count-05232241",
+      "case": "real_correct_prose",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The answer states 57 distinct subcontractors, 98 subawards, and about $64.1M, all of which match the reference facts. The extra details it adds do not contradict the reference, and it answers the question directly.",
+      "cost_usd": 0.006328
+    },
+    {
+      "qid": "subcontractor_count-05232241",
+      "case": "off_by_one_count",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The candidate reports 58 distinct subcontractors, but the reference count is 57. That is a contradiction in the headline number. The subaward count (98) and total (~$64.1M) do match.",
+      "cost_usd": 0.006248
+    },
+    {
+      "qid": "sole_source_share-c6e1e08b",
+      "case": "real_correct_prose",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The answer gives a share of 0.7652, which matches the reference. The sole-source obligations ($1,499,239.88) and total prime obligations ($1,959,395.88) also match. It answers the question directly, and none of the extra details contradict the reference facts.",
+      "cost_usd": 0.006884
+    },
+    {
+      "qid": "sole_source_share-c6e1e08b",
+      "case": "share_plus_5_points",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The answer gives 0.7652, which matches the reference, but then says 'roughly 82%'. That contradicts the 0.7652 share, which is about 76.5%.",
+      "cost_usd": 0.006324
+    },
+    {
+      "qid": "blast_radius_awards-4cecc105",
+      "case": "real_correct_prose",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The answer gives 2 prime awards affected, with 0 held directly and 2 as a subcontractor, which matches the reference. The single office and single prime customer are also consistent. The extra details, such as 6 subawards and $11.38M, do not contradict the reference facts.",
+      "cost_usd": 0.006104
+    },
+    {
+      "qid": "blast_radius_awards-4cecc105",
+      "case": "off_by_one_count",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The candidate contradicts itself and the reference. Its headline says 3 prime awards would be affected and it states 3 for the subcontractor count, but it lists only 2 award IDs and then says 'the count is 2'. The reference gives 0 direct and 2 indirect awards, so the correct total is 2, not 3.",
+      "cost_usd": 0.006444
+    },
+    {
+      "qid": "country_prime_awards-cd23546b",
+      "case": "real_correct_prose",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The answer states 26 prime awards, about $70.6M in obligations and 6 suppliers, all matching the reference facts. The extra supplier details do not contradict anything in the reference.",
+      "cost_usd": 0.005608
+    },
+    {
+      "qid": "country_prime_awards-cd23546b",
+      "case": "off_by_one_count",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The candidate gives 27 prime awards, but the reference count is 26. That contradicts the headline number the question asks for. Obligations ($70.6M) and supplier count (6) match the reference.",
+      "cost_usd": 0.005688
+    },
+    {
+      "qid": "hard_company_rollup-fd3f4c89",
+      "case": "real_correct_prose",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "Count of 3 matches the reference, and the summed total of $451,041 matches as well (399,340.57 + 28,348 + 23,352.43 = 451,041). The answer is direct and nothing in it contradicts the reference facts.",
+      "cost_usd": 0.006676
+    },
+    {
+      "qid": "hard_company_rollup-fd3f4c89",
+      "case": "off_by_one_count",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The headline says 4 supplier UEIs, but the reference count is 3. The answer also contradicts itself, since it lists only three UEIs and later says 'the three'.",
+      "cost_usd": 0.006256
+    },
+    {
+      "qid": "office_flagged_share-d549a678",
+      "case": "real_correct_prose",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "Share 0.4637, 38 flagged of 84 suppliers match the reference. The dollar ratio 947.2M/2042.5M \u2248 0.4637 is consistent. The extra supplier details do not contradict the reference facts.",
+      "cost_usd": 0.0067
+    },
+    {
+      "qid": "office_flagged_share-d549a678",
+      "case": "share_plus_5_points",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The headline fraction 0.4637 and the counts (38 flagged of 84 suppliers) match the reference. However, the answer also states the share as 51.4%, which contradicts 0.4637 (46.37%), so it is internally inconsistent. The figures it gives work out to 947.2M / 2042.5M \u2248 0.4637, which shows that 51.4% is wrong.",
+      "cost_usd": 0.00766
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "nodes": {
+    "Supplier": {
+      "neo4j": 11658,
+      "networkx": 11658,
+      "equal": true
+    },
+    "ParentCompany": {
+      "neo4j": 9096,
+      "networkx": 9096,
+      "equal": true
+    },
+    "Award": {
+      "neo4j": 57596,
+      "networkx": 57596,
+      "equal": true
+    },
+    "Office": {
+      "neo4j": 757,
+      "networkx": 757,
+      "equal": true
+    },
+    "Country": {
+      "neo4j": 95,
+      "networkx": 95,
+      "equal": true
+    },
+    "ProductServiceCode": {
+      "neo4j": 79,
+      "networkx": 79,
+      "equal": true
+    }
+  },
+  "edges": {
+    "AWARDED_TO": {
+      "neo4j": 57596,
+      "networkx": 57596,
+      "equal": true
+    },
+    "SUBCONTRACTS_TO": {
+      "neo4j": 35156,
+      "networkx": 35156,
+      "equal": true
+    },
+    "SUBSIDIARY_OF": {
+      "neo4j": 10198,
+      "networkx": 10198,
+      "equal": true
+    },
+    "PERFORMED_IN": {
+      "neo4j": 53689,
+      "networkx": 53689,
+      "equal": true
+    },
+    "AWARDED_BY": {
+      "neo4j": 57596,
+      "networkx": 57596,
+      "equal": true
+    },
+    "CATEGORIZED_AS": {
+      "neo4j": 57596,
+      "networkx": 57596,
+      "equal": true
+    }
+  },
+  "blast_radius": {
+    "n_suppliers": 30,
+    "n_equal": 30,
+    "mismatches": []
+  },
+  "all_equal": true
+}

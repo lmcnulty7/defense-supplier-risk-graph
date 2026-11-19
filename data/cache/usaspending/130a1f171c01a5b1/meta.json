@@ -1,0 +1,26 @@
+{
+  "source": "USAspending API /api/v2/download/awards/",
+  "pulled_at_utc": "2026-11-18T08:59:37.116968+00:00",
+  "finished_at_utc": "2026-11-18T09:06:16.116141+00:00",
+  "request_key": "130a1f171c01a5b1",
+  "download_file_name": "PrimeAwardSummariesAndSubawards_2026-11-18_H08M59S37752028.zip",
+  "zip_bytes_deleted_after_conversion": 9005849,
+  "files": {
+    "prime": {
+      "source_files": [
+        "Contracts_PrimeAwardSummaries_2026-11-18_H09M00S37_1.csv"
+      ],
+      "rows": 57596,
+      "parquet": "prime.parquet",
+      "sha256": "d299f79ff2e6f5c7e92b56556e7b045587d016c7b556487c960083c472dad7c1"
+    },
+    "subawards": {
+      "source_files": [
+        "Contracts_Subawards_2026-11-18_H09M04S37_1.csv"
+      ],
+      "rows": 35842,
+      "parquet": "subawards.parquet",
+      "sha256": "bf5dcfd8bdbd3b97eb91b47d5c241b4c7c7f25e1724e7aa90e34b76f1b01d420"
+    }
+  }
+}

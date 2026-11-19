@@ -1,0 +1,394 @@
+{
+  "model": "claude-opus-5-5",
+  "n_cases": 40,
+  "agreement": 1.0,
+  "agreement_by_case": {
+    "known_good": {
+      "n": 20,
+      "agreement": 1.0
+    },
+    "false_refusal": {
+      "n": 5,
+      "agreement": 1.0
+    },
+    "wrong_value": {
+      "n": 5,
+      "agreement": 1.0
+    },
+    "wrong_entity": {
+      "n": 5,
+      "agreement": 1.0
+    },
+    "invented_answer": {
+      "n": 5,
+      "agreement": 1.0
+    }
+  },
+  "min_agreement_to_use": 0.85,
+  "label_source": "known_good = template-rendered from deterministic reference facts; FAIL cases = deliberate synthetic corruptions",
+  "cost_usd": 0.1768,
+  "results": [
+    {
+      "qid": "office_flagged_share-d549a678",
+      "case": "known_good",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The candidate answers the question directly with 0.4637. That figure, and the supporting counts of 38 flagged suppliers out of 84, match the reference facts. It does not hedge or refuse.",
+      "cost_usd": 0.00446
+    },
+    {
+      "qid": "office_flagged_share-d549a678",
+      "case": "false_refusal",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The reference says the question is answerable: the flagged share is 0.4637, covering 38 of 84 suppliers. The candidate wrongly declines to answer and gives no figure.",
+      "cost_usd": 0.004216
+    },
+    {
+      "qid": "office_flagged_share-5ff7fb31",
+      "case": "known_good",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The answer gives 0.4271, which matches the reference flagged share. The supporting counts (12 of 34 suppliers) also match, and there is no hedging.",
+      "cost_usd": 0.004256
+    },
+    {
+      "qid": "office_flagged_share-5ff7fb31",
+      "case": "wrong_value",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The candidate gives a flagged share of 0.9900, but the reference fact is 0.4271, so the headline number is contradicted. The supplier counts (12 of 34) do match.",
+      "cost_usd": 0.004416
+    },
+    {
+      "qid": "award_sole_source-c4dc9830",
+      "case": "known_good",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "Directly answers false, matching the reference: not sole-source, with extent competed given as full and open competition. Nothing contradicts the reference facts.",
+      "cost_usd": 0.004004
+    },
+    {
+      "qid": "award_sole_source-c4dc9830",
+      "case": "wrong_value",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The candidate says True and reports is_sole_source = True. The reference facts say is_sole_source is false and the award went through full and open competition. The candidate also contradicts itself by citing full and open competition as support for sole-source.",
+      "cost_usd": 0.004504
+    },
+    {
+      "qid": "award_sole_source-a6f49da5",
+      "case": "known_good",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "Candidate answers false directly, and both is_sole_source=false and extent_competed='FULL AND OPEN COMPETITION' match the reference facts. Nothing contradicts them.",
+      "cost_usd": 0.004284
+    },
+    {
+      "qid": "award_sole_source-a6f49da5",
+      "case": "wrong_value",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The candidate answers True and states is_sole_source = True. The reference facts give is_sole_source = false with extent_competed = FULL AND OPEN COMPETITION, so the answer contradicts the reference.",
+      "cost_usd": 0.004444
+    },
+    {
+      "qid": "top_sole_source_country-ad0d4c46",
+      "case": "known_good",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "Gives the correct supplier_id and supplier, and the obligation figure matches the reference. Nothing contradicts the reference facts. The phrasing is terse and mechanical but still directly answers the question.",
+      "cost_usd": 0.00462
+    },
+    {
+      "qid": "top_sole_source_country-ad0d4c46",
+      "case": "wrong_entity",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The candidate names GE ENERGY POWER CONVERSION USA INC. (U864F3HRME53). The reference facts identify MOTOROLA SOLUTIONS, INC. (HFK9V1G2B513) as the top sole-source supplier, with $14,616,480.77, so both the supplier and the ID contradict the reference.",
+      "cost_usd": 0.005388
+    },
+    {
+      "qid": "top_sole_source_country-2c702b7f",
+      "case": "known_good",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "Candidate gives the correct supplier_id F2BEQJNKFY83, names CLARUS FLUID INTELLIGENCE, LLC as the supplier, and states sole-source obligations of $834,258.11. All of these match the reference facts and nothing contradicts them. The style is terse but answers the question directly.",
+      "cost_usd": 0.005416
+    },
+    {
+      "qid": "top_sole_source_country-2c702b7f",
+      "case": "wrong_entity",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The candidate names a different supplier (GE ENERGY POWER CONVERSION USA INC., U864F3HRME53). The reference facts identify CLARUS FLUID INTELLIGENCE, LLC (F2BEQJNKFY83) as the top supplier, with $834,258.11 in sole-source obligations.",
+      "cost_usd": 0.005288
+    },
+    {
+      "qid": "country_risk-3113515b",
+      "case": "known_good",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "Gives p_escalation [v1 feed value withheld] and week 2026-07-06, which match the reference facts and answer the question directly.",
+      "cost_usd": 0.003776
+    },
+    {
+      "qid": "country_risk-3113515b",
+      "case": "wrong_value",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The candidate gives p_escalation = 0.2798, which contradicts the reference value of [v1 feed value withheld]. The week_start date of 2026-07-06 matches, but the headline probability is wrong.",
+      "cost_usd": 0.004256
+    },
+    {
+      "qid": "country_prime_awards-18951a64",
+      "case": "known_good",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The answer gives the count of 3, which matches the reference. The supporting figures it cites also match the reference facts.",
+      "cost_usd": 0.003684
+    },
+    {
+      "qid": "country_prime_awards-18951a64",
+      "case": "wrong_value",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The candidate gives a count of 10 prime awards, but the reference facts say there are 3. The headline number contradicts the reference.",
+      "cost_usd": 0.003824
+    },
+    {
+      "qid": "program_top_supplier-ec7f1f65",
+      "case": "known_good",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The candidate names VIGOR MARINE LLC with obligations of 426,287,024.51, which matches the reference facts. It also supplies a supplier_id. The reference does not give an ID, so that detail cannot be checked, but nothing contradicts the reference.",
+      "cost_usd": 0.004768
+    },
+    {
+      "qid": "program_top_supplier-ec7f1f65",
+      "case": "wrong_entity",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The reference says the top supplier is VIGOR MARINE LLC, with obligations of about $426.3M. The candidate instead names GE ENERGY POWER CONVERSION USA INC. (U864F3HRME53), which contradicts the reference.",
+      "cost_usd": 0.004644
+    },
+    {
+      "qid": "subcontractor_count-31e24051",
+      "case": "known_good",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "Directly answers with the count of 2, which matches the reference. The supporting figures also match the reference facts, and nothing contradicts them. The phrasing is terse and echoes raw field names, but it is accurate.",
+      "cost_usd": 0.004392
+    },
+    {
+      "qid": "subcontractor_count-31e24051",
+      "case": "false_refusal",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The reference facts show the question can be answered: DAWSON MCG, INC. reports 2 distinct subcontractors across 2 subawards totaling $2,083,185.61. The candidate wrongly says the data cannot answer it and gives no count.",
+      "cost_usd": 0.004524
+    },
+    {
+      "qid": "blast_radius_awards-4cecc105",
+      "case": "known_good",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The answer gives the right total of 2 affected prime awards (0 held as prime plus 2 worked on as a subcontractor). Its supporting figures match the reference facts, and nothing contradicts them.",
+      "cost_usd": 0.004516
+    },
+    {
+      "qid": "blast_radius_awards-4cecc105",
+      "case": "false_refusal",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The reference facts show the question is answerable: 0 direct awards and 2 indirect awards, so 2 prime awards would be affected. The candidate wrongly says the data cannot answer and gives no count.",
+      "cost_usd": 0.00436
+    },
+    {
+      "qid": "sole_source_share-08bd5a0b",
+      "case": "known_good",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "Directly answers with 0.4302, which matches the reference share. The supporting figures also match the reference facts. The phrasing is terse but answers the question.",
+      "cost_usd": 0.00418
+    },
+    {
+      "qid": "sole_source_share-08bd5a0b",
+      "case": "false_refusal",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The reference facts mark the question as answerable, with a sole-source share of 0.4302 ($3,538,506.01 out of $8,224,876.29 in prime obligations). The candidate wrongly said the data cannot answer it and gave no figure.",
+      "cost_usd": 0.004648
+    },
+    {
+      "qid": "office_top_supplier-7314fa49",
+      "case": "known_good",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The answer names the top supplier (TGW Landscaping & Contracting, Inc.) with a 0.3786 share and an HHI of 2178.8, all matching the reference facts, and it gives a supplier_id as the question asks. The reference facts do not include an ID, so H8A4CT9CECS4 cannot be checked, but nothing contradicts it.",
+      "cost_usd": 0.005584
+    },
+    {
+      "qid": "office_top_supplier-7314fa49",
+      "case": "wrong_entity",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The reference gives TGW LANDSCAPING & CONTRACTING, INC. as the top supplier, with a 37.86% share. The candidate instead names GE ENERGY POWER CONVERSION USA INC. (U864F3HRME53), which contradicts the reference.",
+      "cost_usd": 0.004932
+    },
+    {
+      "qid": "blast_radius_programs-42d44f45",
+      "case": "known_good",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The answer gives program code 374, which matches the reference facts and answers the question directly. The wording is terse but contradicts nothing.",
+      "cost_usd": 0.003764
+    },
+    {
+      "qid": "blast_radius_programs-42d44f45",
+      "case": "wrong_entity",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The candidate gives program code 178, but the reference facts say the only affected program is 374. That directly contradicts the reference, and the answer is also malformed.",
+      "cost_usd": 0.003856
+    },
+    {
+      "qid": "sole_source_share-c6e1e08b",
+      "case": "known_good",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The candidate directly answers 0.7652, which matches the reference. The supporting figures also all match the reference facts.",
+      "cost_usd": 0.003896
+    },
+    {
+      "qid": "sole_source_share-c6e1e08b",
+      "case": "false_refusal",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The reference facts show the question is answerable, with a sole-source share of 0.7652 ($1,499,239.88 of $1,959,395.88). The candidate wrongly says the data cannot answer it and gives no value.",
+      "cost_usd": 0.004404
+    },
+    {
+      "qid": "absent_supplier-b2bb3e8a",
+      "case": "known_good",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The reference marks the question unanswerable because the supplier is not in the data. The candidate says plainly that the data cannot answer, gives the matching reason, and does not invent a number of affected awards.",
+      "cost_usd": 0.004112
+    },
+    {
+      "qid": "absent_supplier-b2bb3e8a",
+      "case": "invented_answer",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The reference says the question cannot be answered because this supplier is not in the data. The candidate invents an answer instead, claiming 14 dependent offices and $52.3M in obligations. It also never states a number of affected awards.",
+      "cost_usd": 0.00432
+    },
+    {
+      "qid": "absent_award-11da0348",
+      "case": "known_good",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "Reference says the question is unanswerable because the award ID is not in the data. The candidate says exactly that, gives the same reason, and does not invent a contractor or competition status.",
+      "cost_usd": 0.004012
+    },
+    {
+      "qid": "absent_award-11da0348",
+      "case": "invented_answer",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The reference facts say the question cannot be answered because this award ID does not exist in the data. The candidate does not say that. Instead it invents details, including 14 dependent offices, about $52.3M in obligations and a mostly sole-source history, and it never names a prime contractor.",
+      "cost_usd": 0.0047
+    },
+    {
+      "qid": "out_of_schema-9c4fdb9f",
+      "case": "known_good",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The reference marks the question as unanswerable. The candidate clearly says the data cannot answer it and does not invent an on-time delivery rate.",
+      "cost_usd": 0.003752
+    },
+    {
+      "qid": "out_of_schema-9c4fdb9f",
+      "case": "invented_answer",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The reference says the data holds no on-time delivery field, so the question is unanswerable. The candidate does not say the data cannot answer. It replies 'Yes' and gives unrelated figures (14 dependent offices, about $52.3M in obligations, mostly sole-source) that are not in the reference facts, and it never addresses the on-time delivery rate.",
+      "cost_usd": 0.005188
+    },
+    {
+      "qid": "absent_supplier-5c21424d",
+      "case": "known_good",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The reference marks the question unanswerable because the supplier is not in the data. The candidate says plainly that the data cannot answer it, gives that same reason, and does not invent any awarding offices.",
+      "cost_usd": 0.004064
+    },
+    {
+      "qid": "absent_supplier-5c21424d",
+      "case": "invented_answer",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The reference facts say this supplier does not exist in the data, so the question cannot be answered. The candidate does not say so. It makes up an answer instead, claiming 14 dependent offices and $52.3M in obligations. It also opens with 'Yes', which does not answer a 'which' question.",
+      "cost_usd": 0.004752
+    },
+    {
+      "qid": "risk_not_in_feed-f7135078",
+      "case": "known_good",
+      "label": "PASS",
+      "verdict": "PASS",
+      "agree": true,
+      "reason": "The candidate correctly says the data cannot answer, gives the reason that the Netherlands is not covered by the MENA risk feed, and does not invent a probability.",
+      "cost_usd": 0.003876
+    },
+    {
+      "qid": "risk_not_in_feed-f7135078",
+      "case": "invented_answer",
+      "label": "FAIL",
+      "verdict": "FAIL",
+      "agree": true,
+      "reason": "The reference says this question cannot be answered because the Netherlands is not covered by the MENA risk feed. The candidate does not say that. It gives an irrelevant answer that invents details (supplier status, 14 offices, $52.3M in obligations) and never addresses escalation probability.",
+      "cost_usd": 0.004692
+    }
+  ],
+  "usable": true,
+  "public_note": "In 2 reasons a probability from the retired ACLED-based v1 country-risk feed is replaced by '[v1 feed value withheld]'. Verdicts and agreement are unchanged."
+}

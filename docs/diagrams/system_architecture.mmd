@@ -1,0 +1,35 @@
+flowchart LR
+  subgraph EXT["Public sources"]
+    US["USAspending bulk download API<br/>ingest/usaspending.py"]
+    SAM["SAM.gov Entity API v3, budgeted<br/>ingest/sam.py"]
+  end
+  subgraph MENA["Other project: MENA escalation model (separate repo)"]
+    MF["risk_feed/v1/latest.json manifest<br/>schema 1.x, weekly p_escalation"]
+  end
+  FX["Synthetic fixture fallback<br/>fixtures/risk_feed_fixture.csv"]
+  MF -->|"MENA_RISK_FEED_PATH"| RF["Feed loader + schema check<br/>ingest/risk_feed.py"]
+  FX -.->|"only if path unset or missing"| RF
+  US --> CACHE[("Cache: request.json, meta.json,<br/>parquet + SHA-256<br/>data/cache/")]
+  SAM --> CACHE
+  CACHE --> STG["Staging to DuckDB<br/>stage.py"]
+  RF --> STG
+  STG --> DB[("DuckDB<br/>data/supplier_graph.duckdb")]
+  DB --> ER["Entity resolution: UEI, CAGE, blocked fuzzy<br/>er/normalize.py, matcher.py, resolve.py"]
+  ER --> DB
+  DB --> ERE["ER evaluation, auto labels<br/>er/labels.py, er/evaluate.py"]
+  ERE --> ERR["reports/entity_resolution.md<br/>er_metrics.json"]
+  DB --> GB["Risk features SQL + graph build<br/>graph/build.py, graph/schema.py"]
+  GB --> NX[("NetworkX MultiDiGraph<br/>data/graph/graph.pkl.gz")]
+  GB -.->|"make neo4j-load, parity verified"| NEO[("Neo4j Community<br/>graph/neo4j_backend.py")]
+  NX --> QG["10 named queries, graph path<br/>graph/queries.py g_*"]
+  DB --> QS["Same 10 queries, SQL path<br/>graph/queries.py s_*"]
+  QG --> TOOLS["4 read-only tools<br/>agent/tools.py"]
+  DB --> TOOLS
+  TOOLS --> AG["Claude tool-use loop<br/>agent/agent.py"]
+  AG --> LEDGER[("Spend ledger + run logs<br/>agent/costs.py, logs/")]
+  AG --> APP["Streamlit demo<br/>app/streamlit_app.py"]
+  QS --> GOLD["Golden set: SQL answer, graph check<br/>evalh/golden.py"]
+  QG --> GOLD
+  GOLD --> EV["Scoring + validated judge<br/>evalh/metrics.py, judge.py, run.py"]
+  AG --> EV
+  EV --> REP["reports/eval_report.md<br/>eval_results.json<br/>tests/test_eval_regression.py"]

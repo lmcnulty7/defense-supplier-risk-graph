@@ -1,0 +1,18 @@
+{
+  "source": "USAspending API /api/v2/download/transactions/",
+  "pulled_at_utc": "2026-11-19T00:20:26.360660+00:00",
+  "finished_at_utc": "2026-11-19T00:28:54.974750+00:00",
+  "request_key": "91570fa37fa508b8",
+  "download_file_name": "PrimeTransactionsAndSubawards_2026-11-19_H00M20S28053639.zip",
+  "zip_bytes_deleted_after_conversion": 7717402,
+  "files": {
+    "transactions": {
+      "source_files": [
+        "Contracts_PrimeTransactions_2026-11-19_H00M21S25_1.csv"
+      ],
+      "rows": 187320,
+      "parquet": "transactions.parquet",
+      "sha256": "a485fad6fb784ec62d70da873196ceccff7570635aacebdc4c27df8484216ce8"
+    }
+  }
+}

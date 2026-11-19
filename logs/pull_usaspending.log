@@ -1,0 +1,53 @@
+[usaspending] job PrimeAwardSummariesAndSubawards_2026-11-18_H08M59S37752028.zip
+[usaspending] status=running rows=0 secs=15.225479
+[usaspending] status=running rows=0 secs=30.41009
+[usaspending] status=running rows=0 secs=45.595075
+[usaspending] status=running rows=0 secs=60.698313
+[usaspending] status=running rows=0 secs=75.857243
+[usaspending] status=running rows=0 secs=90.97702
+[usaspending] status=running rows=0 secs=106.074795
+[usaspending] status=running rows=0 secs=121.177444
+[usaspending] status=running rows=0 secs=136.343876
+[usaspending] status=running rows=0 secs=151.516952
+[usaspending] status=running rows=0 secs=166.715708
+[usaspending] status=running rows=0 secs=181.909653
+[usaspending] status=running rows=0 secs=197.006129
+[usaspending] status=running rows=0 secs=212.180514
+[usaspending] status=running rows=57596 secs=227.311233
+[usaspending] status=running rows=57596 secs=242.516674
+[usaspending] status=running rows=57596 secs=257.650427
+[usaspending] status=running rows=57596 secs=272.789531
+[usaspending] status=running rows=57596 secs=287.899835
+[usaspending] status=running rows=57596 secs=303.126846
+[usaspending] status=running rows=57596 secs=318.304797
+[usaspending] status=running rows=57596 secs=333.464803
+[usaspending] status=running rows=57596 secs=348.644425
+[usaspending] status=running rows=93438 secs=363.870349
+[usaspending] status=running rows=93438 secs=379.058768
+[usaspending] status=finished rows=93438 secs=386.21015
+{
+  "source": "USAspending API /api/v2/download/awards/",
+  "pulled_at_utc": "2026-11-18T08:59:37.116968+00:00",
+  "finished_at_utc": "2026-11-18T09:06:16.116141+00:00",
+  "request_key": "130a1f171c01a5b1",
+  "download_file_name": "PrimeAwardSummariesAndSubawards_2026-11-18_H08M59S37752028.zip",
+  "zip_bytes_deleted_after_conversion": 9005849,
+  "files": {
+    "prime": {
+      "source_files": [
+        "Contracts_PrimeAwardSummaries_2026-11-18_H09M00S37_1.csv"
+      ],
+      "rows": 57596,
+      "parquet": "prime.parquet",
+      "sha256": "d299f79ff2e6f5c7e92b56556e7b045587d016c7b556487c960083c472dad7c1"
+    },
+    "subawards": {
+      "source_files": [
+        "Contracts_Subawards_2026-11-18_H09M04S37_1.csv"
+      ],
+      "rows": 35842,
+      "parquet": "subawards.parquet",
+      "sha256": "bf5dcfd8bdbd3b97eb91b47d5c241b4c7c7f25e1724e7aa90e34b76f1b01d420"
+    }
+  }
+}

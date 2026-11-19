@@ -1,0 +1,116 @@
+{
+  "filters": {
+    "agencies": [
+      {
+        "type": "awarding",
+        "tier": "toptier",
+        "name": "Department of Defense"
+      }
+    ],
+    "prime_and_sub_award_types": {
+      "prime_awards": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "sub_awards": [
+        "procurement"
+      ]
+    },
+    "time_period": [
+      {
+        "start_date": "2022-10-01",
+        "end_date": "2025-09-30"
+      }
+    ],
+    "psc_codes": {
+      "require": [
+        [
+          "Service",
+          "J"
+        ]
+      ]
+    }
+  },
+  "columns": [
+    "contract_award_unique_key",
+    "award_id_piid",
+    "parent_award_id_piid",
+    "total_obligated_amount",
+    "current_total_value_of_award",
+    "potential_total_value_of_award",
+    "award_base_action_date",
+    "award_latest_action_date",
+    "award_latest_action_date_fiscal_year",
+    "period_of_performance_start_date",
+    "period_of_performance_current_end_date",
+    "awarding_agency_name",
+    "awarding_sub_agency_code",
+    "awarding_sub_agency_name",
+    "awarding_office_code",
+    "awarding_office_name",
+    "recipient_uei",
+    "recipient_name",
+    "recipient_name_raw",
+    "recipient_doing_business_as_name",
+    "cage_code",
+    "recipient_parent_uei",
+    "recipient_parent_name",
+    "recipient_country_code",
+    "recipient_address_line_1",
+    "recipient_city_name",
+    "recipient_state_code",
+    "recipient_zip_4_code",
+    "primary_place_of_performance_country_code",
+    "primary_place_of_performance_country_name",
+    "primary_place_of_performance_city_name",
+    "primary_place_of_performance_state_code",
+    "award_type",
+    "product_or_service_code",
+    "product_or_service_code_description",
+    "naics_code",
+    "naics_description",
+    "dod_acquisition_program_code",
+    "dod_acquisition_program_description",
+    "dod_claimant_program_code",
+    "dod_claimant_program_description",
+    "extent_competed_code",
+    "extent_competed",
+    "number_of_offers_received",
+    "other_than_full_and_open_competition",
+    "domestic_or_foreign_entity",
+    "country_of_product_or_service_origin_code",
+    "prime_award_base_transaction_description",
+    "usaspending_permalink",
+    "last_modified_date",
+    "prime_award_unique_key",
+    "prime_award_piid",
+    "prime_awardee_uei",
+    "prime_awardee_name",
+    "prime_award_awarding_sub_agency_name",
+    "prime_award_awarding_office_code",
+    "prime_award_awarding_office_name",
+    "subaward_type",
+    "subaward_sam_report_id",
+    "subaward_number",
+    "subaward_amount",
+    "subaward_action_date",
+    "subaward_action_date_fiscal_year",
+    "subawardee_uei",
+    "subawardee_name",
+    "subawardee_dba_name",
+    "subawardee_parent_uei",
+    "subawardee_parent_name",
+    "subawardee_country_code",
+    "subawardee_address_line_1",
+    "subawardee_city_name",
+    "subawardee_state_code",
+    "subawardee_zip_code",
+    "subaward_primary_place_of_performance_country_code",
+    "subaward_primary_place_of_performance_country_name",
+    "subaward_description"
+  ],
+  "file_format": "csv",
+  "limit": 500000
+}

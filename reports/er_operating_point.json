@@ -1,0 +1,8 @@
+{
+  "matcher": "learned + facility blocking",
+  "threshold": 0.7,
+  "margin": 0.2,
+  "t_addr": null,
+  "false_merge_weight": 2.0,
+  "chosen_on": "tuning half of the held-out records (utility = correct - 2 x (wrong + absent false))"
+}
