@@ -29,7 +29,7 @@ make test                      # regression gates
 
 > Portfolio project on public data (USAspending, SAM.gov, and a country-risk feed from a separate personal project;
 > its skill status is `beats_base_rate`, but the backtest couldn't test it, so it is context only). The persona is fictional. Not used by, endorsed by,
-> or built for the DoD or any company. Total Claude API spend: $9.00.
+> or built for the DoD or any company. Total Claude API spend: $9.01.
 
 ---
 

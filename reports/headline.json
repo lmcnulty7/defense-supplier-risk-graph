@@ -621,7 +621,7 @@
   },
   {
     "key": "spend",
-    "text": "$9.00",
+    "text": "$9.01",
     "label": "total Anthropic API spend (cap $10)",
     "source": "logs/spend_ledger.jsonl",
     "section": "Trust and cost",
@@ -629,7 +629,7 @@
   },
   {
     "key": "tests",
-    "text": "122 tests",
+    "text": "124 tests",
     "label": "pytest tests collected (`make test`)",
     "source": "pytest --collect-only",
     "section": "Trust and cost",

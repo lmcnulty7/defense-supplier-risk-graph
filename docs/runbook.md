@@ -15,6 +15,7 @@
 make install          # venv + package + dev deps (BOOTSTRAP_PY=python3.12 to choose the interpreter)
 make offline          # = make data graph backtest site, all from data/cache and data/feeds (committed)
 make test             # regression gates; live-API tests skip without RUN_LIVE=1
+.venv/bin/python -m playwright install chromium  # optional: enables the graph explorer browser test (skips without it)
 make app              # every tab works; only "Ask the agent" needs ANTHROPIC_API_KEY in .env
 ```
 Checked on 2026-11-19 in a fresh clone with no `.env` and outbound HTTP blocked: every report rebuilt identically

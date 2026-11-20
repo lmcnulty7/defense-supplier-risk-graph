@@ -11,14 +11,13 @@ import re
 
 import pandas as pd
 import streamlit as st
-import streamlit.components.v1 as components
 
 from supplier_graph.agent import costs
 from supplier_graph.agent.tools import resolve_supplier
 from supplier_graph.explain import BACKTEST_URL, MODEL_CARD_URL, likelihood_md, models_md
 from supplier_graph.graph import queries as Q
 from supplier_graph.graph.build import load_graph
-from supplier_graph.graph.schema import nid
+from supplier_graph.graph_view import HEIGHT_PX, neighbourhood, network_html
 from supplier_graph.headline import load as load_headline
 from supplier_graph.ingest.risk_feed import feed_in_likelihood, usage_text
 from supplier_graph.outlook_chart import filter_outlook, outlook_chart
@@ -123,7 +122,10 @@ with tab_outlook:
         st.info("Run `make backtest` to build the disruption outlook.")
     else:
         md = from_headline(likelihood_md)
-        st.markdown(md) if md else st.info(STALE_HEADLINE)
+        if md:
+            st.markdown(md)
+        else:
+            st.info(STALE_HEADLINE)
         st.caption(f"Details: [model card]({MODEL_CARD_URL}), [backtest report]({BACKTEST_URL}).")
         c1, c2 = st.columns(2)
         min_m = c1.number_input("Min obligations at stake ($M)", value=10.0, min_value=0.0, step=5.0,
@@ -169,43 +171,9 @@ with tab_graph:
             st.caption(f"Works in risk-feed countries {', '.join(fc)}: an impact/context attribute. "
                        f"Feed skill status {SKILL}. {usage_text()}")
 
-        G = graph()
-        from pyvis.network import Network
-        net = Network(height="560px", width="100%", directed=True, bgcolor="#ffffff", cdn_resources="in_line")
-        colors = {"Supplier": "#d62728", "Award": "#9ecae1", "Office": "#2ca02c", "Country": "#ff7f0e",
-                  "ParentCompany": "#9467bd", "ProductServiceCode": "#8c564b"}
-        sn = nid("Supplier", sid)
-        shown: set[str] = set()
-
-        def add(n: str, size: int = 12) -> None:
-            if n in shown:
-                return
-            d = G.nodes[n]
-            title = d.get("name") or d.get("award_id") or n
-            net.add_node(n, label=(d.get("name") or d.get("piid") or n)[:28], title=f"{d['label']}: {title}",
-                         color=colors[d["label"]], size=size)
-            shown.add(n)
-
-        add(sn, 28)
-        direct = [u for u, _, kk in G.in_edges(sn, keys=True) if kk == "AWARDED_TO"]
-        sub_awards = list({nid("Award", d["prime_award_id"]) for _, _, kk, d in G.in_edges(sn, keys=True, data=True)
-                           if d.get("type") == "SUBCONTRACTS_TO"})
-        for a in sorted(direct, key=lambda x: -G.nodes[x]["obl_pos"])[:25] + sub_awards[:15]:
-            add(a, 10)
-            net.add_edge(a, sn, title="AWARDED_TO" if a in direct else "prime award (supplier subcontracts)",
-                         dashes=a not in direct)
-            for _, v, kk in G.out_edges(a, keys=True):
-                if kk in ("AWARDED_BY", "PERFORMED_IN") or (kk == "AWARDED_TO" and a not in direct):
-                    add(v, 16)
-                    net.add_edge(a, v, title=kk)
-        for _, v, kk in G.out_edges(sn, keys=True):
-            if kk == "SUBSIDIARY_OF":
-                add(v, 18)
-                net.add_edge(sn, v, title="SUBSIDIARY_OF")
-        # vis.js is inlined (cdn_resources="in_line"); drop pyvis's cosmetic Bootstrap CDN tags so the page makes no
-        # outbound request (works on an air-gapped network)
-        html = "\n".join(ln for ln in net.generate_html().splitlines() if "cdn.jsdelivr.net" not in ln)
-        components.html(html, height=580)
+        g_nodes, g_edges = neighbourhood(graph(), sid)
+        st.iframe(network_html(g_nodes, g_edges), height=HEIGHT_PX + 20,
+                  alt=f"Network of {s['name']} [{sid}]: {len(g_nodes)} nodes, {len(g_edges)} edges")
         st.caption("Red = suppliers, blue = awards (dashed edge = the supplier is a subcontractor on that award), "
                    "green = offices, orange = countries, purple = parent. Up to 40 awards are drawn; the tables have all of them.")
         c1, c2 = st.columns(2)

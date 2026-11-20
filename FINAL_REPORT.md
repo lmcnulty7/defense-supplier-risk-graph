@@ -23,7 +23,7 @@ site and agent answers say why.
   and walkthrough are tested against it.
 * **Presentable:** one-screen README, a 2-minute demo script with exact clicks, a regenerated interview walkthrough,
   and a fresh clone that rebuilds every report offline with no API key (checked).
-* Spend: $9.00 of the $10 cap (`BUDGET_USD` raised from 9.00 to 9.40 in `.env` for the feed-v2 re-asks). Tests: 108
+* Spend: $9.01 of the $10 cap (`BUDGET_USD` raised from 9.00 to 9.40 in `.env` for the feed-v2 re-asks). Tests: 124
   tests (live-API tests skip without `RUN_LIVE=1`).
 
 *Portfolio project on public data; the customer persona is fictional; not used by, endorsed by, or built for the DoD
@@ -70,8 +70,8 @@ or any company.*
 | Near-miss traps (8) | Haiku 1/8, 3/8, 3/8 → with guard 7/8, 8/8, 7/8; Opus 7/8, 7/8, 7/8. The guard fires on 0 of 88 logged Opus lookups on answerable questions |
 | Judge | 40/40 blatant, 30/30 subtle planted errors |
 | Country-risk feed | schema 2.0.0, label escalated_next4w_ucdp; skill status `beats_base_rate`. As a likelihood input: not adopted: 0% point-in-time coverage. Feed-country exposure: AP -0.0004 [-0.0073, 0.0071], not adopted |
-| Anthropic spend | **$9.00**, under the $10 cap |
-| Tests | 122 tests |
+| Anthropic spend | **$9.01**, under the $10 cap |
+| Tests | 124 tests |
 
 ## What the results say
 
@@ -122,7 +122,7 @@ or any company.*
 > The agent is Claude with four read-only tools that cites record IDs or declines. My first test set saturated, so I
 > built a harder one with traps. Even Haiku answers every structured question. Its failure was a company name one
 > word off: it answered for the look-alike. I fixed that in the resolver, not the prompt, and it went from 1/8, 3/8,
-> 3/8 to 7/8, 8/8, 7/8. Every number is in one generated file and tested, and the whole project cost $9.00."
+> 3/8 to 7/8, 8/8, 7/8. Every number is in one generated file and tested, and the whole project cost $9.01."
 
 ## Public release
 

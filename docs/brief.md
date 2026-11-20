@@ -48,7 +48,7 @@ activity from October 2022 through September 2025: 57,596 contracts worth $225 b
   traceable to a real record. Its weak spot was a company name that is one word off from a real one. A check in the
   name lookup now flags those: the smaller, 49-times-cheaper assistant went from catching 1, 3 and 3 of 8 such names
   in three runs to 7/8, 8/8, 7/8, about as well as the large one.
-* Cost: about 3 to 4 cents and 7 to 10 seconds per question. The whole build used $9.00 of a $10 AI budget.
+* Cost: about 3 to 4 cents and 7 to 10 seconds per question. The whole build used $9.01 of a $10 AI budget.
 
 **What would make it decision-grade:** supplier performance and financial data (to predict failure, not just
 terminations), a country-risk feed that has demonstrated forecasting skill, complete subcontract reporting, and the

@@ -47,7 +47,9 @@ Only claim a finding as yours once you've checked it in the code yourself.
   demo script and this file.
 * **Clean clone works offline.** Cached public data is committed; `make install && make offline` rebuilds every
   report identically with no network and no API key (checked in a fresh clone).
-* **Air-gap readiness.** The app's graph view no longer pulls JavaScript from a CDN, and Streamlit telemetry is off.
+* **Air-gap readiness.** The app's graph view inlines vis-network and makes no outbound request, and Streamlit
+  telemetry is off. A browser test (Playwright, headless Chromium) blocks every non-local request and checks the
+  graph is drawn for two suppliers with no console errors.
 
 ---
 
@@ -90,7 +92,7 @@ Sources: `reports/HEADLINE.md`.
 > built a harder one with traps. Even the small model answers every structured question. Its failure was a company
 > name one word off, which it answered for the look-alike. I fixed that in the name lookup, not the prompt, and the
 > small model went from 1/8, 3/8, 3/8 to 7/8, 8/8, 7/8 on those traps. Everything is a pytest gate, and the whole
-> project cost $9.00 in API calls."
+> project cost $9.01 in API calls."
 
 ### 5 minutes [deep dive]
 
@@ -358,7 +360,7 @@ skill isn't demonstrated, the application appends the caveat itself, so it never
 > thinking blocks passed back unchanged, and it's short. A framework would hide what I'm measuring."
 
 > **⚠ Pushback risk: cost is an estimate.** Usage times a price table, not reconciled with the billing console, and
-> the guard is a soft check with three parallel workers. Say "logged cost of $9.00."
+> the guard is a soft check with three parallel workers. Say "logged cost of $9.01."
 
 ### 3.3 Data
 
@@ -515,7 +517,10 @@ use SQL views and skip the graph."
   configuration, not code. If only a different model is approved, the eval harness tells you exactly what you
   lose on these questions before anyone relies on it.
 - **The app:** I removed the last outbound calls: the graph view now inlines its JavaScript instead of loading it
-  from a CDN, and Streamlit usage statistics are off. Everything else is local.
+  from a CDN, and Streamlit usage statistics are off. Everything else is local. My first attempt at this broke the
+  graph: I stripped the CDN lines with Python's `splitlines()`, which also splits on a Unicode separator inside
+  the minified library and corrupted it. Now the page is written directly, and a headless-browser test with
+  outbound traffic blocked checks a graph is actually drawn.
 - **What still doesn't work without a model:** the chat tab. The graph explorer, risk table, likelihood view and
   results site work with no model at all."
 
@@ -745,7 +750,7 @@ Answer out loud, then check the key.
 ### 8a. Status
 
 All plan phases and both presentation plans are complete and committed. `make test` passes with the live-API tests
-skipped unless `RUN_LIVE=1`; the Neo4j parity test runs when Neo4j is up. Total spend $9.00 of the $10 cap
+skipped unless `RUN_LIVE=1`; the Neo4j parity test runs when Neo4j is up. Total spend $9.01 of the $10 cap
 (`BUDGET_USD` raised to 9.40 to re-ask the feed-v2 questions).
 
 ### 8b. Open items

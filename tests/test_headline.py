@@ -127,7 +127,7 @@ def test_no_stale_numbers(doc):
         ok = {H[k]["text"] for k in FRACTIONS[m.group(2)]}
         if not any(m.group(0) in s for s in ok) and m.group(0) not in ("14/14", "13/13", "8/8", "38/38", "0/38"):
             bad.append(m.group(0))
-    for m in re.finditer(r"(?<![\d.])(\d{2,3}) (?:passed|tests\b)", text):
+    for m in re.finditer(r"(?<![\d.])(\d{2,3})\s+(?:passed|tests\b)", text):
         if f"{m.group(1)} tests" != H["tests"]["text"]:
             bad.append(m.group(0))
     for m in re.finditer(r"\$(\d+\.\d\d)\b", text):  # project spend is the only $X.XX over $1 we quote
