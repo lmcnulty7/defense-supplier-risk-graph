@@ -50,10 +50,11 @@ def app_url():
          f"--server.port={port}", "--server.address=127.0.0.1", "--browser.gatherUsageStats=false"],
         cwd=ROOT, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     url = f"http://127.0.0.1:{port}"
+    direct = urllib.request.build_opener(urllib.request.ProxyHandler({}))  # ignore HTTP(S)_PROXY for localhost
     try:
         for _ in range(120):
             try:
-                if urllib.request.urlopen(f"{url}/_stcore/health", timeout=1).read() == b"ok":
+                if direct.open(f"{url}/_stcore/health", timeout=1).read() == b"ok":
                     break
             except OSError:
                 time.sleep(0.5)
