@@ -19,6 +19,7 @@ from supplier_graph.graph import queries as Q
 from supplier_graph.graph.build import load_graph
 from supplier_graph.graph.schema import nid
 from supplier_graph.ingest.risk_feed import feed_in_likelihood, usage_text
+from supplier_graph.outlook_chart import filter_outlook, outlook_chart
 from supplier_graph.stage import connect
 
 st.set_page_config(page_title="Supplier Risk Graph", layout="wide")
@@ -83,7 +84,7 @@ with tab_risk:
                  FROM supplier_risk WHERE {' AND '.join(where)} ORDER BY prime_obligations DESC LIMIT 500""", tuple(params))
     st.write(f"{len(df):,} suppliers (top 500 by prime obligations shown).")
     st.dataframe(df.assign(prime_obligations=(df.prime_obligations / 1e6).round(2)).rename(
-        columns={"prime_obligations": "prime_obligations_$M"}), use_container_width=True, hide_index=True)
+        columns={"prime_obligations": "prime_obligations_$M"}), width="stretch", hide_index=True)
     st.caption(f"`max_p_escalation` is {'a likelihood input' if FEED_USED else 'context only'} (feed skill status: {SKILL}). "
                "Flags are a triage screen, not a ranking: in sustainment, OEMs routinely sole-source support for "
                "their own platforms, so most obligations go to at least one flagged supplier. Combine flags with "
@@ -107,17 +108,19 @@ with tab_outlook:
                    f"The country risk feed (skill status {SKILL}) {'is' if FEED_USED else 'is not'} used in the "
                    "likelihood model (`reports/risk_backtest.md`, feed policy).")
         c1, c2 = st.columns(2)
-        min_m = c1.number_input("Min obligations at stake ($M)", value=10.0, min_value=0.0, step=5.0)
-        min_x = c2.number_input("Min likelihood vs size-only prediction (x)", value=2.0, min_value=0.0, step=0.5)
-        view = out[(out.prime_obligations >= min_m * 1e6) & (out.excess_vs_size >= min_x)]
-        st.write(f"{len(view):,} suppliers match.")
-        st.scatter_chart(out.assign(obligations_log10=(out.prime_obligations.clip(lower=1e4)).map(__import__("math").log10),
-                                    p=out.p_disruption_next_fy), x="obligations_log10", y="p", height=320)
+        min_m = c1.number_input("Min obligations at stake ($M)", value=10.0, min_value=0.0, step=5.0,
+                                key="outlook_min_m")
+        min_x = c2.number_input("Min likelihood vs size-only prediction (x)", value=2.0, min_value=0.0, step=0.5,
+                                key="outlook_min_x")
+        view = filter_outlook(out, min_m, min_x)
+        st.write(f"{len(view):,} of {len(out):,} suppliers match both filters (highlighted; gray = all suppliers).")
+        st.altair_chart(outlook_chart(out, view, min_m), key="outlook_chart",
+                        alt=f"Termination likelihood against obligations at stake; {len(view)} suppliers highlighted")
         st.dataframe(view.assign(prime_obligations=(view.prime_obligations / 1e6).round(1),
                                  p_disruption_next_fy=view.p_disruption_next_fy.round(4),
                                  excess_vs_size=view.excess_vs_size.round(2))
                      .rename(columns={"prime_obligations": "prime_obligations_$M"}).drop(columns="outlook_fy"),
-                     use_container_width=True, hide_index=True)
+                     width="stretch", hide_index=True, key="outlook_table")
 
 # ---------------------------------------------------------------- graph explorer
 with tab_graph:
@@ -189,10 +192,10 @@ with tab_graph:
                    "green = offices, orange = countries, purple = parent. Up to 40 awards are drawn; the tables have all of them.")
         c1, c2 = st.columns(2)
         c1.subheader("Offices affected (blast radius)")
-        c1.dataframe(pd.DataFrame(br["rows"]), hide_index=True, use_container_width=True)
+        c1.dataframe(pd.DataFrame(br["rows"]), hide_index=True, width="stretch")
         c2.subheader("Dependent offices (direct vs. via subcontracts)")
         c2.dataframe(pd.DataFrame(Q.run("dependent_offices", {"supplier_id": sid})["rows"]), hide_index=True,
-                     use_container_width=True)
+                     width="stretch")
 
 # ---------------------------------------------------------------- agent chat
 CITE = re.compile(r"\[(award|supplier|parent|office|program|country):([^\]]+)\]")

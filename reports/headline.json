@@ -525,7 +525,7 @@
   },
   {
     "key": "tests",
-    "text": "108 tests",
+    "text": "109 tests",
     "label": "pytest tests collected (`make test`)",
     "source": "pytest --collect-only",
     "section": "Trust and cost",

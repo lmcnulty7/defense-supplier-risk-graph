@@ -97,4 +97,4 @@ fails if they disagree.
 | `judge_blatant` | 40/40 | LLM judge agreement, blatant corruptions | `judge_validation.json` |
 | `judge_subtle` | 30/30 | LLM judge agreement, subtle corruptions in real agent prose | `judge_validation_subtle.json` |
 | `spend` | $9.00 | total Anthropic API spend (cap $10) | `logs/spend_ledger.jsonl` |
-| `tests` | 108 tests | pytest tests collected (`make test`) | `pytest --collect-only` |
+| `tests` | 109 tests | pytest tests collected (`make test`) | `pytest --collect-only` |
