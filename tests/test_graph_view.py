@@ -62,8 +62,8 @@ def test_united_states_never_drawn(sample):
     from supplier_graph.graph_view import blast_view, neighbourhood
     G = load_graph()
     for sid in sample:
-        for nodes, _ in (blast_view(G, sid, Q.run("blast_radius", {"supplier_id": sid})["rows"]),
-                         neighbourhood(G, sid)):
+        rows = Q.run("blast_radius", {"supplier_id": sid})["rows"]
+        for nodes, *_ in (blast_view(G, sid, rows), neighbourhood(G, sid, rows)):
             assert "country:USA" not in {n["id"] for n in nodes}, sid
 
 
@@ -100,3 +100,62 @@ def test_no_arrowheads_and_labels_on_white():
     for o in (OPTIONS, BLAST_OPTIONS):
         assert o["edges"]["arrows"] == {"to": {"enabled": False}, "from": {"enabled": False}}
         assert o["nodes"]["font"]["multi"] == "html" and o["nodes"]["font"]["background"].startswith("rgba(255")
+
+
+def test_award_view_draws_every_affected_office(sample):
+    """The award-level view caps award nodes, never offices: it shows the same offices as the metric."""
+    from supplier_graph.graph import queries as Q
+    from supplier_graph.graph.build import load_graph
+    from supplier_graph.graph_view import MAX_DIRECT, MAX_SUB, neighbourhood
+    G = load_graph()
+    for sid in sample:
+        br = Q.run("blast_radius", {"supplier_id": sid})
+        nodes, edges, shown, total = neighbourhood(G, sid, br["rows"])
+        offices = {n["id"] for n in nodes if n["id"].startswith("office:")}
+        assert offices == {f"office:{r['office_code']}" for r in br["rows"]}, sid
+        assert len(offices) == br["summary"]["n_offices"], sid
+        awards = [n for n in nodes if n["id"].startswith("award:")]
+        assert len(awards) == shown <= MAX_DIRECT + MAX_SUB and shown <= total, sid
+        assert total == br["summary"]["n_awards_direct"] + br["summary"]["n_awards_indirect"], sid
+        assert all(n["label"] == "" and n["id"].split(":", 1)[1] in n["title"] for n in awards)  # ID on hover only
+        linked = {e["to"] for e in edges} | {e["from"] for e in edges}
+        assert offices <= linked, sid  # every office is connected to something
+
+
+def test_office_edge_amounts_are_the_suppliers_own_money(sample):
+    """Solid office edges carry the supplier's own prime obligations (they sum to its prime obligations); dashed
+    (subcontract-only) edges carry its own subaward amounts, with the prime contract value only in the hover."""
+    from supplier_graph.graph import queries as Q
+    from supplier_graph.graph.build import load_graph
+    from supplier_graph.graph_view import blast_view, money, office_money
+    G = load_graph()
+    for sid in sample:
+        prof = Q.run("supplier_profile", {"supplier_id": sid})["summary"]
+        dep = {r["office_code"]: r for r in Q.run("dependent_offices", {"supplier_id": sid})["rows"]}
+        nodes, edges = blast_view(G, sid, Q.run("blast_radius", {"supplier_id": sid})["rows"])
+        labels = {n["id"]: n["label"] for n in nodes}
+        office_edges = [e for e in edges if e.get("kind")]
+        solid = [e for e in office_edges if e["kind"] == "direct"]
+        assert abs(sum(e["amount"] for e in solid) - prof["prime_obligations"]) < 0.01 * max(len(solid), 1), sid
+        for e in office_edges:
+            code = e["to"].split(":", 1)[1]
+            assert e["dashes"] == (e["kind"] == "subcontract")
+            assert labels[e["to"]].endswith(f"<b>{money(e['amount'])}</b>"), labels[e["to"]]
+            if e["kind"] == "subcontract":
+                assert dep[code]["n_direct_awards"] == 0
+                assert abs(e["amount"] - dep[code]["sub_amount"]) < 0.01, (sid, code)
+                pv = office_money(G, sid)[code]["prime_via"]
+                assert f"{money(pv)} prime contract" in e["title"] and "subcontracts: " in e["title"]
+
+
+def test_sikorsky_dashed_edge_example():
+    """The reported case: ACC-RSA W9124P is $14M of S & K prime contracts, of which Sikorsky's subawards are $7.7M."""
+    from supplier_graph.graph import queries as Q
+    from supplier_graph.graph.build import load_graph
+    from supplier_graph.graph_view import blast_view
+    sid = "UTJWTSLMFNG4"
+    nodes, edges = blast_view(load_graph(), sid, Q.run("blast_radius", {"supplier_id": sid})["rows"])
+    (e,) = [e for e in edges if e["to"] == "office:W9124P"]
+    assert e["kind"] == "subcontract" and e["dashes"]
+    assert "$14M prime contracts via S & K" in e["title"] and "Sikorsky's subcontracts: $7.7M" in e["title"]
+    assert next(n for n in nodes if n["id"] == "office:W9124P")["label"].endswith("<b>$7.7M</b>")

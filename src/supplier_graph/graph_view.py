@@ -57,9 +57,12 @@ def vis_assets() -> tuple[str, str]:
     return (d / "vis-network.min.js").read_text(encoding="utf-8"), (d / "vis-network.css").read_text(encoding="utf-8")
 
 
-def neighbourhood(G: nx.MultiDiGraph, supplier_id: str) -> tuple[list[dict], list[dict]]:
+def neighbourhood(G: nx.MultiDiGraph, supplier_id: str, office_rows: list[dict]
+                  ) -> tuple[list[dict], list[dict], int, int]:
     """Award-level view ("Show individual awards"): the supplier, its largest direct awards (up to 25) and prime
-    awards it subcontracts on (up to 15), each award's office and foreign country, and the supplier's parent."""
+    awards it subcontracts on (up to 15), each drawn award's foreign country, the supplier's parent, and every
+    affected office (`office_rows`, the blast_radius rows) even when none of its awards is drawn. Award IDs are in
+    the hover text, not on the canvas. Returns (nodes, edges, awards shown, awards in total)."""
     nodes: dict[str, dict] = {}
     edges: list[dict] = []
 
@@ -68,41 +71,61 @@ def neighbourhood(G: nx.MultiDiGraph, supplier_id: str) -> tuple[list[dict], lis
             return
         d = G.nodes[n]
         title = d.get("name") or d.get("award_id") or n
-        label = (f"{office_short(d.get('name'), d['office_code'])} ({d['office_code']})" if d["label"] == "Office"
-                 else d.get("name") or d.get("piid") or n)
-        nodes[n] = {"id": n, "label": wrapped(label), "title": f"{d['label']}: {title}",
-                    "color": COLORS[d["label"]], "size": size, "shape": "dot"}
+        if d["label"] == "Award":
+            label = ""  # shown on hover
+        elif d["label"] == "Office":
+            label = wrapped(f"{office_short(d.get('name'), d['office_code'])} ({d['office_code']})")
+        else:
+            label = wrapped(d.get("name") or n)
+        nodes[n] = {"id": n, "label": label, "title": f"{d['label']}: {title}", "color": COLORS[d["label"]],
+                    "size": size, "shape": "dot"}
 
     sn = nid("Supplier", supplier_id)
     add(sn, 28)
     direct = [u for u, _, k in G.in_edges(sn, keys=True) if k == "AWARDED_TO"]
     sub_awards = sorted({nid("Award", d["prime_award_id"]) for _, _, k, d in G.in_edges(sn, keys=True, data=True)
-                         if d.get("type") == "SUBCONTRACTS_TO"})
-    for a in sorted(direct, key=lambda x: -G.nodes[x]["obl_pos"])[:MAX_DIRECT] + sub_awards[:MAX_SUB]:
+                         if d.get("type") == "SUBCONTRACTS_TO"} - set(direct))
+    shown = sorted(direct, key=lambda x: (-G.nodes[x]["obl_pos"], x))[:MAX_DIRECT] + sub_awards[:MAX_SUB]
+    reached: set[str] = set()
+    for a in shown:
         add(a, 10)
         is_direct = a in direct
-        edges.append({"from": a, "to": sn, "title": "AWARDED_TO" if is_direct else
-                      "prime award (supplier subcontracts)", "dashes": not is_direct})
+        edges.append({"from": a, "to": sn, "title": "awarded to the supplier" if is_direct else
+                      "prime award (the supplier subcontracts on it)", "dashes": not is_direct})
         for _, v, k in G.out_edges(a, keys=True):
             if v == HOME:
                 continue
             if k in ("AWARDED_BY", "PERFORMED_IN") or (k == "AWARDED_TO" and not is_direct):
                 add(v, 16)
-                edges.append({"from": a, "to": v, "title": k})
+                edges.append({"from": a, "to": v, "title": k.replace("_", " ").lower()})
+                if k == "AWARDED_BY":
+                    reached.add(v)
+    for r in office_rows:  # offices whose awards are all hidden still appear, linked straight to the supplier
+        on = nid("Office", r["office_code"])
+        if on not in reached:
+            add(on, 16)
+            edges.append({"from": sn, "to": on, "dashes": [2, 6],
+                          "title": f"{plural(r['n_awards'], 'award')} at this office not drawn"})
     for _, v, k in G.out_edges(sn, keys=True):
         if k == "SUBSIDIARY_OF":
             add(v, 18)
-            edges.append({"from": sn, "to": v, "title": "SUBSIDIARY_OF"})
-    return list(nodes.values()), edges
+            edges.append({"from": sn, "to": v, "title": "subsidiary of"})
+    return list(nodes.values()), edges, len(shown), len(direct) + len(sub_awards)
+
+
+def plural(n: int, word: str) -> str:
+    return f"{n:,} {word}{'' if n == 1 else 's'}"
 
 
 def money(x: float) -> str:
-    """$350K, $41M, $1.2B."""
+    """$350K, $7.7M, $41M, $1.2B."""
     x = float(x or 0)
     if x >= 1e9:
         return f"${x / 1e9:,.1f}B"
-    if x >= 1e6:
+    if x >= 1e7:
         return f"${x / 1e6:,.0f}M"
+    if x >= 1e6:
+        return f"${x / 1e6:,.1f}M"
     if x >= 1e3:
         return f"${x / 1e3:,.0f}K"
     return f"${x:,.0f}"
@@ -167,43 +190,91 @@ def office_label(name: str | None, code: str, amount: float) -> str:
     return two_line(f"{office_short(name, code)} ({code})", amount)
 
 
+def office_money(G: nx.MultiDiGraph, supplier_id: str) -> dict[str, dict]:
+    """Per office: the supplier's own prime obligations there (direct), its own subaward amounts on other companies'
+    prime contracts there (own_sub), the obligations on those prime contracts (prime_via) and their prime
+    contractors, award counts and the top 3 award IDs."""
+    sn = nid("Supplier", supplier_id)
+    out: dict[str, dict] = {}
+
+    def at(code: str) -> dict:
+        return out.setdefault(code, {"direct": 0.0, "n_direct": 0, "own_sub": 0.0, "prime_via": 0.0,
+                                     "_ind": set(), "_primes": set(), "_ids": []})
+    direct = {u for u, _, k in G.in_edges(sn, keys=True) if k == "AWARDED_TO"}
+    for a in direct:
+        d = G.nodes[a]
+        if d.get("office_code"):
+            o = at(d["office_code"])
+            o["direct"] += d["obl_pos"] or 0.0
+            o["n_direct"] += 1
+            o["_ids"].append((d["obl_pos"] or 0.0, d["award_id"]))
+    for _, _, _k, e in G.in_edges(sn, keys=True, data=True):
+        if e.get("type") != "SUBCONTRACTS_TO":
+            continue
+        an = nid("Award", e["prime_award_id"])
+        d = G.nodes[an]
+        if not d.get("office_code") or an in direct:
+            continue
+        o = at(d["office_code"])
+        o["own_sub"] += max(e.get("amount") or 0.0, 0.0)
+        if an not in o["_ind"]:
+            o["_ind"].add(an)
+            o["prime_via"] += d["obl_pos"] or 0.0
+            o["_ids"].append((d["obl_pos"] or 0.0, d["award_id"]))
+            o["_primes"] |= {G.nodes[v]["name"] for _, v, kk in G.out_edges(an, keys=True) if kk == "AWARDED_TO"}
+    for o in out.values():
+        o["n_indirect"] = len(o.pop("_ind"))
+        o["primes"] = sorted(o.pop("_primes"))
+        o["top_ids"] = [i for _, i in sorted(o.pop("_ids"), key=lambda t: (-t[0], t[1]))[:3]]
+    return out
+
+
 def blast_view(G: nx.MultiDiGraph, supplier_id: str, office_rows: list[dict]) -> tuple[list[dict], list[dict]]:
     """Default view: the supplier in the centre with one edge per affected office (`office_rows` are the
-    blast_radius query's rows, so the graph and the "Offices affected" metric always agree), edge width scaled by
-    obligations; its parent (purple), the prime contractors it subcontracts for (red, dashed) and the foreign
-    countries where its work is performed (orange). No award nodes."""
+    blast_radius query's rows, so the graph and the "Offices affected" metric always agree). A solid edge is labeled
+    with the supplier's own prime obligations at that office; a dashed edge (reached only through subcontracts) with
+    the supplier's own subaward amount, the prime contract value being in the hover. Edge width follows that amount.
+    Also its parent (purple), the prime contractors it subcontracts for (red, dashed) and the foreign countries where
+    its work is performed (orange). No award nodes."""
     sn = nid("Supplier", supplier_id)
     s = G.nodes[sn]
     edges: list[dict] = []
 
-    # awards behind each office: direct prime awards, plus prime awards the supplier subcontracts on
     direct = {u for u, _, k in G.in_edges(sn, keys=True) if k == "AWARDED_TO"}
     sub_in = [d for _, _, k, d in G.in_edges(sn, keys=True, data=True) if d.get("type") == "SUBCONTRACTS_TO"]
-    indirect = {nid("Award", d["prime_award_id"]) for d in sub_in} - direct
-    by_office: dict[str, list[tuple[float, str, bool]]] = {}
-    for a in direct | indirect:
-        d = G.nodes[a]
-        if d.get("office_code"):
-            by_office.setdefault(d["office_code"], []).append((d["obl_pos"] or 0.0, d["award_id"], a in direct))
+    money_at = office_money(G, supplier_id)
+    first = s["name"].split()[0].title() if s["name"] else "the supplier"
+    owner = f"{first}'s" if not first.endswith("s") else f"{first}'"
 
     prime = sum(G.nodes[a]["obl_pos"] or 0.0 for a in direct)
     nodes: list[dict] = [{"id": sn, "label": two_line(s["name"], prime), "color": COLORS["Supplier"], "size": 30,
                           "shape": "dot", "title": f"Supplier: {s['name']} ({supplier_id})\nprime obligations "
                                                    f"{money(prime)}", "font": {"size": 19}}]
-    top = max((r["obligations"] for r in office_rows), default=0.0) or 1.0
+    amounts = {r["office_code"]: (money_at[r["office_code"]]["direct"] or money_at[r["office_code"]]["own_sub"])
+               for r in office_rows}
+    top = max(amounts.values(), default=0.0) or 1.0
     for r in office_rows:
         code = r["office_code"]
-        aw = sorted(by_office.get(code, []), key=lambda t: (-t[0], t[1]))
-        n_dir = sum(t[2] for t in aw)
-        ids = ", ".join(t[1] for t in aw[:3])
-        tip = (f"{r['office_name']} ({code})\n{r['n_awards']:,} award{'s' if r['n_awards'] != 1 else ''} "
-               f"({n_dir:,} direct, {r['n_awards'] - n_dir:,} via subcontracts), {money(r['obligations'])}\n"
-               f"Top awards: {ids}")
+        o = money_at[code]
+        solid = o["n_direct"] > 0
+        amt = amounts[code]
+        lines = [f"{r['office_name']} ({code})",
+                 f"{plural(r['n_awards'], 'contract')} ({o['n_direct']:,} direct, {o['n_indirect']:,} via "
+                 f"subcontracts)"]
+        if solid:
+            lines.append(f"{owner} prime contracts here: {money(o['direct'])}")
+        if o["n_indirect"] or o["own_sub"]:
+            via = ", ".join(o["primes"]) or "other primes"
+            lines.append(f"{money(o['prime_via'])} prime contract{'s' if o['n_indirect'] != 1 else ''} via {via}; "
+                         f"{owner} subcontracts: {money(o['own_sub'])}")
+        lines.append("Top awards: " + ", ".join(o["top_ids"]))
+        tip = "\n".join(lines)
         on = nid("Office", code)
-        nodes.append({"id": on, "label": office_label(r["office_name"], code, r["obligations"]), "title": tip,
+        nodes.append({"id": on, "label": office_label(r["office_name"], code, amt), "title": tip,
                       "color": COLORS["Office"], "size": 14, "shape": "dot"})
-        edges.append({"from": sn, "to": on, "title": tip, "dashes": n_dir == 0, "color": {"color": OFFICE_EDGE},
-                      "width": 1 + 11 * (r["obligations"] / top) ** 0.5})
+        edges.append({"from": sn, "to": on, "title": tip, "dashes": not solid, "color": {"color": OFFICE_EDGE},
+                      "width": 1 + 11 * (amt / top) ** 0.5, "amount": round(amt, 2),
+                      "kind": "direct" if solid else "subcontract"})
 
     primes: dict[str, float] = {}
     for d in sub_in:

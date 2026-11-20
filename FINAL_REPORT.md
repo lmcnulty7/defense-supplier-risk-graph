@@ -23,7 +23,7 @@ site and agent answers say why.
   and walkthrough are tested against it.
 * **Presentable:** one-screen README, a 2-minute demo script with exact clicks, a regenerated interview walkthrough,
   and a fresh clone that rebuilds every report offline with no API key (checked).
-* Spend: $9.15 of the $10 cap (`BUDGET_USD` raised from 9.00 to 9.40 in `.env` for the feed-v2 re-asks). Tests: 141
+* Spend: $9.15 of the $10 cap (`BUDGET_USD` raised from 9.00 to 9.40 in `.env` for the feed-v2 re-asks). Tests: 144
   tests (live-API tests skip without `RUN_LIVE=1`).
 
 *Portfolio project on public data; the customer persona is fictional; not used by, endorsed by, or built for the DoD
@@ -71,7 +71,7 @@ or any company.*
 | Judge | 40/40 blatant, 30/30 subtle planted errors |
 | Country-risk feed | schema 2.0.0, label escalated_next4w_ucdp; skill status `beats_base_rate`. As a likelihood input: not adopted: 0% point-in-time coverage. Feed-country exposure: AP -0.0004 [-0.0073, 0.0071], not adopted |
 | Anthropic spend | **$9.15**, under the $10 cap |
-| Tests | 141 tests |
+| Tests | 144 tests |
 
 ## What the results say
 

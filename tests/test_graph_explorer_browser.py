@@ -9,6 +9,7 @@ blocked, and checks the drawn canvas for two suppliers. Skips when Playwright or
 from __future__ import annotations
 
 import os
+import re
 import socket
 import subprocess
 import sys
@@ -128,6 +129,17 @@ def test_graph_explorer_draws_network_offline(app_url, browser, query, pick, uei
     ids = frame.evaluate("() => window.network ? window.network.body.data.nodes.getIds() : []")
     metric = page.locator('[data-testid="stMetric"]').filter(has_text="Offices affected") \
         .locator('[data-testid="stMetricValue"]').inner_text()
+
+    # the award-level view caps awards, never offices
+    page.get_by_text("Show individual awards").click()
+    # wait until the old frame is gone and exactly one new one is there
+    page.wait_for_function("t => { const fs = document.querySelectorAll('iframe[title^=\"Network of\"]');"
+                           " return fs.length === 1 && fs[0].title !== t; }", arg=title, timeout=60_000)
+    award_frame = page.locator('iframe[title^="Network of"]').element_handle().content_frame()
+    award_frame.wait_for_function("() => window.network && window.network.body.data.nodes.length > 0",
+                                  timeout=20_000)
+    award_ids = award_frame.evaluate("() => window.network.body.data.nodes.getIds()")
+    shown_line = page.get_by_text(re.compile(r"of [\d,]+ awards? shown")).inner_text()
     page.close()
 
     assert res["canvas"] and res["nodes"] > 1, f"no network drawn in {title!r}: {res}; console errors: {errors}"
@@ -138,3 +150,5 @@ def test_graph_explorer_draws_network_offline(app_url, browser, query, pick, uei
     # the graph and the metric agree, and the United States is never drawn
     assert sum(i.startswith("office:") for i in ids) == int(metric.replace(",", "")), (metric, ids)
     assert "country:USA" not in ids
+    assert sum(i.startswith("office:") for i in award_ids) == int(metric.replace(",", "")), (metric, award_ids)
+    assert "country:USA" not in award_ids and shown_line

@@ -221,11 +221,12 @@ with tab_graph:
 
         awards_view = st.toggle("Show individual awards", key="graph_awards")
         if awards_view:
-            g_nodes, g_edges = neighbourhood(G, sid)
+            g_nodes, g_edges, n_shown, n_awards = neighbourhood(G, sid, br["rows"])
             options = OPTIONS
-            legend = ("Red = the supplier, blue = its largest awards (dashed edge = it subcontracts on that award), "
-                      "green = offices, orange = foreign countries, purple = parent company. Up to 40 awards are "
-                      "drawn; the tables below have all offices.")
+            legend = (f"{n_shown:,} of {plural(n_awards, 'award')} shown (the largest direct awards and prime awards "
+                      "it subcontracts on); hover an award for its ID. Red = the supplier, blue = awards (dashed edge "
+                      "= it subcontracts on that award), green = every affected office (dotted edge = none of its "
+                      "awards drawn), orange = foreign countries, purple = parent company.")
         else:
             g_nodes, g_edges = blast_view(G, sid, br["rows"])
             options = BLAST_OPTIONS
