@@ -40,8 +40,9 @@ from supplier_graph.graph import queries as Q
 from supplier_graph.graph.build import load_graph
 from supplier_graph.graph_component import network
 from supplier_graph.graph_view import (
+    AWARD_LEGEND,
+    AWARD_OPTIONS,
     BLAST_OPTIONS,
-    OPTIONS,
     blast_view,
     legend_html,
     money,
@@ -370,11 +371,11 @@ with tabs[nav.GRAPH]:
 
             if awards_view:
                 g_nodes, g_edges, n_shown, n_awards = neighbourhood(G, sid, br["rows"])
-                net_key, options = "gx_net_awards", OPTIONS
+                net_key, options = "gx_net_awards", AWARD_OPTIONS
+                st.html(legend_html(AWARD_LEGEND))
                 st.caption(f"{n_shown:,} of {plural(n_awards, 'award')} shown (the largest direct awards and prime "
-                           "awards it subcontracts on); hover an award for its ID. Red = the supplier, blue = awards "
-                           "(dashed edge = it subcontracts on that award), green = every affected office (dotted "
-                           "edge = none of its awards drawn), orange = foreign countries, purple = parent company.")
+                           "awards it subcontracts on). Hover an award for its ID. Click an office to open it in the "
+                           "Office view, or a prime contractor to open it here.")
             else:
                 g_nodes, g_edges = blast_view(G, sid, br["rows"])
                 net_key, options = "gx_net", BLAST_OPTIONS

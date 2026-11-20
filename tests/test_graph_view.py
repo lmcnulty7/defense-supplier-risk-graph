@@ -159,3 +159,36 @@ def test_sikorsky_dashed_edge_example():
     assert e["kind"] == "subcontract" and e["dashes"]
     assert "$14M prime contracts via S & K" in e["title"] and "Sikorsky's subcontracts: $7.7M" in e["title"]
     assert next(n for n in nodes if n["id"] == "office:W9124P")["label"].endswith("<b>$7.7M</b>")
+
+
+def test_award_view_styling(sample):
+    """Award view: dotted edges to offices with no awards drawn are green; the supplier's label sits below on white
+    with extra mass to keep award nodes off it; the legend adds the award dot and the dotted line."""
+    from supplier_graph.graph import queries as Q
+    from supplier_graph.graph.build import load_graph
+    from supplier_graph.graph_view import (
+        AWARD_LEGEND,
+        COLORS,
+        LEGEND,
+        OFFICE_EDGE,
+        legend_html,
+        neighbourhood,
+    )
+    G = load_graph()
+    dotted_seen = False
+    for sid in sample:
+        nodes, edges, _, _ = neighbourhood(G, sid, Q.run("blast_radius", {"supplier_id": sid})["rows"])
+        centre = next(n for n in nodes if n["id"] == f"supplier:{sid}")
+        assert centre["font"]["background"].startswith("rgba(255,255,255") and centre["font"]["vadjust"] > 0
+        assert centre["mass"] > 1
+        for e in edges:
+            if e.get("dashes") == [2, 6]:
+                dotted_seen = True
+                assert e["color"] == {"color": OFFICE_EDGE} and e["to"].startswith("office:")
+    assert dotted_seen  # the sample includes a supplier with more offices than drawn awards reach
+    labels = [x[2] for x in AWARD_LEGEND]
+    assert labels[0] == "Award" and AWARD_LEGEND[0][1] == COLORS["Award"]
+    assert ("dotted", OFFICE_EDGE, "Office with no awards drawn") in AWARD_LEGEND
+    assert [x for x in LEGEND if x[0] == "dot"] == [x for x in AWARD_LEGEND if x[0] == "dot"][1:]
+    html = legend_html(AWARD_LEGEND)
+    assert "3px dotted" in html and "Office with no awards drawn" in html and "<svg" not in html

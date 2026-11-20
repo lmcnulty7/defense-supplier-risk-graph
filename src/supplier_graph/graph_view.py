@@ -44,6 +44,11 @@ BLAST_OPTIONS = {**OPTIONS, "edges": {**OPTIONS["edges"], "smooth": {"enabled": 
                  "physics": {**OPTIONS["physics"], "barnesHut": {"gravitationalConstant": -12000, "centralGravity": 0.2,
                                                                  "springLength": 230, "avoidOverlap": 0.6}}}
 
+# the award view: dozens of small award nodes around the supplier; push them apart and keep them off its label
+AWARD_OPTIONS = {**OPTIONS, "physics": {**OPTIONS["physics"], "barnesHut": {
+    "gravitationalConstant": -9000, "centralGravity": 0.25, "springLength": 170, "avoidOverlap": 0.5}}}
+CENTER_FONT = {"size": 19, "background": "rgba(255,255,255,0.95)", "vadjust": 8}  # label below, on white
+
 
 @cache
 def vis_assets() -> tuple[str, str]:
@@ -82,6 +87,7 @@ def neighbourhood(G: nx.MultiDiGraph, supplier_id: str, office_rows: list[dict]
 
     sn = nid("Supplier", supplier_id)
     add(sn, 28)
+    nodes[sn].update({"mass": 5, "font": CENTER_FONT})
     direct = [u for u, _, k in G.in_edges(sn, keys=True) if k == "AWARDED_TO"]
     sub_awards = sorted({nid("Award", d["prime_award_id"]) for _, _, k, d in G.in_edges(sn, keys=True, data=True)
                          if d.get("type") == "SUBCONTRACTS_TO"} - set(direct))
@@ -104,7 +110,7 @@ def neighbourhood(G: nx.MultiDiGraph, supplier_id: str, office_rows: list[dict]
         on = nid("Office", r["office_code"])
         if on not in reached:
             add(on, 16)
-            edges.append({"from": sn, "to": on, "dashes": [2, 6],
+            edges.append({"from": sn, "to": on, "dashes": [2, 6], "color": {"color": OFFICE_EDGE}, "width": 2,
                           "title": f"{plural(r['n_awards'], 'award')} at this office not drawn"})
     for _, v, k in G.out_edges(sn, keys=True):
         if k == "SUBSIDIARY_OF":
@@ -338,18 +344,24 @@ LEGEND = [("dot", COLORS["Office"], "Office that would be affected"),
           ("dot", COLORS["Country"], "Foreign country"),
           ("thick", OFFICE_EDGE, "More money"),
           ("dashed", OFFICE_EDGE, "Only through subcontracts")]
+# award view: edge widths don't scale with money there, so "More money" is left out
+AWARD_LEGEND = [("dot", COLORS["Award"], "Award"), *LEGEND[:4],
+                ("dashed", COLORS["Award"], "Award it only subcontracts on"),
+                ("dotted", OFFICE_EDGE, "Office with no awards drawn")]
+LINE_STYLE = {"thick": "6px solid", "dashed": "2px dashed", "dotted": "3px dotted"}
 
 
-def legend_html() -> str:
-    """One-row legend for the office view (small dots and line samples), shown by the app above the graph."""
+def legend_html(entries: list[tuple[str, str, str]] | None = None) -> str:
+    """One-row legend (small dots and line samples), shown by the app above the graph; the office view's by
+    default, AWARD_LEGEND for the award view."""
     def mark(kind: str, color: str) -> str:  # styled spans: st.html strips inline SVG
         if kind == "dot":
             style = f"width:11px;height:11px;border-radius:50%;background:{color}"
         else:
-            style = f"width:28px;height:0;border-top:{'6px solid' if kind == 'thick' else '2px dashed'} {color}"
+            style = f"width:28px;height:0;border-top:{LINE_STYLE[kind]} {color}"
         return f'<span aria-hidden="true" style="display:inline-block;{style}"></span>'
     items = "".join(f'<span style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap">'
-                    f'{mark(k, c)}{label}</span>' for k, c, label in LEGEND)
+                    f'{mark(k, c)}{label}</span>' for k, c, label in (entries or LEGEND))
     return (f'<div role="list" aria-label="Graph legend" style="display:flex;flex-wrap:wrap;gap:6px 18px;'
             f'font-size:0.875rem;align-items:center">{items}</div>')
 
