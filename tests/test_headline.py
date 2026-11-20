@@ -21,11 +21,13 @@ pytestmark = pytest.mark.data
 
 H = {h["key"]: h for h in json.loads((REPORTS / "headline.json").read_text())}
 
-# the termination-likelihood model's description (app expander, About tab, site slide, model card)
+# the termination-likelihood model card
 LIKELIHOOD_KEYS = ["lk_features", "lk_split", "lk_n_train", "lk_train_pos", "bt_n", "bt_pos", "lk_base_rate", "top5_k",
                    "auc_gain", "ap_gain", "conv_share", "cluster_share"]
 LIKELIHOOD_TABLE = ["auc_model", "auc_size", "auc_prior", "auc_flags", "top5_model", "top5_size", "top5_prior",
                     "top5_flags"]
+# the four-line model summary (app Likelihood x impact tab, site slide)
+SUMMARY_KEYS = ["lk_split", "top5_model", "lk_base_rate", "top5_size", "top5_flags"]
 # texts written after HEADLINE.md existed: every number in them must be a headline value. Exceptions: the random
 # ROC-AUC (0.5), the "above 1" threshold of excess_vs_size, "top 5%" and "95% intervals".
 STRICT = ["docs/model_card_likelihood.md", "app:likelihood", "app:models", "site:likelihood-model"]
@@ -49,10 +51,9 @@ DOCS = {
     "docs/INTERVIEW_WALKTHROUGH.md": [k for k in H if k != "tests"],
     "docs/model_card_likelihood.md": ["n_transactions", "feed_gate_p", *LIKELIHOOD_KEYS, *LIKELIHOOD_TABLE],
     # rendered Streamlit text (AppTest), see _app_texts()
-    "app:likelihood": [*LIKELIHOOD_KEYS, *LIKELIHOOD_TABLE],
-    "app:models": ["er_n_present", "er_v1_correct", "er_blocking_correct", "er_op_absent", "lk_features", "lk_split",
-                   "auc_model", "auc_size", "top5_model", "top5_size", "v1_opus", "v1_opus_ref", "ch_opus", "nm_guard"],
-    "site:likelihood-model": [*LIKELIHOOD_KEYS, *LIKELIHOOD_TABLE, "feed_gate_p"],
+    "app:likelihood": SUMMARY_KEYS,
+    "app:models": ["er_v1_correct", "er_blocking_correct", "top5_model", "lk_base_rate", "v1_opus", "v1_opus_ref"],
+    "site:likelihood-model": SUMMARY_KEYS,
 }
 # documents rewritten later in the presentation-readiness plan are enforced once rewritten
 PENDING: set[str] = set()
@@ -69,11 +70,10 @@ def _app_texts() -> dict[str, str]:
         from streamlit.testing.v1 import AppTest
         at = AppTest.from_file(str(ROOT / "app" / "streamlit_app.py"), default_timeout=120).run()
         assert not at.exception, at.exception
-        (exp,) = [e for e in at.expander if e.label == "How likelihood is predicted"]
-        _APP["app:likelihood"] = "\n".join(m.value for m in exp.markdown)
-        about = at.tabs[4]
-        assert about.label == "About the data"
-        _APP["app:models"] = "\n".join(m.value for m in about.markdown if "**Termination likelihood**" in m.value)
+        outlook, about = at.tabs[1], at.tabs[4]
+        assert (outlook.label, about.label) == ("Likelihood x impact", "About the data")
+        (_APP["app:likelihood"],) = [m.value for m in outlook.markdown if "**What it predicts:**" in m.value]
+        (_APP["app:models"],) = [m.value for m in about.markdown if "**Termination likelihood:**" in m.value]
     return _APP
 
 
@@ -153,6 +153,6 @@ def test_new_text_numbers_all_from_headline(doc):
     """Every number in the model descriptions is a HEADLINE.md value (or one of the STRICT_OK constants)."""
     allowed = {n for h in H.values() for n in NUM.findall(h["text"])} | STRICT_OK
     text = _text(doc)
-    assert len(text) > 500, f"{doc}: text not found"
+    assert len(text) > 300, f"{doc}: text not found"
     bad = sorted({n for n in NUM.findall(text) if n not in allowed})
     assert not bad, f"{doc}: numbers not in reports/HEADLINE.md: {bad}"

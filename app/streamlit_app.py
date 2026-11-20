@@ -15,7 +15,7 @@ import streamlit.components.v1 as components
 
 from supplier_graph.agent import costs
 from supplier_graph.agent.tools import resolve_supplier
-from supplier_graph.explain import likelihood_md, models_md
+from supplier_graph.explain import BACKTEST_URL, MODEL_CARD_URL, likelihood_md, models_md
 from supplier_graph.graph import queries as Q
 from supplier_graph.graph.build import load_graph
 from supplier_graph.graph.schema import nid
@@ -122,15 +122,9 @@ with tab_outlook:
     if out is None or out.empty:
         st.info("Run `make backtest` to build the disruption outlook.")
     else:
-        st.caption(f"FY{int(out.outlook_fy.iloc[0])} outlook from the time-split backtest (`reports/risk_backtest.md`). "
-                   "Likelihood = P(any contract termination or cancellation next fiscal year), a proxy, not supplier "
-                   "failure. Impact = lifetime prime obligations at stake. The backtest found the flags describe impact, "
-                   "not likelihood, so they are shown on separate axes. "
-                   f"The country risk feed (skill status {SKILL}) {'is' if FEED_USED else 'is not'} used in the "
-                   "likelihood model (`reports/risk_backtest.md`, feed policy).")
-        with st.expander("How likelihood is predicted", icon=":material/model_training:"):
-            md = from_headline(likelihood_md)
-            st.markdown(md) if md else st.info(STALE_HEADLINE)
+        md = from_headline(likelihood_md)
+        st.markdown(md) if md else st.info(STALE_HEADLINE)
+        st.caption(f"Details: [model card]({MODEL_CARD_URL}), [backtest report]({BACKTEST_URL}).")
         c1, c2 = st.columns(2)
         min_m = c1.number_input("Min obligations at stake ($M)", value=10.0, min_value=0.0, step=5.0,
                                 key="outlook_min_m")
@@ -282,7 +276,5 @@ skill status **{SKILL}**. {feed.get('skill_text', '')} Escalation label: {feed.g
     md = from_headline(models_md)
     if md:
         st.markdown(md)
-        st.caption("Numbers from `reports/HEADLINE.md` (`make headline`). Likelihood model details: "
-                   "`docs/model_card_likelihood.md`.")
     else:
         st.info(STALE_HEADLINE)

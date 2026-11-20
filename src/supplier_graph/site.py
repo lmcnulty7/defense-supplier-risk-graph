@@ -16,8 +16,8 @@ from datetime import UTC, datetime
 
 from supplier_graph.agent import costs
 from supplier_graph.config import LOGS, REPORTS, ROOT
+from supplier_graph.explain import BACKTEST_URL, MODEL_CARD_URL, likelihood_points
 from supplier_graph.headline import load as load_headline
-from supplier_graph.risk.backtest import FEATURE_GROUPS, SIZE_ONLY_FEATURES
 from supplier_graph.stage import connect
 
 OUT = ROOT / "site" / "index.html"
@@ -431,45 +431,15 @@ model ({sc_['logistic']['auc']:.2f}) barely beats counting overall, but is clear
          f"{aug['ci'][1]:+.3f}, not significant); average precision {apg['mean']:+.3f} (CI {apg['ci'][0]:+.3f} to "
          f"{apg['ci'][1]:+.3f}, significant). An earlier split and a run without the dominant office agree.")}"""))
 
-    # Every number on this slide is a reports/HEADLINE.md value (checked by tests/test_headline.py).
-    hl = load_headline()
-    plain_groups = {
-        "Size and exposure": "how many contracts and dollars it has, how many continue into next year, and how much of "
-                             "the work is done abroad",
-        "Contract churn": "how often its contracts are changed or money is taken back",
-        "History": "whether it had terminations this year, and how often its buying offices end contracts",
-        "Competition": "how much of its work was won without competition or with a single bid, and whether it is a "
-                       "small business",
-        "Dependence": "how many offices pay it and how much of one office's spending goes to it",
-    }
-    assert set(plain_groups) == set(FEATURE_GROUPS)
-    lk_rows = "".join(f"<tr><td>{lab}</td><td>{auc}</td><td>{top}</td></tr>" for lab, auc, top in (
-        ("The trained model", hl["auc_model"], hl["top5_model"]),
-        ("Just count their contracts", hl["auc_size"], hl["top5_size"]),
-        ("Had a termination last year", hl["auc_prior"], hl["top5_prior"]),
-        ("My three risk flags", hl["auc_flags"], hl["top5_flags"]),
-        ("Random pick", "0.5", hl["lk_base_rate"])))
-    feat_detail = "; ".join(f"<b>{g}</b>: " + ", ".join(f"<code>{f}</code>" for f, _ in fs)
-                            for g, fs in FEATURE_GROUPS.items())
+    # The same four lines as the app's Likelihood x impact tab; every number is a reports/HEADLINE.md value (checked by
+    # tests/test_headline.py). Detail: docs/model_card_likelihood.md and reports/risk_backtest.md.
+    lk_points = "".join(
+        f"<li><b>{label}:</b> {esc(text).replace('`excess_vs_size`', '<code>excess_vs_size</code>')}</li>"
+        for label, text in likelihood_points(load_headline()))
     slides.append(("likelihood-model", f"""
 <h2>How the likelihood score is predicted</h2>
-<p>To estimate which suppliers will have a contract ended early next year, I trained a simple statistical model (a
-logistic regression). It reads {hl['lk_features']} describing each supplier's contracts in one year, in five groups:</p>
-<ul>{''.join(f"<li><b>{g}</b>: {d}</li>" for g, d in plain_groups.items())}</ul>
-<p>It was {hl['lk_split']}, so it never saw the year it was graded on.</p>
-<table><tr><th>method</th><th>ranks everyone (ROC-AUC)</th><th>hit rate in its top 5%</th></tr>{lk_rows}</table>
-<p><b>"Riskier than its size"</b> is the model's chance divided by the chance from a model that only counts
-contracts. Above 1 means riskier than its size alone suggests: that's how the triage view, two slides on, picks suppliers worth a look.</p>
-<p class="fine">Caveat: "ended early" is mostly the government's choice. {hl['conv_share']} of these actions are
-terminations for convenience, not supplier failures, and one Navy office in Japan accounts for {hl['cluster_share']} of
-each year's events.</p>
-{details(f"Logistic regression (standardized features) on {hl['lk_features']}: {feat_detail}. Training: "
-         f"{hl['lk_n_train']} supplier-years ({hl['lk_train_pos']} with an event); test: {hl['bt_n']} supplier-years "
-         f"({hl['bt_pos']} with an event, base rate {hl['lk_base_rate']}). Top 5% = {hl['top5_k']} suppliers. "
-         f"Size-only model: the same method on {', '.join(f'<code>{f}</code>' for f in SIZE_ONLY_FEATURES)}. "
-         f"Gain over size alone (95% bootstrap intervals): ROC-AUC {hl['auc_gain']}, average precision "
-         f"{hl['ap_gain']}. The country-risk feed is not an input ({hl['feed_gate_p']}). Full model card: "
-         f"<code>docs/model_card_likelihood.md</code>.")}"""))
+<ul>{lk_points}</ul>
+<p class="fine">Details: <a href="{MODEL_CARD_URL}">model card</a>, <a href="{BACKTEST_URL}">backtest report</a>.</p>"""))
 
     slides.append(("flags", f"""
 <h2>Finding: the flags show what's at stake, not who will fail</h2>
