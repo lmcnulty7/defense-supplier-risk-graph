@@ -49,7 +49,11 @@ def test_office_nodes_equal_offices_affected_metric(sample):
         for n in nodes:
             if n["id"].startswith("office:"):
                 code = n["id"].split(":", 1)[1]
-                assert re.search(rf"\({re.escape(code)}\) · \$[\d,.]+[KMB]?$", n["label"]), n["label"]
+                # name and code (possibly wrapped), then the dollars in bold on their own line; never cut short
+                assert re.search(rf"\({re.escape(code)}\)\n<b>\$[\d,.]+[KMB]?</b>$", n["label"]), n["label"]
+            assert "…" not in n["label"], n["label"]
+            if n["id"].startswith("office:"):
+                assert code in n["title"]  # full name and code on hover
 
 
 def test_united_states_never_drawn(sample):
@@ -80,3 +84,19 @@ def test_page_is_offline_and_escapes_script_tags():
     html = network_html([{"id": "a", "label": "</script><b>x", "title": "line1\nline2"}], [])
     assert "</script><b>" not in html  # labels cannot close the script block
     assert not re.search(r"""(?:src|href)\s*=\s*["']?(?:https?:)?//""", html, re.I)  # nothing loaded from the network
+
+
+def test_short_office_names():
+    from supplier_graph.graph_view import office_short
+    assert office_short("NAVAL AIR SYSTEMS COMMAND", "N00019") == "NAVAIR"
+    assert office_short("DCMA VERTICAL LIFT STRATFORD", "S0707A") == "DCMA Stratford"
+    assert office_short("FA8124  AFLCMC LPK", "FA8124") == "AFLCMC LPK"  # leading office code dropped
+    assert office_short("W6QK ACC-RSA", "W58RGZ") == "ACC-RSA"  # leading unit code dropped
+    assert office_short("DCMA NORTHEAST", "S2206A") == "DCMA NORTHEAST"
+
+
+def test_no_arrowheads_and_labels_on_white():
+    from supplier_graph.graph_view import BLAST_OPTIONS, OPTIONS
+    for o in (OPTIONS, BLAST_OPTIONS):
+        assert o["edges"]["arrows"] == {"to": {"enabled": False}, "from": {"enabled": False}}
+        assert o["nodes"]["font"]["multi"] == "html" and o["nodes"]["font"]["background"].startswith("rgba(255")

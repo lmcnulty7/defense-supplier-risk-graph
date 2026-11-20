@@ -12,6 +12,8 @@ The page makes no network request.
 from __future__ import annotations
 
 import json
+import re
+import textwrap
 from functools import cache
 from importlib.resources import files
 
@@ -28,7 +30,10 @@ OFFICE_EDGE = "#7fbf7f"
 HOME = nid("Country", "USA")  # never drawn: every supplier works there
 # pyvis's defaults for a directed network, which the explorer used before
 OPTIONS = {
-    "edges": {"color": {"inherit": True}, "smooth": {"enabled": True, "type": "dynamic"}, "arrows": "to"},
+    "nodes": {"font": {"multi": "html", "size": 17, "background": "rgba(255,255,255,0.9)",
+                       "bold": {"size": 21, "mod": "bold"}}},
+    "edges": {"color": {"inherit": True}, "smooth": {"enabled": True, "type": "dynamic"},
+              "arrows": {"to": {"enabled": False}, "from": {"enabled": False}}},
     "interaction": {"dragNodes": True, "hideEdgesOnDrag": False, "hideNodesOnDrag": False},
     "physics": {"enabled": True, "stabilization": {"enabled": True, "fit": True, "iterations": 1000,
                                                     "onlyDynamicEdges": False, "updateInterval": 50}},
@@ -63,7 +68,9 @@ def neighbourhood(G: nx.MultiDiGraph, supplier_id: str) -> tuple[list[dict], lis
             return
         d = G.nodes[n]
         title = d.get("name") or d.get("award_id") or n
-        nodes[n] = {"id": n, "label": (d.get("name") or d.get("piid") or n)[:28], "title": f"{d['label']}: {title}",
+        label = (f"{office_short(d.get('name'), d['office_code'])} ({d['office_code']})" if d["label"] == "Office"
+                 else d.get("name") or d.get("piid") or n)
+        nodes[n] = {"id": n, "label": wrapped(label), "title": f"{d['label']}: {title}",
                     "color": COLORS[d["label"]], "size": size, "shape": "dot"}
 
     sn = nid("Supplier", supplier_id)
@@ -101,14 +108,63 @@ def money(x: float) -> str:
     return f"${x:,.0f}"
 
 
-def short(name: str | None, n: int = 24) -> str:
+# Readable names for common offices (USAspending's office names are abbreviated and upper case). Full names and
+# codes stay in the hover text.
+OFFICE_SHORT = {
+    "NAVAL AIR SYSTEMS COMMAND": "NAVAIR",
+    "NAVAL AIR WARFARE CENTER AIR DIV": "NAWC Aircraft Division",
+    "NAWC TRAINING SYSTEMS DIV": "NAWC Training Systems",
+    "NAVSEA HQ": "NAVSEA HQ",
+    "SUP OF SHIPBUILDING CONV AND REPAIR": "SUPSHIP",
+    "MID ATLANTIC REG MAINT CTR": "Mid-Atlantic Regional Maintenance Center",
+    "SOUTHWEST REGIONAL MAINT CENTER": "Southwest Regional Maintenance Center",
+    "PUGET SOUND NAVAL SHIPYARD IMF": "Puget Sound Naval Shipyard",
+    "PEARL HARBOR NAVAL SHIPYARD IMF": "Pearl Harbor Naval Shipyard",
+    "FLEET READINESS CENTER": "Fleet Readiness Center",
+    "MSCHQ NORFOLK": "Military Sealift Command HQ",
+    "MISSILE DEFENSE AGENCY (MDA)": "Missile Defense Agency",
+    "PAE STRATEGIC SYSTEMS PROGRAMS": "Strategic Systems Programs",
+    "W4GG HQ US ARMY TACOM": "Army TACOM",
+    "DLA LAND AT ABERDEEN": "DLA Land Aberdeen",
+    "DCMA VERTICAL LIFT STRATFORD": "DCMA Stratford",
+    "DCMA FIXED WING FT WORTH": "DCMA Fort Worth",
+    "DCMA FIXED WING ST LOUIS": "DCMA St. Louis",
+    "NAVSUP FLT LOG CTR YOKOSUKA": "NAVSUP FLC Yokosuka",
+    "NAVSUP FLT LOG CTR PUGET SOUND": "NAVSUP FLC Puget Sound",
+}
+PREFIX_CODE = re.compile(r"^[A-Z]{1,2}\d[A-Z0-9]{2,4}$")  # leading office/unit codes such as FA8124 or W6QK
+WRAP = 24
+
+
+def office_short(name: str | None, code: str) -> str:
+    """A readable office name: the abbreviation map, else the name without a leading office/unit code."""
     name = " ".join((name or "").split())
-    return name if len(name) <= n else name[: n - 1].rstrip() + "…"
+    if name in OFFICE_SHORT:
+        return OFFICE_SHORT[name]
+    words = name.split()
+    if len(words) > 1 and (words[0] == code or PREFIX_CODE.match(words[0])):
+        words = words[1:]
+    return " ".join(words) or code
+
+
+def esc(text: str) -> str:
+    """Keep names from being read as vis-network html-label tags (it only knows <b>, <i>, <code>)."""
+    return text.replace("<", "‹").replace(">", "›")
+
+
+def wrapped(name: str | None, width: int = WRAP) -> str:
+    """Wrap a name onto several lines instead of cutting it."""
+    return "\n".join(esc(x) for x in textwrap.wrap(" ".join((name or "").split()), width)) or ""
+
+
+def two_line(name: str, amount: float | None = None) -> str:
+    """Name (wrapped), then the dollar amount in bold and larger."""
+    return wrapped(name) + (f"\n<b>{money(amount)}</b>" if amount is not None else "")
 
 
 def office_label(name: str | None, code: str, amount: float) -> str:
-    """Short office name + office code (always: several offices share a name) + dollars at stake."""
-    return f"{short(name)} ({code}) · {money(amount)}"
+    """Short office name + office code (several offices share a name), then the dollars at stake."""
+    return two_line(f"{office_short(name, code)} ({code})", amount)
 
 
 def blast_view(G: nx.MultiDiGraph, supplier_id: str, office_rows: list[dict]) -> tuple[list[dict], list[dict]]:
@@ -118,8 +174,6 @@ def blast_view(G: nx.MultiDiGraph, supplier_id: str, office_rows: list[dict]) ->
     countries where its work is performed (orange). No award nodes."""
     sn = nid("Supplier", supplier_id)
     s = G.nodes[sn]
-    nodes: list[dict] = [{"id": sn, "label": short(s["name"], 30), "title": f"Supplier: {s['name']} ({supplier_id})",
-                          "color": COLORS["Supplier"], "size": 30, "shape": "dot", "font": {"size": 16}}]
     edges: list[dict] = []
 
     # awards behind each office: direct prime awards, plus prime awards the supplier subcontracts on
@@ -132,6 +186,10 @@ def blast_view(G: nx.MultiDiGraph, supplier_id: str, office_rows: list[dict]) ->
         if d.get("office_code"):
             by_office.setdefault(d["office_code"], []).append((d["obl_pos"] or 0.0, d["award_id"], a in direct))
 
+    prime = sum(G.nodes[a]["obl_pos"] or 0.0 for a in direct)
+    nodes: list[dict] = [{"id": sn, "label": two_line(s["name"], prime), "color": COLORS["Supplier"], "size": 30,
+                          "shape": "dot", "title": f"Supplier: {s['name']} ({supplier_id})\nprime obligations "
+                                                   f"{money(prime)}", "font": {"size": 19}}]
     top = max((r["obligations"] for r in office_rows), default=0.0) or 1.0
     for r in office_rows:
         code = r["office_code"]
@@ -154,7 +212,7 @@ def blast_view(G: nx.MultiDiGraph, supplier_id: str, office_rows: list[dict]) ->
                 primes[v] = primes.get(v, 0.0) + max(d.get("amount") or 0.0, 0.0)
     for v, amt in sorted(primes.items(), key=lambda t: (-t[1], t[0]))[:MAX_PRIMES]:
         name = G.nodes[v]["name"]
-        nodes.append({"id": v, "label": f"{short(name)} · {money(amt)}", "color": COLORS["Supplier"], "size": 16,
+        nodes.append({"id": v, "label": two_line(name, amt), "color": COLORS["Supplier"], "size": 16,
                       "shape": "dot", "title": f"Prime contractor: {name}\nsubcontracts to this supplier: {money(amt)}"})
         edges.append({"from": v, "to": sn, "dashes": True, "color": {"color": COLORS["Supplier"]},
                       "title": f"{name} subcontracts {money(amt)} to this supplier"})
@@ -162,7 +220,7 @@ def blast_view(G: nx.MultiDiGraph, supplier_id: str, office_rows: list[dict]) ->
     for _, v, k in G.out_edges(sn, keys=True):
         if k == "SUBSIDIARY_OF":
             pname = G.nodes[v]["name"]
-            nodes.append({"id": v, "label": short(pname, 30), "title": f"Parent company: {pname}",
+            nodes.append({"id": v, "label": two_line(pname), "title": f"Parent company: {pname}",
                           "color": COLORS["ParentCompany"], "size": 18, "shape": "dot"})
             edges.append({"from": sn, "to": v, "title": "subsidiary of"})
 
@@ -177,7 +235,7 @@ def blast_view(G: nx.MultiDiGraph, supplier_id: str, office_rows: list[dict]) ->
     for iso, amt in sorted(countries.items()):
         cn = nid("Country", iso)
         cname = G.nodes[cn]["name"] if cn in G else iso
-        nodes.append({"id": cn, "label": f"{cname} · {money(amt)}", "title": f"Work performed in {cname} ({iso})",
+        nodes.append({"id": cn, "label": two_line(cname, amt), "title": f"Work performed in {cname} ({iso})",
                       "color": COLORS["Country"], "size": 14, "shape": "dot"})
         edges.append({"from": sn, "to": cn, "title": f"work performed in {cname}"})
     return nodes, edges
@@ -200,6 +258,28 @@ def program_names(G: nx.MultiDiGraph, supplier_id: str) -> tuple[list[str], int]
             else:
                 unnamed.add(d["program_code"])
     return sorted(set(named.values())), len(unnamed - set(named))
+
+
+LEGEND = [("dot", COLORS["Office"], "Office that would be affected"),
+          ("dot", COLORS["Supplier"], "Prime contractor it subcontracts for"),
+          ("dot", COLORS["ParentCompany"], "Parent company"),
+          ("dot", COLORS["Country"], "Foreign country"),
+          ("thick", OFFICE_EDGE, "More money"),
+          ("dashed", OFFICE_EDGE, "Only through subcontracts")]
+
+
+def legend_html() -> str:
+    """One-row legend for the office view (small dots and line samples), shown by the app above the graph."""
+    def mark(kind: str, color: str) -> str:  # styled spans: st.html strips inline SVG
+        if kind == "dot":
+            style = f"width:11px;height:11px;border-radius:50%;background:{color}"
+        else:
+            style = f"width:28px;height:0;border-top:{'6px solid' if kind == 'thick' else '2px dashed'} {color}"
+        return f'<span aria-hidden="true" style="display:inline-block;{style}"></span>'
+    items = "".join(f'<span style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap">'
+                    f'{mark(k, c)}{label}</span>' for k, c, label in LEGEND)
+    return (f'<div role="list" aria-label="Graph legend" style="display:flex;flex-wrap:wrap;gap:6px 18px;'
+            f'font-size:0.875rem;align-items:center">{items}</div>')
 
 
 def _js_json(x) -> str:

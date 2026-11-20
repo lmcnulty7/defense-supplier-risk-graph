@@ -35,6 +35,7 @@ from supplier_graph.graph_view import (
     HEIGHT_PX,
     OPTIONS,
     blast_view,
+    legend_html,
     neighbourhood,
     network_html,
     program_names,
@@ -228,15 +229,15 @@ with tab_graph:
         else:
             g_nodes, g_edges = blast_view(G, sid, br["rows"])
             options = BLAST_OPTIONS
-            legend = ("Centre = the supplier. Green = every office that would be affected, labeled with the dollars "
-                      "at stake; thicker edge = more money, dashed = reached only through subcontracts. Red with a "
-                      "dashed edge = prime contractors it subcontracts for. Purple = parent company. Orange = foreign "
-                      "countries where its work is performed. Hover an office edge for its award count and top "
-                      "awards.")
+            legend = None
         n_off = sum(n["id"].startswith("office:") for n in g_nodes)
+        if legend is None:
+            st.html(legend_html())
+            st.caption("Hover a line for its contract count and top awards.")
         st.iframe(network_html(g_nodes, g_edges, options=options), height=HEIGHT_PX + 20,
                   alt=f"Network of {s['name']} [{sid}]: {plural(n_off, 'office')}, {plural(len(g_nodes), 'node')}")
-        st.caption(legend)
+        if legend:
+            st.caption(legend)
         c1, c2 = st.columns(2)
         c1.subheader("Offices affected (blast radius)")
         disp, cfg = readable(pd.DataFrame(br["rows"], columns=["office_code", "office_name", "n_awards",
