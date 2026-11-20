@@ -20,6 +20,9 @@ fails if they disagree.
 | `n_flagged` | 4,312 | suppliers with at least one flag | `graph_summary.json` |
 | `feed_skill` | beats_base_rate | MENA feed skill_status | `graph_summary.json` |
 | `feed_version` | schema 2.0.0, label escalated_next4w_ucdp | MENA feed version and forecast target | `graph_summary.json` |
+| `pulled` | Nov 18, 2026 | USAspending pull date (UTC) | `data/cache/usaspending/*/meta.json` |
+| `feed_file` | risk_feed_20261119T062924Z.parquet | MENA feed snapshot file | `graph_summary.json` |
+| `feed_snapshot` | Nov 19, 2026 | MENA feed snapshot generated (UTC) | `data/feeds/mena/latest.json` |
 
 ## Risk backtest
 
@@ -109,5 +112,5 @@ fails if they disagree.
 |---|---|---|---|
 | `judge_blatant` | 40/40 | LLM judge agreement, blatant corruptions | `judge_validation.json` |
 | `judge_subtle` | 30/30 | LLM judge agreement, subtle corruptions in real agent prose | `judge_validation_subtle.json` |
-| `spend` | $9.01 | total Anthropic API spend (cap $10) | `logs/spend_ledger.jsonl` |
-| `tests` | 124 tests | pytest tests collected (`make test`) | `pytest --collect-only` |
+| `spend` | $9.15 | total Anthropic API spend (cap $10) | `logs/spend_ledger.jsonl` |
+| `tests` | 139 tests | pytest tests collected (`make test`) | `pytest --collect-only` |

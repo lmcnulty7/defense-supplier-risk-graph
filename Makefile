@@ -5,7 +5,7 @@ PIP ?= .venv/bin/pip
 # .pth file, which Python 3.12 then skips; PYTHONPATH makes every target independent of that file.
 export PYTHONPATH := $(CURDIR)/src
 
-.PHONY: offline headline feed-snapshot install pull pull-tx sam stage er data graph queries test test-all lint eval eval-offline judge-validate app neo4j-up neo4j-load clean-derived backtest challenge compare compare-offline guard-eval judge-validate-subtle site
+.PHONY: partial-eval partial-offline offline headline feed-snapshot install pull pull-tx sam stage er data graph queries test test-all lint eval eval-offline judge-validate app neo4j-up neo4j-load clean-derived backtest challenge compare compare-offline guard-eval judge-validate-subtle site
 
 BOOTSTRAP_PY ?= python3
 
@@ -67,6 +67,12 @@ compare:            ## live comparison run, e.g. make compare ARGS="--set challe
 
 compare-offline:    ## re-score every logged comparison run (reports/comparison.md); no API spend
 	$(PY) -m supplier_graph.evalh.compare --offline
+
+partial-eval:       ## live partial-answer regression (2 questions, about $0.06; budget-guarded)
+	$(PY) -m supplier_graph.evalh.partial
+
+partial-offline:    ## re-score the logged partial-answer runs (reports/partial_eval.md); no API spend
+	$(PY) -m supplier_graph.evalh.partial --offline
 
 guard-eval:         ## offline check of the resolver grounding guard (reports/guard_eval.json)
 	$(PY) -m supplier_graph.evalh.guard_eval

@@ -29,8 +29,10 @@ LIKELIHOOD_TABLE = ["auc_model", "auc_size", "auc_prior", "auc_flags", "top5_mod
 # the four-line model summary (app Likelihood x impact tab, site slide)
 SUMMARY_KEYS = ["lk_split", "top5_model", "lk_base_rate", "top5_size", "top5_flags"]
 # texts written after HEADLINE.md existed: every number in them must be a headline value. Exceptions: the random
-# ROC-AUC (0.5), the "above 1" threshold of excess_vs_size, "top 5%" and "95% intervals".
-STRICT = ["docs/model_card_likelihood.md", "app:likelihood", "app:models", "site:likelihood-model"]
+# ROC-AUC (0.5), the "above 1" threshold of excess_vs_size, "top 5%" and "95% intervals". (The agent tab's
+# "about N questions left" is live state from the spend ledger, not a reported result, so it is not listed.)
+STRICT = ["docs/model_card_likelihood.md", "app:header", "app:likelihood", "app:about", "site:title",
+          "site:likelihood-model"]
 STRICT_OK = {"0.5", "1", "5", "95"}
 
 DOCS = {
@@ -52,7 +54,11 @@ DOCS = {
     "docs/model_card_likelihood.md": ["n_transactions", "feed_gate_p", *LIKELIHOOD_KEYS, *LIKELIHOOD_TABLE],
     # rendered Streamlit text (AppTest), see _app_texts()
     "app:likelihood": SUMMARY_KEYS,
-    "app:models": ["er_v1_correct", "er_blocking_correct", "top5_model", "lk_base_rate", "v1_opus", "v1_opus_ref"],
+    "app:header": [],
+    "app:about": ["n_prime_awards", "n_subawards", "n_suppliers", "pulled", "feed_snapshot", "feed_file", "feed_version",
+                  "er_blocking_correct", "er_blocking_wrong", "top5_model", "lk_base_rate", "v1_opus", "v1_opus_ref",
+                  "conv_share", "sub_coverage", "cluster_share"],
+    "site:title": ["n_prime_awards", "total_obligations", "n_suppliers", "v1_opus", "spend"],
     "site:likelihood-model": SUMMARY_KEYS,
 }
 # documents rewritten later in the presentation-readiness plan are enforced once rewritten
@@ -73,7 +79,11 @@ def _app_texts() -> dict[str, str]:
         outlook, about = at.tabs[1], at.tabs[4]
         assert (outlook.label, about.label) == ("Likelihood x impact", "About the data")
         (_APP["app:likelihood"],) = [m.value for m in outlook.markdown if "**What it predicts:**" in m.value]
-        (_APP["app:models"],) = [m.value for m in about.markdown if "**Termination likelihood:**" in m.value]
+        # everything in the About tab, including the collapsed feed details
+        _APP["app:about"] = "\n".join(m.value for m in about.markdown)
+        assert "**Termination likelihood:**" in _APP["app:about"] and "Feed details" in [e.label for e in about.expander]
+        # header: title, tagline, small caption (above the tabs)
+        _APP["app:header"] = "\n".join([at.title[0].value, at.main.markdown[0].value, at.main.caption[0].value])
     return _APP
 
 
@@ -153,6 +163,6 @@ def test_new_text_numbers_all_from_headline(doc):
     """Every number in the model descriptions is a HEADLINE.md value (or one of the STRICT_OK constants)."""
     allowed = {n for h in H.values() for n in NUM.findall(h["text"])} | STRICT_OK
     text = _text(doc)
-    assert len(text) > 300, f"{doc}: text not found"
+    assert len(text) > 150, f"{doc}: text not found"
     bad = sorted({n for n in NUM.findall(text) if n not in allowed})
     assert not bad, f"{doc}: numbers not in reports/HEADLINE.md: {bad}"

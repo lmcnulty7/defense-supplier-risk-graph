@@ -16,8 +16,16 @@ from datetime import UTC, datetime
 
 from supplier_graph.agent import costs
 from supplier_graph.config import LOGS, REPORTS, ROOT
-from supplier_graph.explain import BACKTEST_URL, MODEL_CARD_URL, likelihood_points
+from supplier_graph.explain import (
+    BACKTEST_URL,
+    MODEL_CARD_URL,
+    TAGLINE,
+    TITLE,
+    header_note,
+    likelihood_points,
+)
 from supplier_graph.headline import load as load_headline
+from supplier_graph.ingest.risk_feed import feed_in_likelihood
 from supplier_graph.stage import connect
 
 OUT = ROOT / "site" / "index.html"
@@ -255,20 +263,16 @@ def build() -> str:
 
     slides: list[tuple[str, str]] = []
     slides.append(("title", f"""
-<p class="kicker">Portfolio project · public data · fictional customer</p>
-<h1>Which defense suppliers would hurt most if they failed?</h1>
-<p class="lede">I took three years of public Pentagon maintenance contracts, worked out which records belong to the same
-company, connected each company to the contracts, offices and countries it touches, and built an AI assistant that answers
-questions about those connections, citing the record behind every fact. Then I tested every part, including whether my own
-risk flags predict anything.</p>
+<h1>{esc(TITLE)}</h1>
+<p class="lede">{esc(TAGLINE)}</p>
+<p class="fine">{esc(header_note(feed_in_likelihood()))}</p>
 <div class="kpis">
  <div><b>{sc['n_prime_awards']:,}</b><span>contracts ({money(sc['total_prime_obligations'])})</span></div>
  <div><b>{gs['nodes']['Supplier']:,}</b><span>companies</span></div>
  <div><b>{round(ov['answer_correctness'] * ov['n_answerable'])}/{ov['n_answerable']}</b><span>assistant answers correct</span></div>
  <div><b>${spent:.2f}</b><span>total AI cost to build and test</span></div>
 </div>
-<p class="fine">Not used by, endorsed by, or built for the DoD or any company. The customer is a made-up analyst role.
-Use ← → or PageUp/PageDown to move between sections.</p>"""))
+<p class="fine">Use ← → or PageUp/PageDown to move between sections.</p>"""))
 
     slides.append(("overview", f"""
 <h2>The project in one minute</h2>

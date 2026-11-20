@@ -81,6 +81,12 @@ def _top_ids(pairs, n: int = 3) -> list[str]:
     return [a for a, _ in sorted(best.items(), key=lambda t: (-t[1], t[0]))[:n]]
 
 
+def _top_offices(rows, n: int = 5) -> list[dict]:
+    """The n offices with the most prime obligations performed in a country: (code, name, n_awards, obligations)."""
+    out = [{"office_code": c, "office_name": nm, "n_awards": int(k), "obligations": m(v)} for c, nm, k, v in rows]
+    return sorted(out, key=lambda r: (-r["obligations"], r["office_code"]))[:n]
+
+
 # ------------------------------------------------------------------ queries: graph path
 def g_supplier_profile(supplier_id: str) -> dict:
     G = _G()
@@ -262,12 +268,16 @@ def g_country_exposure(country_iso3: str, limit: int = 10) -> dict:
         raise QueryError(f"no awards or subawards performed in {iso!r} in scope and no risk-feed entry")
     c = G.nodes[cn]
     agg: dict[str, dict] = defaultdict(lambda: {"prime": 0.0, "sub": 0.0, "_ids": []})
+    offices: dict[str, dict] = defaultdict(lambda: {"n_awards": 0, "obligations": 0.0})
     n_prime = 0
     for u, _, k in G.in_edges(cn, keys=True):
         if k != "PERFORMED_IN":
             continue
         a = G.nodes[u]
         n_prime += 1
+        if a["office_code"]:
+            offices[a["office_code"]]["n_awards"] += 1
+            offices[a["office_code"]]["obligations"] += a["obl_pos"]
         s = _award_supplier(G, a["award_id"])
         agg[s]["prime"] += a["obl_pos"]
         agg[s]["_ids"].append((a["obl_pos"], a["award_id"]))
@@ -284,6 +294,8 @@ def g_country_exposure(country_iso3: str, limit: int = 10) -> dict:
     summary = {"country_iso3": iso, "country_name": c.get("name"), "n_prime_awards": n_prime,
                "prime_obligations": m(sum(v["prime"] for v in agg.values())), "n_subawards": n_sub,
                "sub_amount": m(sum(v["sub"] for v in agg.values())), "n_suppliers": len(rows),
+               "top_offices": _top_offices([(k, G.nodes[nid("Office", k)]["name"], v["n_awards"], v["obligations"])
+                                            for k, v in offices.items()]),
                "p_escalation": round(c["p_escalation"], 4) if c.get("p_escalation") is not None else None,
                "risk_week_start": c.get("risk_week_start"), "risk_skill_status": c.get("risk_skill_status")}
     rows = rows[:limit]
@@ -543,6 +555,9 @@ def s_country_exposure(con, country_iso3: str, limit: int = 10) -> dict:
       FROM x JOIN suppliers s USING (supplier_id) GROUP BY 1, 2""", [iso])
     cnt = _q(con, """SELECT (SELECT count(*) FROM awards_scope WHERE pop_country=$1) np,
                             (SELECT count(*) FROM subawards_scope WHERE pop_country=$1) ns""", [iso])[0]
+    offs = _q(con, """SELECT a.office_code, min(o.office_name) office_name, count(*) n, sum(a.obl_pos) obl
+                      FROM awards_scope a JOIN office_totals o USING (office_code)
+                      WHERE a.pop_country=$1 AND a.office_code IS NOT NULL GROUP BY 1""", [iso])
     rk = _q(con, "SELECT p_escalation, week_start, skill_status FROM risk_latest WHERE country_iso3=?", [iso])
     name = _q(con, "SELECT name FROM countries WHERE alpha3=?", [iso])
     out = [{"supplier_id": r["supplier_id"], "name": r["name"], "prime_obligations": m(r["prime"]),
@@ -551,6 +566,7 @@ def s_country_exposure(con, country_iso3: str, limit: int = 10) -> dict:
     summary = {"country_iso3": iso, "country_name": name[0]["name"] if name else iso, "n_prime_awards": cnt["np"],
                "prime_obligations": m(sum(r["prime"] for r in rows)), "n_subawards": cnt["ns"],
                "sub_amount": m(sum(r["sub"] for r in rows)), "n_suppliers": len(out),
+               "top_offices": _top_offices([(r["office_code"], r["office_name"], r["n"], r["obl"]) for r in offs]),
                "p_escalation": round(rk[0]["p_escalation"], 4) if rk else None,
                "risk_week_start": rk[0]["week_start"].isoformat() if rk else None,
                "risk_skill_status": rk[0]["skill_status"] if rk else None}
@@ -649,8 +665,9 @@ QUERIES: dict[str, QuerySpec] = {q.name: q for q in [
     QuerySpec("program_suppliers", "Suppliers on a DoD acquisition program's awards with obligations and "
               "sole-source amounts.", {"program_code": "DoD acquisition program code, e.g. 341"},
               g_program_suppliers, s_program_suppliers, {"limit": 15}),
-    QuerySpec("country_exposure", "Prime awards and subawards performed in a country, suppliers involved, and the "
-              "country's latest p_escalation if the risk feed covers it.",
+    QuerySpec("country_exposure", "Prime awards and subawards performed in a country, the suppliers involved, the "
+              "offices awarding that work (top_offices), and the country's latest p_escalation if the risk feed "
+              "covers it.",
               {"country_iso3": "ISO alpha-3"}, g_country_exposure, s_country_exposure, {"limit": 10}),
     QuerySpec("parent_subsidiaries", "Subsidiary suppliers under a parent UEI with their prime obligations.",
               {"parent_uei": "parent UEI"}, g_parent_subsidiaries, s_parent_subsidiaries),

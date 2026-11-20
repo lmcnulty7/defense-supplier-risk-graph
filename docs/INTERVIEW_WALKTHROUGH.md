@@ -73,7 +73,7 @@ Sources: `reports/HEADLINE.md`.
 > "The customer is a fictional sustainment analyst: which contracts depend on concentrated, sole-sourced or exposed
 > suppliers, and what breaks if one fails?
 >
-> I pulled every DoD maintenance contract and subcontract from USAspending for three years, cached and hashed so
+> I pulled every DoD maintenance contract and subcontract from USAspending for three years (pulled Nov 18, 2026), cached and hashed so
 > every number traces to a source, and resolved 11,658 suppliers. Resolution is where the first lesson was. My
 > matcher scored above 0.9 on labelled pairs, but when I withheld identifiers and resolved renamed companies end to
 > end, it got only 55.8% right. The losses were acquisitions at the same facility, which my blocking never
@@ -92,7 +92,7 @@ Sources: `reports/HEADLINE.md`.
 > built a harder one with traps. Even the small model answers every structured question. Its failure was a company
 > name one word off, which it answered for the look-alike. I fixed that in the name lookup, not the prompt, and the
 > small model went from 1/8, 3/8, 3/8 to 7/8, 8/8, 7/8 on those traps. Everything is a pytest gate, and the whole
-> project cost $9.01 in API calls."
+> project cost $9.15 in API calls."
 
 ### 5 minutes [deep dive]
 
@@ -168,7 +168,7 @@ How it connects to the other project: the MENA project publishes a versioned wee
 country. This repo copies a validated snapshot into `data/feeds/mena/` (`make feed-snapshot`) and stages from the
 snapshot, so a clean clone reproduces every number. The current snapshot is schema 2.0.0: 14 countries, 168 rows,
 weeks 2026-08-24 to 2026-11-09, model `6268b40`, calibration `platt_logodds`, label `escalated_next4w_ucdp`
-(*computed for this walkthrough*). The snapshot replaced v1 rather than extending it: the producer says not to join
+(*computed for this walkthrough*), file `risk_feed_20261119T062924Z.parquet`, generated Nov 19, 2026. The snapshot replaced v1 rather than extending it: the producer says not to join
 v1 and v2 probabilities, because they forecast different events. The two repos share a data contract (the producer's
 `SCHEMA.md` and migration note), not code.
 
@@ -199,7 +199,7 @@ sequenceDiagram
       Q-->>T: summary + rows + citation IDs
       T-->>L: tool_result JSON
     else stop_reason is end_turn
-      L->>L: final text + last JSON block (answerable, answer, citations)
+      L->>L: final text + last JSON block (answerable, answer, citations, no_data)
     end
   end
   L->>L: skill_caveat(): if a country-risk number was used and skill is not shown, append the caveat
@@ -349,8 +349,12 @@ model's probability divided by a size-only model's, so above 1 means riskier tha
 the environment. Claude Opus 5.5, low effort, prompt caching, at most eight steps. Four tools: `resolve_supplier`,
 `run_query` (the query name is an enum, so it can't invent one), `country_risk`, and `award_details`. Tool
 exceptions go back to the model as errors. The system prompt says cite IDs inline, only IDs that came back from
-tools, say so when the data can't answer, and end with a JSON block: answerable, answer, citations. That JSON is
-what I score. A budget guard checks the spend ledger before every call.
+tools, say so when the data can't answer, and end with a JSON block: answerable, answer, citations, no_data. When
+only part of a question is answerable, it answers that part now and says in one sentence what the data can't cover,
+citing nothing for the missing part: "What is the escalation risk for Japan?" gets no risk score (Japan isn't in the
+MENA feed) but does get the suppliers and offices with work performed there, cited. `make partial-offline` scores
+that behavior on two logged questions. That JSON is what I score. A budget guard checks the spend ledger before
+every call.
 
 Two deterministic safeguards sit outside the model. The resolver's grounding guard lists query words the matched
 name lacks and says not to substitute silently. And if an answer used an escalation probability while the feed's
@@ -360,7 +364,7 @@ skill isn't demonstrated, the application appends the caveat itself, so it never
 > thinking blocks passed back unchanged, and it's short. A framework would hide what I'm measuring."
 
 > **⚠ Pushback risk: cost is an estimate.** Usage times a price table, not reconciled with the billing console, and
-> the guard is a soft check with three parallel workers. Say "logged cost of $9.01."
+> the guard is a soft check with three parallel workers. Say "logged cost of $9.15."
 
 ### 3.3 Data
 
@@ -750,7 +754,7 @@ Answer out loud, then check the key.
 ### 8a. Status
 
 All plan phases and both presentation plans are complete and committed. `make test` passes with the live-API tests
-skipped unless `RUN_LIVE=1`; the Neo4j parity test runs when Neo4j is up. Total spend $9.01 of the $10 cap
+skipped unless `RUN_LIVE=1`; the Neo4j parity test runs when Neo4j is up. Total spend $9.15 of the $10 cap
 (`BUDGET_USD` raised to 9.40 to re-ask the feed-v2 questions).
 
 ### 8b. Open items

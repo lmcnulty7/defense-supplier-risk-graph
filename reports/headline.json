@@ -98,6 +98,30 @@
     "alts": []
   },
   {
+    "key": "pulled",
+    "text": "Nov 18, 2026",
+    "label": "USAspending pull date (UTC)",
+    "source": "data/cache/usaspending/*/meta.json",
+    "section": "Data",
+    "alts": []
+  },
+  {
+    "key": "feed_file",
+    "text": "risk_feed_20261119T062924Z.parquet",
+    "label": "MENA feed snapshot file",
+    "source": "graph_summary.json",
+    "section": "Data",
+    "alts": []
+  },
+  {
+    "key": "feed_snapshot",
+    "text": "Nov 19, 2026",
+    "label": "MENA feed snapshot generated (UTC)",
+    "source": "data/feeds/mena/latest.json",
+    "section": "Data",
+    "alts": []
+  },
+  {
     "key": "feed_gate_p",
     "text": "not adopted: 0% point-in-time coverage",
     "label": "p_escalation as a termination-likelihood input (backtest gate)",
@@ -621,7 +645,7 @@
   },
   {
     "key": "spend",
-    "text": "$9.01",
+    "text": "$9.15",
     "label": "total Anthropic API spend (cap $10)",
     "source": "logs/spend_ledger.jsonl",
     "section": "Trust and cost",
@@ -629,7 +653,7 @@
   },
   {
     "key": "tests",
-    "text": "124 tests",
+    "text": "139 tests",
     "label": "pytest tests collected (`make test`)",
     "source": "pytest --collect-only",
     "section": "Trust and cost",

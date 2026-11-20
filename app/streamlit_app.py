@@ -1,4 +1,4 @@
-"""Streamlit demo: supplier risk table, graph explorer (blast radius), agent chat with citations.
+"""Streamlit demo: supplier risk table, likelihood x impact, graph explorer (blast radius), agent chat with citations.
 
 Run: `make app` (needs `make data graph` first). The agent tab calls the Anthropic API and records spend
 in the project ledger; it refuses to run once the budget guard trips.
@@ -13,15 +13,52 @@ import pandas as pd
 import streamlit as st
 
 from supplier_graph.agent import costs
+from supplier_graph.agent.present import describe, plural, status
 from supplier_graph.agent.tools import resolve_supplier
-from supplier_graph.explain import BACKTEST_URL, MODEL_CARD_URL, likelihood_md, models_md
+from supplier_graph.explain import (
+    BACKTEST_URL,
+    MODEL_CARD_URL,
+    TAGLINE,
+    TITLE,
+    about_md,
+    caveats_md,
+    evaluation_md,
+    feed_line,
+    header_note,
+    likelihood_md,
+    models_md,
+)
 from supplier_graph.graph import queries as Q
 from supplier_graph.graph.build import load_graph
-from supplier_graph.graph_view import HEIGHT_PX, neighbourhood, network_html
+from supplier_graph.graph_view import (
+    BLAST_OPTIONS,
+    HEIGHT_PX,
+    OPTIONS,
+    blast_view,
+    neighbourhood,
+    network_html,
+    program_names,
+)
 from supplier_graph.headline import load as load_headline
-from supplier_graph.ingest.risk_feed import feed_in_likelihood, usage_text
+from supplier_graph.ingest.risk_feed import (
+    SKILL_SHORT,
+    SKILL_UNKNOWN,
+    feed_in_likelihood,
+    risk_note,
+    usage_short,
+)
 from supplier_graph.outlook_chart import filter_outlook, outlook_chart
 from supplier_graph.stage import connect
+from supplier_graph.tables import (
+    BLAST_COLUMNS,
+    DEPENDENT_COLUMNS,
+    OUTLOOK_COLUMNS,
+    RISK_COLUMNS,
+    count_line,
+    flags_text,
+    office_text,
+    readable,
+)
 
 st.set_page_config(page_title="Supplier Risk Graph", layout="wide")
 
@@ -45,19 +82,6 @@ def meta() -> dict:
     return json.loads(sql("SELECT v FROM stage_meta WHERE k='stage'").iloc[0, 0])
 
 
-m = meta()
-feed = m["risk_feed"]
-st.title("Defense supplier-risk graph")
-st.caption(
-    "Portfolio project on **public** USAspending data (DoD prime contracts and subawards, PSC J maintenance/repair, "
-    "FY2023-FY2025). The customer persona is **fictional**. Not used by, endorsed by, or built for the DoD or any "
-    f"company. Data pulled {m['usaspending']['pulled_at_utc'][:10]}. Risk feed: "
-    f"{'**SYNTHETIC FIXTURE**' if feed['is_fixture'] else 'MENA feed snapshot'} ({feed['note']})."
-)
-SKILL = feed.get("skill_status", "unknown")
-FEED_USED = feed_in_likelihood()
-
-
 @st.cache_data
 def headline() -> dict[str, str]:
     try:
@@ -66,18 +90,34 @@ def headline() -> dict[str, str]:
         return {}
 
 
+m = meta()
+feed = m["risk_feed"]
+SKILL = feed.get("skill_status", SKILL_UNKNOWN)
+FEED_USED = feed_in_likelihood()
 HL = headline()
 STALE_HEADLINE = "Run `make headline` to load the model summary."
 
 
-def from_headline(fn) -> str | None:
+def from_headline(fn, *args) -> str | None:
     try:
-        return fn(HL)
+        return fn(HL, *args)
     except KeyError:
         return None
-st.info(f"Country risk feed (schema {feed.get('schema_version', '?')}, label `{feed.get('label', '?')}`): skill "
-        f"status **{SKILL}**. {feed.get('skill_text', '')} {usage_text()} Geographic exposure is an *impact* "
-        "attribute.")
+
+
+def show(md: str | None) -> None:
+    if md:
+        st.markdown(md)
+    else:
+        st.info(STALE_HEADLINE)
+
+
+# ---------------------------------------------------------------- header
+st.title(TITLE)
+st.markdown(TAGLINE)
+st.caption(header_note(FEED_USED))
+if feed["is_fixture"]:
+    st.warning(f"Country risk comes from a synthetic fixture: {feed['note']}.")
 
 tab_risk, tab_outlook, tab_graph, tab_agent, tab_about = st.tabs(
     ["Supplier risk table", "Likelihood x impact", "Graph explorer", "Ask the agent", "About the data"])
@@ -90,25 +130,33 @@ with tab_risk:
     f_geo = c3.checkbox("Geo-exposed (foreign / feed country)")
     min_obl = c4.number_input("Min prime obligations ($M)", value=1.0, min_value=0.0, step=1.0)
     office = st.text_input("Only suppliers paid by office code (optional)", "").strip().upper()
-    where = ["prime_obligations >= ?"]
+    where = ["r.prime_obligations >= ?"]
     params: list = [min_obl * 1e6]
     for on, col in ((f_conc, "flag_concentrated"), (f_sole, "flag_sole_source"), (f_geo, "flag_geo_exposed")):
         if on:
-            where.append(col)
+            where.append(f"r.{col}")
     if office:
-        where.append("supplier_id IN (SELECT supplier_id FROM supplier_office WHERE office_code = ?)")
+        where.append("r.supplier_id IN (SELECT supplier_id FROM supplier_office WHERE office_code = ?)")
         params.append(office)
-    df = sql(f"""SELECT supplier_id, name, state, country, prime_obligations, sole_source_share, max_office_share,
-                        max_share_office_code, n_dependent_offices, n_subawards_received, foreign_share,
-                        feed_countries, max_p_escalation, pagerank_pct, flag_concentrated, flag_sole_source, flag_geo_exposed
-                 FROM supplier_risk WHERE {' AND '.join(where)} ORDER BY prime_obligations DESC LIMIT 500""", tuple(params))
-    st.write(f"{len(df):,} suppliers (top 500 by prime obligations shown).")
-    st.dataframe(df.assign(prime_obligations=(df.prime_obligations / 1e6).round(2)).rename(
-        columns={"prime_obligations": "prime_obligations_$M"}), width="stretch", hide_index=True)
-    st.caption(f"`max_p_escalation` is {'a likelihood input' if FEED_USED else 'context only'} (feed skill status: {SKILL}). "
-               "Flags are a triage screen, not a ranking: in sustainment, OEMs routinely sole-source support for "
-               "their own platforms, so most obligations go to at least one flagged supplier. Combine flags with "
-               "blast radius in the graph explorer to prioritize.")
+    df = sql(f"""SELECT r.supplier_id, r.name, r.state, r.country, r.prime_obligations, r.sole_source_share,
+                        r.max_office_share, r.max_share_office_code, o.office_name AS max_share_office_name,
+                        r.n_dependent_offices, r.n_subawards_received, r.foreign_share, r.feed_countries,
+                        r.max_p_escalation, r.pagerank_pct, r.flag_concentrated, r.flag_sole_source, r.flag_geo_exposed
+                 FROM supplier_risk r
+                 LEFT JOIN (SELECT office_code, min(office_name) AS office_name FROM office_totals GROUP BY 1) o
+                   ON o.office_code = r.max_share_office_code
+                 WHERE {' AND '.join(where)} ORDER BY r.prime_obligations DESC, r.supplier_id""", tuple(params))
+    st.write(count_line(len(df)))
+    top = df.head(500)
+    disp, cfg = readable(top.assign(top_office=[office_text(n, c) for n, c in
+                                                zip(top.max_share_office_name, top.max_share_office_code, strict=True)]),
+                         RISK_COLUMNS)
+    st.dataframe(disp, column_config=cfg, width="stretch", hide_index=True, key="risk_table")
+    st.download_button("Download the filtered table (CSV)", df.to_csv(index=False).encode(),
+                       file_name="supplier_risk_filtered.csv", mime="text/csv", icon=":material/download:",
+                       key="risk_csv")
+    st.caption("Flags are a screening tool, not a ranking. Most maintenance spending goes to some flagged supplier, "
+               "so open a supplier in the Graph explorer to see what depends on it.")
 
 # ---------------------------------------------------------------- likelihood x impact (risk backtest)
 with tab_outlook:
@@ -121,11 +169,7 @@ with tab_outlook:
     if out is None or out.empty:
         st.info("Run `make backtest` to build the disruption outlook.")
     else:
-        md = from_headline(likelihood_md)
-        if md:
-            st.markdown(md)
-        else:
-            st.info(STALE_HEADLINE)
+        show(from_headline(likelihood_md))
         st.caption(f"Details: [model card]({MODEL_CARD_URL}), [backtest report]({BACKTEST_URL}).")
         c1, c2 = st.columns(2)
         min_m = c1.number_input("Min obligations at stake ($M)", value=10.0, min_value=0.0, step=5.0,
@@ -136,11 +180,8 @@ with tab_outlook:
         st.write(f"{len(view):,} of {len(out):,} suppliers match both filters (highlighted; gray = all suppliers).")
         st.altair_chart(outlook_chart(out, view, min_m), key="outlook_chart",
                         alt=f"Termination likelihood against obligations at stake; {len(view)} suppliers highlighted")
-        st.dataframe(view.assign(prime_obligations=(view.prime_obligations / 1e6).round(1),
-                                 p_disruption_next_fy=view.p_disruption_next_fy.round(4),
-                                 excess_vs_size=view.excess_vs_size.round(2))
-                     .rename(columns={"prime_obligations": "prime_obligations_$M"}).drop(columns="outlook_fy"),
-                     width="stretch", hide_index=True, key="outlook_table")
+        disp, cfg = readable(view, OUTLOOK_COLUMNS)
+        st.dataframe(disp, column_config=cfg, width="stretch", hide_index=True, key="outlook_table")
 
 # ---------------------------------------------------------------- graph explorer
 with tab_graph:
@@ -157,34 +198,67 @@ with tab_graph:
         s, b = prof["summary"], br["summary"]
         k = st.columns(5)
         k[0].metric("Prime obligations", f"${s['prime_obligations'] / 1e6:,.1f}M")
-        k[1].metric("Sole-source share", "n/a" if s["sole_source_share"] is None else f"{s['sole_source_share']:.0%}")
-        k[2].metric("Awards at risk", b["n_awards_direct"] + b["n_awards_indirect"])
-        k[3].metric("Offices affected", b["n_offices"])
-        k[4].metric("Prime customers (as sub)", b["n_prime_customers"])
-        st.write("Flags:", ", ".join(f for f in ("concentrated", "sole_source", "geo_exposed") if s.get(f"flag_{f}")) or "none",
-                 "| Programs touched:", ", ".join(b["programs"]) or "none",
-                 "| Foreign countries:", ", ".join(s["foreign_countries"]) or "none")
+        k[1].metric("Sole-source share", "n/a" if s["sole_source_share"] is None else f"{s['sole_source_share']:.1%}")
+        k[2].metric("Awards at risk", f"{b['n_awards_direct'] + b['n_awards_indirect']:,}")
+        k[3].metric("Offices affected", f"{b['n_offices']:,}")
+        k[4].metric("Prime contractors it subcontracts for", f"{b['n_prime_customers']:,}")
+
+        G = graph()
+        progs, n_unnamed = program_names(G, sid)
+        countries = [G.nodes[f"country:{c}"]["name"] if f"country:{c}" in G else c for c in s["foreign_countries"]]
+        facts = [f"**Flags:** {flags_text(s) or 'none'}"]
+        if progs:
+            facts.append(f"**Programs:** {', '.join(progs)}"
+                         + (f" (+{plural(n_unnamed, 'program code')} without a name)" if n_unnamed else ""))
+        facts.append(f"**Foreign work:** {', '.join(countries) or 'none'}")
+        st.markdown("  \n".join(facts))
         fc = sql("SELECT coalesce(array_to_string(feed_countries, ', '), '') AS fc FROM supplier_risk "
                  "WHERE supplier_id = ?", (sid,))
         fc = [c for c in (fc.fc.iloc[0] if len(fc) else "").split(", ") if c]
         if fc:
-            st.caption(f"Works in risk-feed countries {', '.join(fc)}: an impact/context attribute. "
-                       f"Feed skill status {SKILL}. {usage_text()}")
+            st.caption(f"Works in risk-feed countries {', '.join(fc)}. {risk_note(SKILL)}")
 
-        g_nodes, g_edges = neighbourhood(graph(), sid)
-        st.iframe(network_html(g_nodes, g_edges), height=HEIGHT_PX + 20,
-                  alt=f"Network of {s['name']} [{sid}]: {len(g_nodes)} nodes, {len(g_edges)} edges")
-        st.caption("Red = suppliers, blue = awards (dashed edge = the supplier is a subcontractor on that award), "
-                   "green = offices, orange = countries, purple = parent. Up to 40 awards are drawn; the tables have all of them.")
+        awards_view = st.toggle("Show individual awards", key="graph_awards")
+        if awards_view:
+            g_nodes, g_edges = neighbourhood(G, sid)
+            options = OPTIONS
+            legend = ("Red = the supplier, blue = its largest awards (dashed edge = it subcontracts on that award), "
+                      "green = offices, orange = foreign countries, purple = parent company. Up to 40 awards are "
+                      "drawn; the tables below have all offices.")
+        else:
+            g_nodes, g_edges = blast_view(G, sid, br["rows"])
+            options = BLAST_OPTIONS
+            legend = ("Centre = the supplier. Green = every office that would be affected, labeled with the dollars "
+                      "at stake; thicker edge = more money, dashed = reached only through subcontracts. Red with a "
+                      "dashed edge = prime contractors it subcontracts for. Purple = parent company. Orange = foreign "
+                      "countries where its work is performed. Hover an office edge for its award count and top "
+                      "awards.")
+        n_off = sum(n["id"].startswith("office:") for n in g_nodes)
+        st.iframe(network_html(g_nodes, g_edges, options=options), height=HEIGHT_PX + 20,
+                  alt=f"Network of {s['name']} [{sid}]: {plural(n_off, 'office')}, {plural(len(g_nodes), 'node')}")
+        st.caption(legend)
         c1, c2 = st.columns(2)
         c1.subheader("Offices affected (blast radius)")
-        c1.dataframe(pd.DataFrame(br["rows"]), hide_index=True, width="stretch")
+        disp, cfg = readable(pd.DataFrame(br["rows"], columns=["office_code", "office_name", "n_awards",
+                                                                "obligations"]), BLAST_COLUMNS)
+        c1.dataframe(disp, column_config=cfg, hide_index=True, width="stretch", key="blast_table")
         c2.subheader("Dependent offices (direct vs. via subcontracts)")
-        c2.dataframe(pd.DataFrame(Q.run("dependent_offices", {"supplier_id": sid})["rows"]), hide_index=True,
-                     width="stretch")
+        dep = Q.run("dependent_offices", {"supplier_id": sid})["rows"]
+        disp, cfg = readable(pd.DataFrame(dep, columns=["office_code", "office_name", "direct_obligations",
+                                                        "n_direct_awards", "sub_amount", "n_indirect_awards",
+                                                        "example_award_ids"]), DEPENDENT_COLUMNS)
+        c2.dataframe(disp, column_config=cfg, hide_index=True, width="stretch", key="dependent_table")
 
 # ---------------------------------------------------------------- agent chat
 CITE = re.compile(r"\[(award|supplier|parent|office|program|country):([^\]]+)\]")
+EXAMPLES = [
+    "Which offices would be affected if Sikorsky Aircraft Corporation failed?",
+    "For office N00164 (NSWC CRANE), which flagged suppliers carry the most obligations?",
+    "Which suppliers hold sole-source contracts performed in Bahrain?",
+    "Which companies subcontract to Sikorsky Aircraft Corporation?",
+    "If Alsalam Aerospace Industries failed, what would be affected, and what is the escalation risk where it works?",
+    "What is the escalation risk for Japan?",  # the decline example: no risk score, but who works there
+]
 
 
 def linkify(text: str) -> str:
@@ -196,53 +270,55 @@ def linkify(text: str) -> str:
     return CITE.sub(rep, text)
 
 
+def per_question_usd() -> float:
+    try:
+        return float(HL["cost_opus"].lstrip("$"))
+    except (KeyError, ValueError):
+        return 0.04
+
+
 with tab_agent:
     spent, budget = costs.total_spent(), costs.budget_usd()
-    st.caption(f"Read-only Claude agent with four tools and cited answers. Project API spend so far: "
-               f"${spent:.2f} of the ${budget:.2f} guard.")
-    examples = ["Which awarding offices depend on Sikorsky Aircraft Corporation, directly or through subcontracts?",
-                "For office N00164 (NSWC CRANE), which flagged suppliers carry the most obligations?",
-                "If Alsalam Aerospace Industries failed, what would be affected, and what is the escalation risk where it works?",
-                "What is the escalation risk for Japan?"]
-    q = st.selectbox("Example questions", [""] + examples)
+    left = int(max(budget - spent, 0.0) / per_question_usd())
+    st.caption("Read-only Claude agent with four tools; every fact cites the record it came from.")
+    if left > 0:
+        st.caption(f"About {plural(left, 'question')} left in this project's API budget.")
+    else:
+        st.caption("The API budget is used up. To ask more, set BUDGET_USD in .env (see the README).")
+    q = st.selectbox("Example questions", [""] + EXAMPLES)
     question = st.text_area("Question", q, height=80)
-    if st.button("Ask", disabled=not question.strip() or spent >= budget):
+    if st.button("Ask", disabled=not question.strip() or left <= 0):
         from supplier_graph.agent.agent import JSON_BLOCK, ask
         with st.spinner("Thinking and querying the graph..."):
             run = ask(question.strip(), log_name="streamlit")
         if run.error:
             st.error(run.error)
         st.markdown(linkify(JSON_BLOCK.sub("", run.final_text)))
-        if run.final_json:
-            st.write("**Citations:**", ", ".join(f"`{c}`" for c in run.final_json.get("citations", [])) or "none",
-                     "| answerable:", run.final_json.get("answerable"))
-        st.caption(f"{run.steps} steps, {len(run.tool_calls)} tool calls, ${run.cost_usd:.4f}, {run.latency_s}s")
+        label, cites, reason = status(run.final_json)
+        if label:
+            st.markdown(f"**{label}**")
+        if reason:
+            st.markdown(f"**No data:** {reason}")
+        if cites:
+            st.markdown("**Citations:** " + ", ".join(f"`{c}`" for c in cites))
+        st.caption(f"{plural(run.steps, 'step')}, {plural(len(run.tool_calls), 'tool call')}, ${run.cost_usd:.4f}, "
+                   f"{run.latency_s}s")
         with st.expander("Tool-call trace"):
-            for t in run.tool_calls:
-                st.markdown(f"**{t.name}** `{json.dumps(t.input)}` ({t.latency_s}s)")
-                st.json(t.output, expanded=False)
+            for i, t in enumerate(run.tool_calls):
+                st.markdown(describe(t.name, t.input, t.output, t.latency_s))
+                with st.expander("Raw JSON", key=f"trace_raw_{i}"):
+                    st.json({"tool": t.name, "input": t.input, "output": t.output}, expanded=False)
 
 # ---------------------------------------------------------------- about
 with tab_about:
-    st.markdown(f"""
-**Scope.** DoD (toptier 097) prime contracts (types A/B/C/D) and procurement subawards with PSC category **J**
-(maintenance, repair and rebuilding of equipment), action dates FY2023-FY2025. Obligations are lifetime totals on
-those awards, with de-obligations floored at zero.
-
-**Row counts.** {m['row_counts']['awards']:,} prime awards, {m['row_counts']['subawards']:,} subawards,
-{len(sql('SELECT 1 FROM suppliers')):,} suppliers.
-
-**Provenance.** USAspending request key `{m['usaspending']['request_key']}` pulled {m['usaspending']['pulled_at_utc']}.
-Every graph node and edge carries `prov_source`, `prov_pulled_at` and `prov_request_key`.
-
-**Risk feed.** {feed['note']}. Source: `{feed['source'].split('/')[-1]}`, schema {feed.get('schema_version', '?')},
-skill status **{SKILL}**. {feed.get('skill_text', '')} Escalation label: {feed.get('label', 'n/a')}.
-
-**Evaluation.** See `reports/eval_report.md` and `reports/entity_resolution.md` in the repo.
-""")
-    st.subheader("Models in this project")
-    md = from_headline(models_md)
-    if md:
-        st.markdown(md)
-    else:
-        st.info(STALE_HEADLINE)
+    show(from_headline(about_md, m["row_counts"]["awards"], m["row_counts"]["subawards"],
+                       len(sql("SELECT 1 FROM suppliers"))))
+    line = from_headline(feed_line, SKILL_SHORT.get(SKILL, SKILL_SHORT[SKILL_UNKNOWN]), usage_short())
+    if line:
+        st.markdown(f"**Country risk feed.** {line}")
+        with st.expander("Feed details"):
+            st.markdown(f"File `{HL['feed_file']}` · {HL['feed_version']} · skill status {SKILL}")
+    st.markdown("**Models.**")
+    show(from_headline(models_md))
+    st.markdown(evaluation_md())
+    show(from_headline(caveats_md))

@@ -51,20 +51,16 @@ padding:4px 12px;font-size:13px;cursor:pointer}
 </style></head><body>
 <button id="theme" type="button">theme</button>
 <section class="slide" id="title"><div class="inner">
-<p class="kicker">Portfolio project · public data · fictional customer</p>
-<h1>Which defense suppliers would hurt most if they failed?</h1>
-<p class="lede">I took three years of public Pentagon maintenance contracts, worked out which records belong to the same
-company, connected each company to the contracts, offices and countries it touches, and built an AI assistant that answers
-questions about those connections, citing the record behind every fact. Then I tested every part, including whether my own
-risk flags predict anything.</p>
+<h1>Defense supplier-risk graph</h1>
+<p class="lede">Find which defense contracts depend on risky suppliers, and what breaks if one fails.</p>
+<p class="fine">Public USAspending data (DoD maintenance contracts, FY2023 to FY2025) · portfolio project, fictional customer, not affiliated with the DoD · country risk is context only</p>
 <div class="kpis">
  <div><b>57,596</b><span>contracts ($225.2B)</span></div>
  <div><b>11,658</b><span>companies</span></div>
  <div><b>87/88</b><span>assistant answers correct</span></div>
- <div><b>$9.01</b><span>total AI cost to build and test</span></div>
+ <div><b>$9.15</b><span>total AI cost to build and test</span></div>
 </div>
-<p class="fine">Not used by, endorsed by, or built for the DoD or any company. The customer is a made-up analyst role.
-Use ← → or PageUp/PageDown to move between sections.</p></div></section>
+<p class="fine">Use ← → or PageUp/PageDown to move between sections.</p></div></section>
 <section class="slide" id="overview"><div class="inner">
 <h2>The project in one minute</h2>
 <p>The imagined customer is an analyst who keeps military equipment maintained. Their question: <i>"Which of our contracts
@@ -285,8 +281,8 @@ make eval-offline compare-offline guard-eval   # re-score the saved assistant ru
 make test                # automatic checks
 make site                # this page
 make app                 # interactive demo</pre>
-<p>Total AI cost for everything above: <b>$9.01</b> (cap $10).
-Built 2026-11-20 04:42 UTC.</p></div></section>
+<p>Total AI cost for everything above: <b>$9.15</b> (cap $10).
+Built 2026-11-20 05:28 UTC.</p></div></section>
 <div id="nav"><span id="pos">1</span> / 15</div>
 <script>
 const S=[...document.querySelectorAll('.slide')];

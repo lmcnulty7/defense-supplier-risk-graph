@@ -1,0 +1,81 @@
+{
+  "scored_at_utc": "2026-11-20T05:28:47.681173+00:00",
+  "n": 2,
+  "n_passed": 2,
+  "n_items": 2,
+  "results": [
+    {
+      "qid": "partial_risk_jpn",
+      "question": "What is the escalation risk for Japan?",
+      "passed": true,
+      "checks": {
+        "declined_part": true,
+        "looked_up_risk": true,
+        "ran_exposure": true,
+        "answered_suppliers": true,
+        "cited_office": true,
+        "citations_grounded": true,
+        "decline_uncited": true
+      },
+      "answer": [
+        "JZUMWWR4MAF7",
+        "LYCFB7X6PJJ6",
+        "M336EV5K3YZ3",
+        "K73BD2KTJ134",
+        "ZDGMM58ECYM5",
+        "TG9HTFN98K37",
+        "LFD2YFMZJ1J3",
+        "FTW2SER4A9Q3",
+        "KPBCN5CSWJG6",
+        "VMZWP1XBR475"
+      ],
+      "no_data": "Japan is not covered by the MENA escalation-risk feed",
+      "cost_usd": 0.05657,
+      "latency_s": 11.39,
+      "run_id": "20261120T051632Z-partial_risk_jpn",
+      "error": null
+    },
+    {
+      "qid": "partial_risk_bhr",
+      "question": "How risky is Bahrain right now, and who depends on work there?",
+      "passed": true,
+      "checks": {
+        "declined_part": true,
+        "looked_up_risk": true,
+        "ran_exposure": true,
+        "answered_suppliers": true,
+        "cited_office": true,
+        "citations_grounded": true,
+        "decline_uncited": true
+      },
+      "answer": {
+        "top_offices": [
+          "N40339",
+          "N00406",
+          "N00253",
+          "N66001",
+          "N32205"
+        ],
+        "top_suppliers": [
+          "CURYYJ2K5KM8",
+          "FEA5TR27H4B5",
+          "T1GVZ5Z6K5L4",
+          "U3MMZ4SBMJJ3",
+          "SCFPP9T8X315",
+          "KBDQDSJL3U35",
+          "SD7ABX8S2G79",
+          "F2BEQJNKFY83",
+          "RRFJZGASZJ41",
+          "U864F3HRME53"
+        ],
+        "prime_obligations": 152348282.74,
+        "n_prime_awards": 428
+      },
+      "no_data": "The MENA risk feed has no escalation estimate for Bahrain",
+      "cost_usd": 0.060202,
+      "latency_s": 12.08,
+      "run_id": "20261120T051632Z-partial_risk_bhr",
+      "error": null
+    }
+  ]
+}

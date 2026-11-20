@@ -93,3 +93,26 @@ def test_resolver_handles_typos_and_absent_names():
 def test_live_agent_answers_with_citations():
     run = A.ask("Which awarding offices depend on Sikorsky Aircraft Corporation?")
     assert run.final_json and run.final_json["citations"]
+
+
+# ---- how the app presents an answer (agent/present.py)
+def test_status_declined_shows_reason_not_citations():
+    from supplier_graph.agent.present import DECLINED, PARTLY, status
+    label, cites, reason = status({"answerable": False, "answer": None, "citations": ["country:JPN"],
+                                   "no_data": "Japan is not in the risk feed"})
+    assert (label, cites, reason) == (DECLINED, [], "Japan is not in the risk feed")
+    label, cites, reason = status({"answerable": False, "answer": ["X1"], "citations": ["supplier:X1"],
+                                   "no_data": "no risk estimate"})
+    assert (label, cites, reason) == (PARTLY, ["supplier:X1"], "no risk estimate")
+    assert status({"answerable": True, "answer": 3, "citations": ["office:N1"]})[:2] == ("Answered", ["office:N1"])
+    assert status({"answerable": False, "answer": None, "citations": []})[2]  # a reason even if the model gave none
+
+
+def test_trace_lines_are_plain_language():
+    from supplier_graph.agent.present import describe, plural
+    assert describe("country_risk", {"country_iso3": "JPN"}, {"country_name": "Japan", "in_risk_feed": False},
+                    0.1) == "Looked up country risk for Japan → not in feed (0.1s)"
+    assert describe("run_query", {"query_name": "country_exposure", "params": {"country_iso3": "JPN"}},
+                    {"rows": [1, 2]}, 0.25) == "Ran query “country exposure” for country_iso3 JPN → 2 rows (0.2s)"
+    assert "no match" in describe("resolve_supplier", {"name": "Acme"}, {"candidates": []}, 0.0)
+    assert (plural(1, "tool call"), plural(2, "tool call")) == ("1 tool call", "2 tool calls")

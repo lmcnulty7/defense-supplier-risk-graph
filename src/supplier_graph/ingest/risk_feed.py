@@ -61,6 +61,14 @@ SKILL_TEXT = {
                    "Escalation probabilities are shown as context only.",
 }
 
+# one-clause versions for the app's plain-language lines
+SKILL_SHORT = {
+    "not_demonstrated": "It has not beaten the regional average, so treat it as context",
+    "beats_base_rate": "It beats the regional average but not each country's own history, so use it to rank countries",
+    "beats_country_rate": "It beats both the regional average and each country's own history",
+    SKILL_UNKNOWN: "Its skill is not reported, so treat it as context",
+}
+
 
 class SchemaError(ValueError):
     pass
@@ -251,6 +259,16 @@ def usage_text() -> str:
             if feed_in_likelihood() else
             "Escalation probabilities are context here: they do not drive the termination-likelihood score, because "
             "the backtest could not show that they improve it.")
+
+
+def usage_short() -> str:
+    return "it feeds the likelihood score" if feed_in_likelihood() else "it doesn't affect likelihood scores"
+
+
+def risk_note(skill_status: str | None) -> str:
+    """One line for wherever a country-risk number is shown."""
+    role = "a likelihood input" if feed_in_likelihood() else "context only"
+    return f"Country risk is {role} (feed skill status: {skill_status or SKILL_UNKNOWN})."
 
 
 def snapshot(src: str | None = None, dest: Path = SNAPSHOT_DIR) -> dict:

@@ -167,8 +167,8 @@ def _risk_call(skill: str) -> ToolCall:
 def test_caveat_states_skill_for_every_status(skill):
     out = skill_caveat("Saudi Arabia: p = 0.06.", [_risk_call(skill)])
     assert CAVEAT_PREFIX in out and skill in out
-    if skill in ("beats_base_rate", "beats_country_rate"):  # also says how the tool uses it (from the backtest gate)
-        assert "termination-likelihood score" in out
+    # one line that also says how the tool uses it (from the backtest gate)
+    assert "Country risk is " in out and out.count("\n") == 2
 
 
 def test_caveat_not_added_when_model_states_skill():

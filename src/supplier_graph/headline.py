@@ -12,6 +12,7 @@ import re
 import subprocess
 import sys
 from dataclasses import asdict, dataclass
+from pathlib import Path
 
 from supplier_graph.config import REPORTS, ROOT
 
@@ -34,6 +35,29 @@ def _j(name: str) -> dict:
 
 def pct(x: float, d: int = 1) -> str:
     return f"{x * 100:.{d}f}%"
+
+
+def day(ts: str) -> str:
+    """'2026-11-18T08:59:37+00:00' -> 'Nov 18, 2026' (UTC date)."""
+    from datetime import datetime
+    d = datetime.fromisoformat(ts)
+    return f"{d:%b} {d.day}, {d.year}"
+
+
+def pull_meta() -> dict:
+    """Manifest of the cached USAspending pull the graph is built from (exactly one is committed)."""
+    metas = sorted((ROOT / "data" / "cache" / "usaspending").glob("*/meta.json"))
+    if len(metas) != 1:
+        raise RuntimeError(f"expected one USAspending pull manifest, found {len(metas)}")
+    return json.loads(metas[0].read_text())
+
+
+def feed_manifest(source: str) -> dict:
+    """Snapshot manifest (data/feeds/mena/latest.json) of the feed file the graph used."""
+    m = json.loads((ROOT / "data" / "feeds" / "mena" / "latest.json").read_text())
+    if m.get("parquet") != Path(source).name:
+        raise RuntimeError(f"feed manifest is for {m.get('parquet')}, graph used {source}")
+    return m
 
 
 def spend_total() -> float:
@@ -102,6 +126,11 @@ def build(n_tests: int | None = None) -> list[H]:
         H("feed_skill", feed["skill_status"], "MENA feed skill_status", "graph_summary.json", D),
         H("feed_version", f"schema {feed['schema_version']}, label {feed['label']}", "MENA feed version and forecast target",
           "graph_summary.json", D),
+        H("pulled", day(pull_meta()["pulled_at_utc"]), "USAspending pull date (UTC)",
+          "data/cache/usaspending/*/meta.json", D),
+        H("feed_file", Path(feed["source"]).name, "MENA feed snapshot file", "graph_summary.json", D),
+        H("feed_snapshot", day(feed_manifest(feed["source"])["generated_at"]), "MENA feed snapshot generated (UTC)",
+          "data/feeds/mena/latest.json", D),
         H("feed_gate_p", ("adopted" if gp["adopted"] else
                           f"not adopted: {min(gp['coverage_feed_exposed_supplier_years'].values()) * 100:.0f}% "
                           "point-in-time coverage" if "coverage_feed_exposed_supplier_years" in gp else "not adopted"),

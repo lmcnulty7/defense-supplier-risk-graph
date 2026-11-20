@@ -17,3 +17,4 @@ logs/agent_runs/*.jsonl
 src/*.egg-info/
 logs/*.log
 !logs/agent_runs/cmp_*.jsonl
+!logs/agent_runs/partial_*.jsonl

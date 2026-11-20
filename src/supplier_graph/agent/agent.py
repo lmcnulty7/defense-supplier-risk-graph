@@ -45,11 +45,19 @@ Answer rules:
 appeared in tool results in this conversation.
 - If the data cannot answer the question (the entity is not in the data, the country is not covered, or the \
 question needs information the graph does not hold), say so plainly and do not guess.
+- If only part of the question can be answered, answer that part now (run the queries; do not offer to) and say \
+in one sentence which part the data cannot answer. Example: for a country the risk feed does not cover, decline the \
+risk score, then list the suppliers and offices with work performed there (run_query country_exposure), cited.
+- Never cite an ID as support for something the data lacks: when you decline, cite nothing for the missing part \
+(no [country:...] next to "no risk estimate"). Cite only IDs that support facts you state.
 - Keep the prose short: a direct answer first, then up to five supporting bullets.
 - End with a JSON block in a ```json fence, exactly this shape:
   {"answerable": true|false, "answer": <the single value or list the question asks for, or null>, \
-"citations": ["award:...", "supplier:...", ...]}
-  Use plain numbers (no $ or commas) for amounts and counts, ISO codes for countries, and supplier_ids for suppliers."""
+"citations": ["award:...", "supplier:...", ...], "no_data": null or "<one short reason the data cannot answer \
+(part of) the question>"}
+  answerable is false whenever the question as asked cannot be fully answered; for a partly answerable question, \
+put the answerable part's value in "answer" (for example the supplier_ids found) and its IDs in "citations". \
+Use plain numbers (no $ or commas) for amounts and counts, ISO codes for countries, and supplier_ids for suppliers."""
 
 
 # Baseline only (evalh.compare): the same task and output contract with no tools, to measure what the graph adds.
@@ -61,7 +69,7 @@ Answer rules:
 - Keep the prose short.
 - End with a JSON block in a ```json fence, exactly this shape:
   {"answerable": true|false, "answer": <the single value or list the question asks for, or null>, \
-"citations": [...]}"""
+"citations": [...], "no_data": null or "<one short reason>"}"""
 
 FALLBACK_MODELS = ("claude-opus", "claude-fable")  # server-side fallback is not offered for Haiku
 
@@ -130,15 +138,11 @@ def skill_caveat(final_text: str, tool_calls: list) -> str:
     """Deterministically attach the feed's skill status and how this tool uses it to any answer that used a
     country-risk number. The model is told (via the tool output) to report it; this guarantees it is shown even when
     the model doesn't."""
-    from supplier_graph.ingest.risk_feed import SKILL_TEXT, SKILL_UNKNOWN, usage_text
+    from supplier_graph.ingest.risk_feed import risk_note
     status = _feed_skill_seen(tool_calls)
     if status is None or not final_text or CAVEAT_PREFIX in final_text or "skill" in final_text.lower():
         return final_text
-    text = SKILL_TEXT.get(status, SKILL_TEXT[SKILL_UNKNOWN])
-    if status in ("not_demonstrated", SKILL_UNKNOWN):  # the skill text already says "context only"
-        return f"{final_text.rstrip()}\n\n{CAVEAT_PREFIX} the MENA risk feed reports skill_status = {status}. {text}"
-    return f"{final_text.rstrip()}\n\n{CAVEAT_PREFIX} the MENA risk feed reports skill_status = {status}. {text} " \
-           f"{usage_text()}"
+    return f"{final_text.rstrip()}\n\n{CAVEAT_PREFIX} {risk_note(status)}"
 
 
 def _client() -> anthropic.Anthropic:

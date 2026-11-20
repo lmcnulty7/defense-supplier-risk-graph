@@ -107,3 +107,29 @@ def test_live_sample_meets_gates(golden):
                                                 default=lambda o: o.__dict__)), g) for g in sample]
     agg = aggregate(scores)
     assert agg["answer_correctness"] >= 0.8 and agg["correct_refusal_rate"] >= 0.8 and agg["n_fabricated_citations"] == 0
+
+
+# ---- partial answers: decline the uncovered part without citing it, answer the rest now (evalh/partial.py)
+def test_partial_answer_regression_passes_on_logged_runs():
+    from supplier_graph.evalh.partial import ITEMS, expected, latest_runs, score
+    runs = latest_runs()
+    assert {it.qid for it in ITEMS} <= set(runs), "run `make partial-eval` (live) to log the partial-answer questions"
+    failed = {it.qid: [k for k, v in r["checks"].items() if not v]
+              for it in ITEMS if not (r := score(runs[it.qid], it, expected(it)))["passed"]}
+    assert not failed, failed
+
+
+def test_partial_scorer_rejects_cited_decline_and_offer_to_answer():
+    """The pre-fix behavior (decline cites the uncovered country, offers to list suppliers instead of listing them)
+    must fail."""
+    from supplier_graph.evalh.partial import ITEMS, expected, latest_runs, score
+    it = next(i for i in ITEMS if i.country_iso3 == "JPN")
+    old = dict(latest_runs()[it.qid])
+    old["final_text"] = ("I can't give you an escalation risk for Japan [country:JPN]. The risk feed only covers MENA "
+                         "countries. I can list the suppliers with work performed in Japan if that helps.\n\n```json\n"
+                         '{"answerable": false, "answer": null, "citations": ["country:JPN"]}\n```')
+    old["final_json"] = {"answerable": False, "answer": None, "citations": ["country:JPN"]}
+    r = score(old, it, expected(it))
+    assert not r["passed"]
+    assert not r["checks"]["decline_uncited"] and not r["checks"]["answered_suppliers"]
+    assert not r["checks"]["declined_part"]  # no no_data reason

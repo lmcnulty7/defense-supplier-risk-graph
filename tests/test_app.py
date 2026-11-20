@@ -56,3 +56,34 @@ def test_outlook_highlight_follows_filters():
     at.run()
     layers3, n_table3, _ = _outlook_counts(at)
     assert layers3[HIGHLIGHT_NAME] == n_table3 and RULE_NAME not in layers3
+
+
+def test_agent_answer_shows_status_reason_and_readable_trace(monkeypatch):
+    """Click Ask with the API call replaced by the logged partial-answer run for Japan (no spend): the page shows the
+    status, the no-data reason, pluralized counts and one plain line per tool call with the raw JSON nested."""
+    from streamlit.testing.v1 import AppTest
+
+    from supplier_graph.agent import agent as A
+    from supplier_graph.config import ROOT
+    from supplier_graph.evalh.partial import latest_runs
+    rec = latest_runs()["partial_risk_jpn"]
+    run = A.AgentRun(**{**{k: v for k, v in rec.items() if k != "tool_calls"},
+                        "tool_calls": [A.ToolCall(**t) for t in rec["tool_calls"]]})
+    monkeypatch.setattr(A, "ask", lambda *a, **k: run)
+    monkeypatch.setenv("BUDGET_USD", "1000")  # the button is disabled once the ledger reaches the guard
+    at = AppTest.from_file(str(ROOT / "app" / "streamlit_app.py"), default_timeout=120).run()
+    tab = at.tabs[3]
+    assert tab.label == "Ask the agent"
+    tab.selectbox[0].set_value("What is the escalation risk for Japan?").run()
+    at.tabs[3].button[0].click().run()
+    assert not at.exception, at.exception
+    tab = at.tabs[3]
+    md = [m.value for m in tab.markdown]
+    assert "**Partly answered**" in md
+    assert any(m.startswith("**No data:**") for m in md)
+    assert any(m.startswith("**Citations:**") and "supplier:" in m for m in md)  # the answered part is cited
+    assert any(c.value.startswith("2 steps, 2 tool calls,") for c in tab.caption)
+    (trace,) = [e for e in tab.expander if e.label == "Tool-call trace"]
+    lines = [m.value for m in trace.markdown]
+    assert any(x.startswith("Looked up country risk for Japan → not in feed (") for x in lines), lines
+    assert [e.label for e in trace.expander] == ["Raw JSON", "Raw JSON"]

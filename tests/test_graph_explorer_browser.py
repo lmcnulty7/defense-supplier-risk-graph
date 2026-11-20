@@ -1,4 +1,5 @@
-"""Graph explorer in a real browser: the network is drawn, offline, with no console errors.
+"""Graph explorer in a real browser: the network is drawn, offline, with no console errors, and its office nodes
+match the "Offices affected" metric.
 
 Starts `streamlit run` on a free local port, drives headless Chromium (Playwright) with every non-local request
 blocked, and checks the drawn canvas for two suppliers. Skips when Playwright or its Chromium is not installed
@@ -31,7 +32,13 @@ CANVAS_INK = """() => {
   const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
   let ink = 0;
   for (let i = 0; i < d.length; i += 4) if (d[i + 3] > 0 && (d[i] < 245 || d[i + 1] < 245 || d[i + 2] < 245)) ink++;
-  return {canvas: true, nodes: window.network.body.data.nodes.length, ink: ink, w: c.width, h: c.height};
+  // every node's centre must be inside the visible frame (the view was fitted to the canvas)
+  const box = document.getElementById('net'), n = window.network, ids = n.body.data.nodes.getIds();
+  const pos = n.getPositions(ids);
+  const outside = ids.filter(i => { const p = n.canvasToDOM(pos[i]);
+    return p.x < 0 || p.y < 0 || p.x > box.clientWidth || p.y > box.clientHeight; });
+  return {canvas: true, nodes: window.network.body.data.nodes.length, ink: ink, w: c.width, h: c.height,
+          outside: outside};
 }"""
 
 
@@ -94,6 +101,9 @@ def test_graph_explorer_draws_network_offline(app_url, browser, query, pick, uei
     page.route("**/*", route)
 
     page.goto(app_url)
+    # like a user: the default supplier's graph is created while its tab is still hidden, then the tab is opened
+    page.locator('iframe[title^="Network of"]').wait_for(state="attached", timeout=60_000)
+    page.wait_for_timeout(4000)
     page.get_by_role("tab", name="Graph explorer").click()
     box = page.get_by_label("Supplier name or UEI")
     box.fill(query)
@@ -115,9 +125,16 @@ def test_graph_explorer_draws_network_offline(app_url, browser, query, pick, uei
         pass  # reported by the assertions below, with the console errors
     res = frame.evaluate(CANVAS_INK)
     title = frame_el.get_attribute("title")
+    ids = frame.evaluate("() => window.network ? window.network.body.data.nodes.getIds() : []")
+    metric = page.locator('[data-testid="stMetric"]').filter(has_text="Offices affected") \
+        .locator('[data-testid="stMetricValue"]').inner_text()
     page.close()
 
     assert res["canvas"] and res["nodes"] > 1, f"no network drawn in {title!r}: {res}; console errors: {errors}"
     assert res["ink"] > 1000, f"canvas is blank: {res}"
+    assert not res["outside"], f"nodes drawn outside the visible frame: {res['outside']}"
     assert not errors, f"console errors: {errors}"
     assert not outside, f"requests outside localhost: {outside}"
+    # the graph and the metric agree, and the United States is never drawn
+    assert sum(i.startswith("office:") for i in ids) == int(metric.replace(",", "")), (metric, ids)
+    assert "country:USA" not in ids

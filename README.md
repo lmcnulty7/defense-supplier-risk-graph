@@ -29,7 +29,7 @@ make test                      # regression gates
 
 > Portfolio project on public data (USAspending, SAM.gov, and a country-risk feed from a separate personal project;
 > its skill status is `beats_base_rate`, but the backtest couldn't test it, so it is context only). The persona is fictional. Not used by, endorsed by,
-> or built for the DoD or any company. Total Claude API spend: $9.01.
+> or built for the DoD or any company. Total Claude API spend: $9.15.
 
 ---
 
@@ -76,6 +76,12 @@ Docs: [design doc](docs/design_doc.md) · [problem statement](docs/problem_state
 [likelihood model card](docs/model_card_likelihood.md) · [data licenses](docs/DATA_LICENSES.md)
 
 ## All commands
+
+**Running the agent yourself.** Everything except the "Ask the agent" tab runs with no key. To ask questions, put
+your own `ANTHROPIC_API_KEY` in `.env` (copy `.env.example`); the calls are billed to your account. The budget guard
+compares `BUDGET_USD` with the total in the committed spend ledger (`logs/spend_ledger.jsonl`), which already holds
+this project's own spend, so set `BUDGET_USD` to that total plus what you are willing to spend (the default, 9.00, is
+already used up). The agent tab shows about how many questions are left.
 
 ```bash
 cp .env.example .env              # only for live agent runs (ANTHROPIC_API_KEY) or refreshing data

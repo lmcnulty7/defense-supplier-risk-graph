@@ -1,6 +1,6 @@
 # Agent comparison: models, tools and the grounding guard
 
-Scored 2026-11-20T04:44:37.752746+00:00 by `make compare-offline` from committed logs (`logs/agent_runs/cmp_*.jsonl` and the
+Scored 2026-11-20T05:26:51.351280+00:00 by `make compare-offline` from committed logs (`logs/agent_runs/cmp_*.jsonl` and the
 main eval log). Same deterministic scorer as `reports/eval_report.md`. Portfolio project on public data; fictional persona.
 
 ## Bottom line
@@ -108,7 +108,7 @@ Offline, the guard flags 8/8 near-miss names and 0/3 noisy-but-correct names. On
   to two questions. **Opus:** the full challenge set ran once (one run cost $2.14; two more would take total
   spend past the $10 cap), so its answerable-question variance is not measured. Its eight near-miss traps, where
   variance matters most for the guard comparison, were re-run twice more: 7/8, 7/8, 7/8.
-* **Cost:** total Anthropic spend for the whole project is $9.01, under the $10 cap
+* **Cost:** total Anthropic spend for the whole project is $9.15, under the $10 cap
   (`logs/spend_ledger.jsonl`).
 
 ## Limits
