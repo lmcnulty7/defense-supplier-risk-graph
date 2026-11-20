@@ -38,6 +38,19 @@ fails if they disagree.
 | `or_sole` | 0.66 [0.52, 0.82] | sole-source size-adjusted odds ratio | `risk_backtest.json` |
 | `or_geo` | 1.75 → 1.00 | geo-exposed size-adjusted odds ratio → without the Japan office cluster | `risk_backtest.json` |
 | `cluster_share` | 17%-38% | share of each year's events from one Navy office in Japan | `risk_backtest.json` |
+| `auc_prior` | 0.563 | ROC-AUC, prior terminations only | `risk_backtest.json` |
+| `lk_features` | 15 supplier-year features | inputs to the termination-likelihood model | `risk_backtest.json` |
+| `lk_split` | trained on FY2022-FY2023, tested on FY2024 features against FY2025 outcomes | likelihood model time split | `risk_backtest.json` |
+| `lk_n_train` | 11,375 | training supplier-years | `risk_backtest.json` |
+| `lk_train_pos` | 212 | training supplier-years with an event | `risk_backtest.json` |
+| `lk_base_rate` | 2.6% | test base rate (share of supplier-years with an event) | `risk_backtest.json` |
+| `top5_k` | 277 | suppliers in the top 5% of the test year | `risk_backtest.json` |
+| `top5_model` | 17.7% | top-5% precision, logistic model | `risk_backtest.json` |
+| `top5_size` | 14.4% | top-5% precision, contract count only | `risk_backtest.json` |
+| `top5_prior` | 7.6% | top-5% precision, prior terminations only | `risk_backtest.json` |
+| `top5_flags` | 6.5% | top-5% precision, current flags | `risk_backtest.json` |
+| `conv_share` | 87% | termination/cancellation actions FY2022-FY2025 that were terminations for convenience | `risk_backtest.json` |
+| `outlook_scored` | 5,407 | suppliers scored for FY2026 | `risk_backtest.json` |
 | `outlook_n` | 36 | FY2026 suppliers with >= 2x the size-predicted likelihood and >= $10M at stake | `risk_backtest.json` |
 
 ## Entity resolution
@@ -97,4 +110,4 @@ fails if they disagree.
 | `judge_blatant` | 40/40 | LLM judge agreement, blatant corruptions | `judge_validation.json` |
 | `judge_subtle` | 30/30 | LLM judge agreement, subtle corruptions in real agent prose | `judge_validation_subtle.json` |
 | `spend` | $9.00 | total Anthropic API spend (cap $10) | `logs/spend_ledger.jsonl` |
-| `tests` | 109 tests | pytest tests collected (`make test`) | `pytest --collect-only` |
+| `tests` | 122 tests | pytest tests collected (`make test`) | `pytest --collect-only` |

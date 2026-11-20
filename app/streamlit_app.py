@@ -15,9 +15,11 @@ import streamlit.components.v1 as components
 
 from supplier_graph.agent import costs
 from supplier_graph.agent.tools import resolve_supplier
+from supplier_graph.explain import likelihood_md, models_md
 from supplier_graph.graph import queries as Q
 from supplier_graph.graph.build import load_graph
 from supplier_graph.graph.schema import nid
+from supplier_graph.headline import load as load_headline
 from supplier_graph.ingest.risk_feed import feed_in_likelihood, usage_text
 from supplier_graph.outlook_chart import filter_outlook, outlook_chart
 from supplier_graph.stage import connect
@@ -55,6 +57,25 @@ st.caption(
 )
 SKILL = feed.get("skill_status", "unknown")
 FEED_USED = feed_in_likelihood()
+
+
+@st.cache_data
+def headline() -> dict[str, str]:
+    try:
+        return load_headline()
+    except (OSError, ValueError):
+        return {}
+
+
+HL = headline()
+STALE_HEADLINE = "Run `make headline` to load the model summary."
+
+
+def from_headline(fn) -> str | None:
+    try:
+        return fn(HL)
+    except KeyError:
+        return None
 st.info(f"Country risk feed (schema {feed.get('schema_version', '?')}, label `{feed.get('label', '?')}`): skill "
         f"status **{SKILL}**. {feed.get('skill_text', '')} {usage_text()} Geographic exposure is an *impact* "
         "attribute.")
@@ -107,6 +128,9 @@ with tab_outlook:
                    "not likelihood, so they are shown on separate axes. "
                    f"The country risk feed (skill status {SKILL}) {'is' if FEED_USED else 'is not'} used in the "
                    "likelihood model (`reports/risk_backtest.md`, feed policy).")
+        with st.expander("How likelihood is predicted", icon=":material/model_training:"):
+            md = from_headline(likelihood_md)
+            st.markdown(md) if md else st.info(STALE_HEADLINE)
         c1, c2 = st.columns(2)
         min_m = c1.number_input("Min obligations at stake ($M)", value=10.0, min_value=0.0, step=5.0,
                                 key="outlook_min_m")
@@ -254,3 +278,11 @@ skill status **{SKILL}**. {feed.get('skill_text', '')} Escalation label: {feed.g
 
 **Evaluation.** See `reports/eval_report.md` and `reports/entity_resolution.md` in the repo.
 """)
+    st.subheader("Models in this project")
+    md = from_headline(models_md)
+    if md:
+        st.markdown(md)
+        st.caption("Numbers from `reports/HEADLINE.md` (`make headline`). Likelihood model details: "
+                   "`docs/model_card_likelihood.md`.")
+    else:
+        st.info(STALE_HEADLINE)

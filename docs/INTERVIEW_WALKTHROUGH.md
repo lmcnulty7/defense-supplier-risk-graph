@@ -321,6 +321,26 @@ disagreements are dropped and logged, and none were."
 > agreement verifies traversal and aggregation, not upstream definitions or entity resolution. A data-layer check
 > would compare against USAspending's own totals for a sample of suppliers.
 
+**Q: How does the likelihood model actually work?**
+
+"A logistic regression on 15 supplier-year features, all from that year's contract transactions, in five groups:
+size and exposure (contracts, dollars, contracts still open next year, share performed abroad), contract churn
+(de-obligations, modifications, change orders), history (this year's terminations and the buying offices' own
+termination rate), competition (sole-source, single-offer, small business) and dependence (offices paying it, its
+largest share of one office's spending).
+It was trained on FY2022-FY2023, tested on FY2024 features against FY2025 outcomes: 11,375 training supplier-years
+with 212 events, 5,541 test supplier-years with 145. Base rate 2.6%.
+
+On the test year, ROC-AUC: model 0.772, contract count 0.758, prior terminations 0.563, my three flags 0.635.
+Precision in the top 5%, which is 277 suppliers: 17.7%, 14.4%, 7.6% and 6.5%. So it barely beats size across the
+whole list but is clearly better at the top, which is where an analyst looks. In the app, `excess_vs_size` is the
+model's probability divided by a size-only model's, so above 1 means riskier than its contract volume explains;
+5,407 suppliers are scored for next year." (`docs/model_card_likelihood.md`, app tab *Likelihood x impact*.)
+
+> **⚠ Pushback risk: what the label really measures.** 87% of the actions are terminations for convenience, the
+> government's choice, and one Navy office in Japan is 17%-38% of each year's events. Say "contracts likely to be
+> ended", never "suppliers likely to fail", and point to the model card's out-of-scope list.
+
 **Q: [deep dive] Walk me through the agent.**
 
 "A manual tool-use loop on the Messages API. The client is constructed with no arguments, so credentials come from
@@ -619,12 +639,14 @@ whether each came only through the address. `decide` applies threshold, margin a
 `tradeoff` runs the 140-point grid on the tuning half with `FALSE_MERGE_WEIGHT = 2.0` (line 36) and reports the
 confirmation half.
 
-### 4.6 The backtest and the feed gate: `src/supplier_graph/risk/backtest.py:95` (`supplier_years`), `:266` (`feed_gate`), `:303` (`evaluate_split`)
+### 4.6 The backtest and the feed gate: `src/supplier_graph/risk/backtest.py:126` (`supplier_years`), `:297` (`feed_gate`), `:334` (`evaluate_split`)
 Supplier-year features from year-t transactions only; outcome is an event in t+1. `supplier_years` also builds the
 point-in-time `feed_p_escalation` (only feed rows with `data_cutoff` by 30 Sep of FY t, at most 26 weeks old).
-`FEED_FEATURES` (line 70) carries the adoption rule as a comment; `feed_gate` applies it with its own RNG stream, so
-the main bootstrap draws don't change whether it runs. `likelihood_features` (line 81) adds only adopted inputs.
-`size_adjusted_flag_effects` (line 350) gives the odds ratios; `outlook` (line 373) writes the two-axis table.
+`FEED_FEATURES` (line 101) carries the adoption rule as a comment; `feed_gate` applies it with its own RNG stream, so
+the main bootstrap draws don't change whether it runs. `likelihood_features` (line 112) adds only adopted inputs.
+`size_adjusted_flag_effects` (line 381) gives the odds ratios; `outlook` (line 404) writes the two-axis table.
+`FEATURE_GROUPS` (line 61) is the plain-language grouping the app, the site and `docs/model_card_likelihood.md` use;
+a test checks it covers the model's features exactly.
 
 ### 4.7 Feed loader and skill policy: `src/supplier_graph/ingest/risk_feed.py:148` (`validate`), `:91` (`likelihood_allowed`), `:241` (`feed_in_likelihood`)
 Schema majors 1 and 2, `skill_status` required from 1.1, `label` carried through, constant within a file; sha256

@@ -73,7 +73,7 @@ flowchart LR
 Docs: [design doc](docs/design_doc.md) · [problem statement](docs/problem_statement.md) ·
 [requirements](docs/requirements.md) · [one-page brief](docs/brief.md) · [runbook](docs/runbook.md) ·
 [demo script](docs/demo_script.md) · [interview walkthrough](docs/INTERVIEW_WALKTHROUGH.md) ·
-[data licenses](docs/DATA_LICENSES.md)
+[likelihood model card](docs/model_card_likelihood.md) · [data licenses](docs/DATA_LICENSES.md)
 
 ## All commands
 

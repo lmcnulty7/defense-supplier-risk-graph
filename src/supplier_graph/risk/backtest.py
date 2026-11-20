@@ -55,6 +55,37 @@ BASE_FEATURES = [
     "log_change_orders", "log_prior_events", "any_prior_event", "sole_source_share", "single_offer_share",
     "small_business", "log_n_offices", "max_office_share", "foreign_share", "office_event_rate",
 ]
+# Plain-language grouping of BASE_FEATURES for the app, the results site and the model card (each feature once;
+# tests/test_risk_backtest.py checks the groups cover BASE_FEATURES exactly). All are computed from the supplier's
+# contract transactions in the feature year.
+FEATURE_GROUPS: dict[str, list[tuple[str, str]]] = {
+    "Size and exposure": [
+        ("log_n_awards", "contracts with activity in the year"),
+        ("log_n_awards_open_next", "contracts still open into the next year"),
+        ("log_obligations", "dollars obligated in the year"),
+        ("foreign_share", "share of dollars performed outside the United States"),
+    ],
+    "Contract churn": [
+        ("deob_share", "share of dollar actions that took money back (de-obligations)"),
+        ("mods_per_award", "contract modifications per contract"),
+        ("log_change_orders", "change orders"),
+    ],
+    "History": [
+        ("log_prior_events", "terminations and cancellations in the year"),
+        ("any_prior_event", "whether there was any termination or cancellation in the year"),
+        ("office_event_rate", "termination rate at the supplier's buying offices, excluding the supplier itself"),
+    ],
+    "Competition": [
+        ("sole_source_share", "share of dollars awarded without competition"),
+        ("single_offer_share", "share of dollars where only one offer was received"),
+        ("small_business", "whether most awards were small-business awards"),
+    ],
+    "Dependence": [
+        ("log_n_offices", "offices paying the supplier"),
+        ("max_office_share", "largest share of any one office's dollars that goes to the supplier"),
+    ],
+}
+SIZE_ONLY_FEATURES = ["log_n_awards", "log_n_awards_open_next"]  # the size-only baseline behind excess_vs_size
 # Candidate inputs from the MENA risk feed:
 #   feed_exposure      the supplier-year has work in a feed-covered country (a static region membership)
 #   feed_p_escalation  obligation-weighted p_escalation of those countries, POINT IN TIME: for feature year t only
@@ -306,8 +337,8 @@ def evaluate_split(df: pd.DataFrame, train_years: list[int], test_year: int, rng
     scores: dict[str, np.ndarray] = {}
     fitted = {}
     base_size = make_pipeline(StandardScaler(), LogisticRegression(max_iter=2000))
-    base_size.fit(tr[["log_n_awards", "log_n_awards_open_next"]], y_tr)
-    scores["baseline_size"] = base_size.predict_proba(te[["log_n_awards", "log_n_awards_open_next"]])[:, 1]
+    base_size.fit(tr[SIZE_ONLY_FEATURES], y_tr)
+    scores["baseline_size"] = base_size.predict_proba(te[SIZE_ONLY_FEATURES])[:, 1]
     base_prior = make_pipeline(StandardScaler(), LogisticRegression(max_iter=2000))
     base_prior.fit(tr[["log_prior_events"]], y_tr)
     scores["baseline_prior_events"] = base_prior.predict_proba(te[["log_prior_events"]])[:, 1]
@@ -350,7 +381,7 @@ def evaluate_split(df: pd.DataFrame, train_years: list[int], test_year: int, rng
 def size_adjusted_flag_effects(df: pd.DataFrame, rng: np.random.Generator, n_boot: int = 300) -> dict:
     """Odds ratio of each flag for a next-year event, raw and adjusted for size, pooled over labelled years."""
     lab = df[df.y.notna() & (df.fy < df.fy.max())]
-    size = ["log_n_awards", "log_n_awards_open_next"]
+    size = SIZE_ONLY_FEATURES
     out = {}
     for f in FLAG_COLS:
         def fit(d: pd.DataFrame, adjust: bool, f: str = f) -> float:
@@ -375,7 +406,7 @@ def outlook(df: pd.DataFrame, con) -> pd.DataFrame:
     last = int(df.fy.max())
     lab = df[df.fy < last]
     mdl = models()["logistic"].fit(lab[FEATURES], lab["y"])
-    size = ["log_n_awards", "log_n_awards_open_next"]
+    size = SIZE_ONLY_FEATURES
     size_mdl = make_pipeline(StandardScaler(), LogisticRegression(max_iter=2000)).fit(lab[size], lab["y"])
     cur = df[df.fy == last].copy()
     cur["p_disruption_next_fy"] = mdl.predict_proba(cur[FEATURES])[:, 1]

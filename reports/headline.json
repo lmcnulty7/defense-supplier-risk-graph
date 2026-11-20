@@ -340,6 +340,110 @@
     "alts": []
   },
   {
+    "key": "auc_prior",
+    "text": "0.563",
+    "label": "ROC-AUC, prior terminations only",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "lk_features",
+    "text": "15 supplier-year features",
+    "label": "inputs to the termination-likelihood model",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "lk_split",
+    "text": "trained on FY2022-FY2023, tested on FY2024 features against FY2025 outcomes",
+    "label": "likelihood model time split",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "lk_n_train",
+    "text": "11,375",
+    "label": "training supplier-years",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "lk_train_pos",
+    "text": "212",
+    "label": "training supplier-years with an event",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "lk_base_rate",
+    "text": "2.6%",
+    "label": "test base rate (share of supplier-years with an event)",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "top5_k",
+    "text": "277",
+    "label": "suppliers in the top 5% of the test year",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "top5_model",
+    "text": "17.7%",
+    "label": "top-5% precision, logistic model",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "top5_size",
+    "text": "14.4%",
+    "label": "top-5% precision, contract count only",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "top5_prior",
+    "text": "7.6%",
+    "label": "top-5% precision, prior terminations only",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "top5_flags",
+    "text": "6.5%",
+    "label": "top-5% precision, current flags",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "conv_share",
+    "text": "87%",
+    "label": "termination/cancellation actions FY2022-FY2025 that were terminations for convenience",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
+    "key": "outlook_scored",
+    "text": "5,407",
+    "label": "suppliers scored for FY2026",
+    "source": "risk_backtest.json",
+    "section": "Risk backtest",
+    "alts": []
+  },
+  {
     "key": "outlook_n",
     "text": "36",
     "label": "FY2026 suppliers with >= 2x the size-predicted likelihood and >= $10M at stake",
@@ -525,7 +629,7 @@
   },
   {
     "key": "tests",
-    "text": "109 tests",
+    "text": "122 tests",
     "label": "pytest tests collected (`make test`)",
     "source": "pytest --collect-only",
     "section": "Trust and cost",

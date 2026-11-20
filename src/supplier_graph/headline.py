@@ -78,6 +78,8 @@ def build(n_tests: int | None = None) -> list[H]:
     opus_cost = reps("challenge/opus_tools")[0]["cost_mean_usd"]
     haiku_cost = sum(r["cost_mean_usd"] for r in reps("challenge/haiku_tools")) / len(reps("challenge/haiku_tools"))
     cl = [c["cluster_share"] for c in bt["cluster_offices_event_share"]]
+    conv = sum(e["n"] for e in bt["event_counts_by_year"] if e["act"] == "F")
+    n_ev = sum(e["n"] for e in bt["event_counts_by_year"])
     rp = gd["replay_logged_opus_resolver_calls"]["answerable"]
     feed = gs["risk_feed"]
     gp, ge = bt["feed_policy"]["candidates"]["feed_p_escalation"], bt["feed_policy"]["candidates"]["feed_exposure"]
@@ -158,6 +160,31 @@ def build(n_tests: int | None = None) -> list[H]:
           "geo-exposed size-adjusted odds ratio → without the Japan office cluster", "risk_backtest.json", B),
         H("cluster_share", f"{min(cl) * 100:.0f}%-{max(cl) * 100:.0f}%", "share of each year's events from one Navy "
           "office in Japan", "risk_backtest.json", B),
+        H("auc_prior", f"{s['baseline_prior_events']['auc']:.3f}", "ROC-AUC, prior terminations only",
+          "risk_backtest.json", B),
+        H("lk_features", f"{len(bt['features'])} supplier-year features", "inputs to the termination-likelihood model",
+          "risk_backtest.json", B),
+        H("lk_split", f"trained on FY{min(ps['train_years'])}-FY{max(ps['train_years'])}, tested on FY{ps['test_year']} "
+                      f"features against FY{ps['test_year'] + 1} outcomes", "likelihood model time split",
+          "risk_backtest.json", B),
+        H("lk_n_train", f"{ps['n_train']:,}", "training supplier-years", "risk_backtest.json", B),
+        H("lk_train_pos", f"{ps['n_train_pos']}", "training supplier-years with an event", "risk_backtest.json", B),
+        H("lk_base_rate", pct(ps["test_base_rate"]), "test base rate (share of supplier-years with an event)",
+          "risk_backtest.json", B),
+        H("top5_k", f"{s['logistic']['top_5pct']['k']}", "suppliers in the top 5% of the test year",
+          "risk_backtest.json", B),
+        H("top5_model", pct(s["logistic"]["top_5pct"]["precision"]), "top-5% precision, logistic model",
+          "risk_backtest.json", B),
+        H("top5_size", pct(s["baseline_size"]["top_5pct"]["precision"]), "top-5% precision, contract count only",
+          "risk_backtest.json", B),
+        H("top5_prior", pct(s["baseline_prior_events"]["top_5pct"]["precision"]),
+          "top-5% precision, prior terminations only", "risk_backtest.json", B),
+        H("top5_flags", pct(s["current_flags"]["top_5pct"]["precision"]), "top-5% precision, current flags",
+          "risk_backtest.json", B),
+        H("conv_share", pct(conv / max(n_ev, 1), 0), "termination/cancellation actions FY2022-FY2025 that were "
+          "terminations for convenience", "risk_backtest.json", B),
+        H("outlook_scored", f"{bt['outlook']['n_suppliers_scored']:,}", f"suppliers scored for "
+          f"FY{bt['outlook']['outlook_fy']}", "risk_backtest.json", B),
         H("outlook_n", f"{bt['outlook']['n_excess_ge_2_and_obligations_ge_10m']}", "FY2026 suppliers with >= 2x the "
           "size-predicted likelihood and >= $10M at stake", "risk_backtest.json", B),
         H("v1_opus", f"{reps('golden/opus_tools')[0]['answerable_correct']}", "v1: Opus answerable correct",
@@ -206,6 +233,11 @@ def build(n_tests: int | None = None) -> list[H]:
     if n_tests is not None:
         h.append(H("tests", f"{n_tests} tests", "pytest tests collected (`make test`)", "pytest --collect-only", T))
     return h
+
+
+def load() -> dict[str, str]:
+    """The committed headline values ({key: exact text}); the app and the site quote these."""
+    return {h["key"]: h["text"] for h in json.loads(OUT_JSON.read_text())}
 
 
 def render(h: list[H]) -> str:

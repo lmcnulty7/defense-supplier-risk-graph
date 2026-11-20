@@ -71,7 +71,7 @@ or any company.*
 | Judge | 40/40 blatant, 30/30 subtle planted errors |
 | Country-risk feed | schema 2.0.0, label escalated_next4w_ucdp; skill status `beats_base_rate`. As a likelihood input: not adopted: 0% point-in-time coverage. Feed-country exposure: AP -0.0004 [-0.0073, 0.0071], not adopted |
 | Anthropic spend | **$9.00**, under the $10 cap |
-| Tests | 109 tests |
+| Tests | 122 tests |
 
 ## What the results say
 

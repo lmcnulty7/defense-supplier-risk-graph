@@ -52,3 +52,14 @@ def test_outlook_table_matches_graph(res):
                              LEFT JOIN supplier_risk r USING (supplier_id) WHERE r.supplier_id IS NULL""").fetchone()[0]
     con.close()
     assert n == res["outlook"]["n_suppliers_scored"] and bad == 0 and missing == 0
+
+
+def test_feature_groups_cover_the_model_exactly():
+    """The plain-language groups (app, site, model card) list every model feature once, and nothing else."""
+    from supplier_graph.config import ROOT
+    from supplier_graph.risk.backtest import BASE_FEATURES, FEATURE_GROUPS
+    grouped = [f for feats in FEATURE_GROUPS.values() for f, _ in feats]
+    assert sorted(grouped) == sorted(BASE_FEATURES) and len(grouped) == len(set(grouped))
+    card = (ROOT / "docs" / "model_card_likelihood.md").read_text()
+    assert all(f"`{f}`" in card for f in BASE_FEATURES)
+    assert all(g in card for g in FEATURE_GROUPS)

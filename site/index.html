@@ -184,6 +184,19 @@ actually happened (5,541 suppliers, 145 had one).</p>
 model (0.77) barely beats counting overall, but is clearly better at the top of the list.</p>
 <p class="fine">Lines are 95% ranges: if two overlap a lot, the difference may be luck.</p>
 <details><summary>Technical detail (for follow-up questions)</summary><div class="det">Outcome: any termination (default, cause, convenience) or cancellation in the next fiscal year. Train on FY2022-FY2023 features, test on FY2024 features → FY2025 outcomes. Left chart ROC-AUC, right chart average precision, with 1,000-resample bootstrap CIs. Model gain over size: AUC +0.013 (CI -0.013 to +0.039, not significant); average precision +0.070 (CI +0.028 to +0.110, significant). An earlier split and a run without the dominant office agree.</div></details></div></section>
+<section class="slide" id="likelihood-model"><div class="inner">
+<h2>How the likelihood score is predicted</h2>
+<p>To estimate which suppliers will have a contract ended early next year, I trained a simple statistical model (a
+logistic regression). It reads 15 supplier-year features describing each supplier's contracts in one year, in five groups:</p>
+<ul><li><b>Size and exposure</b>: how many contracts and dollars it has, how many continue into next year, and how much of the work is done abroad</li><li><b>Contract churn</b>: how often its contracts are changed or money is taken back</li><li><b>History</b>: whether it had terminations this year, and how often its buying offices end contracts</li><li><b>Competition</b>: how much of its work was won without competition or with a single bid, and whether it is a small business</li><li><b>Dependence</b>: how many offices pay it and how much of one office's spending goes to it</li></ul>
+<p>It was trained on FY2022-FY2023, tested on FY2024 features against FY2025 outcomes, so it never saw the year it was graded on.</p>
+<table><tr><th>method</th><th>ranks everyone (ROC-AUC)</th><th>hit rate in its top 5%</th></tr><tr><td>The trained model</td><td>0.772</td><td>17.7%</td></tr><tr><td>Just count their contracts</td><td>0.758</td><td>14.4%</td></tr><tr><td>Had a termination last year</td><td>0.563</td><td>7.6%</td></tr><tr><td>My three risk flags</td><td>0.635</td><td>6.5%</td></tr><tr><td>Random pick</td><td>0.5</td><td>2.6%</td></tr></table>
+<p><b>"Riskier than its size"</b> is the model's chance divided by the chance from a model that only counts
+contracts. Above 1 means riskier than its size alone suggests: that's how the triage view, two slides on, picks suppliers worth a look.</p>
+<p class="fine">Caveat: "ended early" is mostly the government's choice. 87% of these actions are
+terminations for convenience, not supplier failures, and one Navy office in Japan accounts for 17%-38% of
+each year's events.</p>
+<details><summary>Technical detail (for follow-up questions)</summary><div class="det">Logistic regression (standardized features) on 15 supplier-year features: <b>Size and exposure</b>: <code>log_n_awards</code>, <code>log_n_awards_open_next</code>, <code>log_obligations</code>, <code>foreign_share</code>; <b>Contract churn</b>: <code>deob_share</code>, <code>mods_per_award</code>, <code>log_change_orders</code>; <b>History</b>: <code>log_prior_events</code>, <code>any_prior_event</code>, <code>office_event_rate</code>; <b>Competition</b>: <code>sole_source_share</code>, <code>single_offer_share</code>, <code>small_business</code>; <b>Dependence</b>: <code>log_n_offices</code>, <code>max_office_share</code>. Training: 11,375 supplier-years (212 with an event); test: 5,541 supplier-years (145 with an event, base rate 2.6%). Top 5% = 277 suppliers. Size-only model: the same method on <code>log_n_awards</code>, <code>log_n_awards_open_next</code>. Gain over size alone (95% bootstrap intervals): ROC-AUC +0.013 [-0.013, 0.039], average precision +0.070 [0.028, 0.110]. The country-risk feed is not an input (not adopted: 0% point-in-time coverage). Full model card: <code>docs/model_card_likelihood.md</code>.</div></details></div></section>
 <section class="slide" id="flags"><div class="inner">
 <h2>Finding: the flags show what's at stake, not who will fail</h2>
 <p>How much more often flagged suppliers had a termination than unflagged ones. <b>1 = no difference</b>; 2 = twice as
@@ -282,8 +295,8 @@ make test                # automatic checks
 make site                # this page
 make app                 # interactive demo</pre>
 <p>Total AI cost for everything above: <b>$9.00</b> (cap $10).
-Built 2026-11-19 07:20 UTC.</p></div></section>
-<div id="nav"><span id="pos">1</span> / 14</div>
+Built 2026-11-20 01:13 UTC.</p></div></section>
+<div id="nav"><span id="pos">1</span> / 15</div>
 <script>
 const S=[...document.querySelectorAll('.slide')];
 function cur(){let b=0,d=1e9;S.forEach((s,i)=>{const t=Math.abs(s.getBoundingClientRect().top);if(t<d){d=t;b=i}});return b}
