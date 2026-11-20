@@ -77,7 +77,7 @@ def test_budget_guard_stops_before_call(monkeypatch):
 
 def test_tools_are_read_only_named_queries():
     names = {t["name"] for t in A.TOOL_SCHEMAS}
-    assert names == {"resolve_supplier", "run_query", "country_risk", "award_details"}
+    assert names == {"resolve_supplier", "run_query", "country_risk", "award_details", "what_if_remove"}
     rq = next(t for t in A.TOOL_SCHEMAS if t["name"] == "run_query")
     assert "enum" in rq["input_schema"]["properties"]["query_name"]
 
@@ -116,3 +116,27 @@ def test_trace_lines_are_plain_language():
                     {"rows": [1, 2]}, 0.25) == "Ran query “country exposure” for country_iso3 JPN → 2 rows (0.2s)"
     assert "no match" in describe("resolve_supplier", {"name": "Acme"}, {"candidates": []}, 0.0)
     assert (plural(1, "tool call"), plural(2, "tool call")) == ("1 tool call", "2 tool calls")
+
+
+def test_followups_are_deterministic_and_entity_specific():
+    from supplier_graph.followups import suggest
+    resolve = {"name": "resolve_supplier", "input": {"name": "Sikorsky"},
+               "output": {"candidates": [{"supplier_id": "UTJWTSLMFNG4", "name": "SIKORSKY AIRCRAFT CORPORATION"}]}}
+    dep = {"name": "run_query", "input": {"query_name": "dependent_offices", "params": {"supplier_id": "UTJWTSLMFNG4"}},
+           "output": {}}
+    fj = {"answerable": True, "citations": ["supplier:UTJWTSLMFNG4", "office:N00019"]}
+    ups = suggest("Which offices depend on Sikorsky?", [resolve, dep], fj, ["d1", "d2"])
+    assert ups == ["What is Sikorsky Aircraft's sole-source share?",
+                   "What if Sikorsky Aircraft fails? Which offices would have no alternative supplier?",
+                   "Who else does the same type of work as Sikorsky Aircraft?"]
+    assert suggest("q", [resolve, dep], fj, ["d1"]) == ups  # same input, same suggestions
+    wi = {"name": "what_if_remove", "input": {"supplier_ids": ["UTJWTSLMFNG4"]}, "output": {}}
+    assert suggest("q", [resolve, wi], fj, [])[0] == "Which offices depend on Sikorsky Aircraft, directly or " \
+                                                      "through subcontracts?"
+    office = {"name": "run_query", "input": {"query_name": "office_concentration", "params": {"office_code": "n00019"}},
+              "output": {}}
+    assert suggest("q", [office], {"citations": []}, [], office_label=lambda c: f"NAVAIR ({c})")[0] == \
+        "Which flagged suppliers carry the most obligations at office NAVAIR (N00019)?"
+    risk = {"name": "country_risk", "input": {"country_iso3": "JPN"}, "output": {"country_name": "Japan"}}
+    assert suggest("q", [risk], None, [])[0] == "Which suppliers and offices have work performed in Japan?"
+    assert suggest("q", [], None, ["d1", "d2"]) == ["d1", "d2"]  # nothing to go on: the default examples

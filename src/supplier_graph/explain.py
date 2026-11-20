@@ -84,3 +84,22 @@ def caveats_md(h: dict[str, str]) -> str:
 
 def evaluation_md() -> str:
     return "**Evaluation.** " + " · ".join(f"[{label}]({REPO_URL}/{path})" for label, path in REPORTS)
+
+
+# ---------------------------------------------------------------- Overview tab
+HOW_TO = ("Start with a featured supplier below, or open any tab. Click a table row or a graph node to follow it; "
+          "Back takes you to where you were.")
+
+
+def overview_facts(h: dict[str, str]) -> list[tuple[str, str, str]]:
+    """(value, what it is, one-line note) for the Overview's three headline facts."""
+    return [
+        (h["flagged_share"], "of maintenance dollars go to a supplier with at least one risk flag",
+         "Flags: concentrated at an office, sole-source, or geographically exposed."),
+        (f"{h['offices_sole_source_majority']} of {h['n_offices']}",
+         "awarding offices rely on one sole-source supplier for over half their spending",
+         "One supplier gets over half of the office's dollars, mostly without competition."),
+        ("Impact, not likelihood", "is what the flags measure",
+         f"Counting a supplier's contracts predicts next year's terminations better (ROC-AUC {h['auc_size']}) than the "
+         f"flags do ({h['auc_flags']})."),
+    ]

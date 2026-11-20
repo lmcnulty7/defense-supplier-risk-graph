@@ -20,7 +20,7 @@ working from your written plans (kept in your private working repo, not the publ
 the repo will see this. Say it plainly and early, then show you own the work by defending decisions and naming
 weaknesses yourself:
 
-> "I wrote the plan: the customer framing, the scope, and the hard rules, like no hand labels, a $10 model budget,
+> "I wrote the plan: the customer framing, the scope, and the hard rules, like no hand labels, a $10 model budget (later raised to $20),
 > every eval answer checked two independent ways, and every number reproducible from a make target. Then I had
 > Claude Code implement it. My job since has been auditing it: re-deriving numbers, reading the code, and finding
 > where the evaluation is weaker than the headline. I can walk you through any file and tell you what I'd change."
@@ -31,6 +31,16 @@ Only claim a finding as yours once you've checked it in the code yourself.
 
 ## 0. What changed in the final session
 
+* **A more useful app.** An *Overview* landing tab (three headline facts: 86.75% of dollars go to a flagged supplier;
+  188 of 757 offices rely on one sole-source supplier for over half their spending; the flags measure impact, not
+  likelihood), a *What if it fails?* scenario (remove suppliers; offices, dollars, programs, and per office the
+  alternatives doing the same 4-character service code), an *Office view* (top suppliers, top share, HHI, sole-source
+  suppliers), linked navigation (click a row or a graph node, Back returns) and rule-based follow-up questions after
+  agent answers. The agent got a fifth tool, `what_if_remove`, and now answers the answerable part of a mixed question.
+* **Eval re-run on the current prompt and tools.** With the API cap raised from $10 to $20, I re-ran everything on the
+  new prompt rather than mixing in old runs: v1 Opus 87/88 and 13/13; challenge set (now 44 answerable + 16 traps, with
+  eight what-if questions) Opus 44/44 and 15/16; Haiku 43/44, 44/44, 43/44, traps 12/16, 12/16, 12/16; with the guard
+  15/16, 16/16, 16/16; no tools 0/44.
 * **Country-risk feed v2, gated by evidence, not by its label.** The MENA project shipped schema 2.0.0: `p_escalation`
   now forecasts a different event (schema 2.0.0, label escalated_next4w_ucdp, instead of an ACLED-defined escalation)
   and reports `skill_status = beats_base_rate`. I switched to it, rebuilt everything and re-asked the 8 questions
@@ -41,15 +51,15 @@ Only claim a finding as yours once you've checked it in the code yourself.
   context, and the app, site and agent answers say why.
 * **ER operating point.** A stricter threshold and runner-up margin, chosen on half the held-out records and
   confirmed on the other half, cut absent-company false links 8.7% → 4.4%.
-* **Opus variance where it matters.** The near-miss traps were re-run twice for Opus: 7/8, 7/8, 7/8. A full repeat
-  would have broken the $10 cap.
+* **Opus variance.** Opus ran once per set on the current prompt (near-miss traps 7/8); its run-to-run variance is
+  not measured.
 * **One source of truth.** `reports/HEADLINE.md`, enforced by a test against the README, final report, site, brief,
   demo script and this file.
 * **Clean clone works offline.** Cached public data is committed; `make install && make offline` rebuilds every
   report identically with no network and no API key (checked in a fresh clone).
-* **Air-gap readiness.** The app's graph view inlines vis-network and makes no outbound request, and Streamlit
-  telemetry is off. A browser test (Playwright, headless Chromium) blocks every non-local request and checks the
-  graph is drawn for two suppliers with no console errors.
+* **Air-gap readiness.** The app's graphs inline vis-network and make no outbound request, and Streamlit telemetry
+  is off. A browser test (Playwright, headless Chromium) blocks every non-local request and checks every graph is
+  drawn and fitted with no console errors, that clicking an office node opens the Office view, and that Back works.
 
 ---
 
@@ -88,11 +98,11 @@ Sources: `reports/HEADLINE.md`.
 > 0.758 for contract count. Concentration looks three times riskier until you control for size, and sole-source
 > suppliers are the most stable. So the flags measure impact, and the product shows likelihood on its own axis.
 >
-> The agent is Claude with four read-only tools; it cites record IDs or declines. My first test set saturated, so I
-> built a harder one with traps. Even the small model answers every structured question. Its failure was a company
-> name one word off, which it answered for the look-alike. I fixed that in the name lookup, not the prompt, and the
-> small model went from 1/8, 3/8, 3/8 to 7/8, 8/8, 7/8 on those traps. Everything is a pytest gate, and the whole
-> project cost $9.15 in API calls."
+> The agent is Claude with five read-only tools, including a what-if scenario; it cites record IDs or declines. My
+> first test set saturated, so I built a harder one with traps. Even the small model answers nearly every structured
+> question. Its failure was a company name one word off, which it answered for the look-alike. I fixed that in the
+> name lookup, not the prompt: the small model catches 4/8, 4/8, 4/8 of those traps without the check and 8/8, 8/8,
+> 8/8 with it. Everything is a pytest gate, and the whole project cost $16.74 in API calls."
 
 ### 5 minutes [deep dive]
 
@@ -108,10 +118,10 @@ Use the 2-minute version and add these beats, about 45 seconds each.
    0.66 [0.52, 0.82], and geography goes 1.75 → 1.00 once you remove one Navy office in Japan."
 2. **Why named queries instead of text-to-SQL.** "Ten parameterized queries and nothing else: read-only by
    construction, reproducible, testable. The payoff showed in the comparison: with these tools even Haiku answers
-   38/38, 38/38, 38/38 structured challenge questions, at 1/49 of Opus's cost per question."
+   43/44, 44/44, 43/44 structured challenge questions, at 1/52 of Opus's cost per question."
 3. **How the eval works and what it doesn't prove.** "Expected answers come from SQL and are re-derived by graph
    traversal. The harder set has traps, including names one word off a real supplier. A check in the resolver lists
-   query words the matched name lacks; it fires on 0 of 88 logged Opus lookups on answerable questions, so it can't
+   query words the matched name lacks; it fires on 0 of 96 logged Opus lookups on answerable questions, so it can't
    hurt those. The judge grades prose only and was validated on 40/40 blatant and 30/30 subtle planted errors. It's
    still template traffic, not real analyst questions."
 4. **What I'd do next.** "Sit with the analyst to see which decisions the two-axis view changes. Add past
@@ -207,8 +217,8 @@ sequenceDiagram
   L-->>UI: answer, citations, tool trace, cost, latency
 ```
 
-Key places: loop `src/supplier_graph/agent/agent.py:148` (`ask`), budget check line 158, API call line 162, tool
-dispatch line 186, caveat `agent.py:129` (`skill_caveat`), guard `src/supplier_graph/agent/tools.py:37`
+Key places: loop `src/supplier_graph/agent/agent.py:154` (`ask`), budget check line 164, API call line 168, tool
+dispatch line 192, caveat `agent.py:139` (`skill_caveat`), guard `src/supplier_graph/agent/tools.py:37`
 (`missing_words`), query registry `src/supplier_graph/graph/queries.py:633`.
 
 ---
@@ -346,8 +356,9 @@ model's probability divided by a size-only model's, so above 1 means riskier tha
 **Q: [deep dive] Walk me through the agent.**
 
 "A manual tool-use loop on the Messages API. The client is constructed with no arguments, so credentials come from
-the environment. Claude Opus 5.5, low effort, prompt caching, at most eight steps. Four tools: `resolve_supplier`,
-`run_query` (the query name is an enum, so it can't invent one), `country_risk`, and `award_details`. Tool
+the environment. Claude Opus 5.5, low effort, prompt caching, at most eight steps. Five tools: `resolve_supplier`,
+`run_query` (the query name is an enum, so it can't invent one), `what_if_remove` (the scenario: offices, dollars,
+programs and alternative suppliers if given suppliers fail), `country_risk`, and `award_details`. Tool
 exceptions go back to the model as errors. The system prompt says cite IDs inline, only IDs that came back from
 tools, say so when the data can't answer, and end with a JSON block: answerable, answer, citations, no_data. When
 only part of a question is answerable, it answers that part now and says in one sentence what the data can't cover,
@@ -364,7 +375,7 @@ skill isn't demonstrated, the application appends the caveat itself, so it never
 > thinking blocks passed back unchanged, and it's short. A framework would hide what I'm measuring."
 
 > **⚠ Pushback risk: cost is an estimate.** Usage times a price table, not reconciled with the billing console, and
-> the guard is a soft check with three parallel workers. Say "logged cost of $9.15."
+> the guard is a soft check with three parallel workers. Say "logged cost of $16.74."
 
 ### 3.3 Data
 
@@ -416,20 +427,21 @@ depend on it. Finishing enrichment is an optional daily `make sam`."
 
 "Several. For the risk flags: contract count, prior-year terminations and the untrained flags, and the flags lose to
 contract count. For entity resolution: the original hand-set matcher, end to end. For the agent: Opus with no tools,
-which answers 0/38 on the challenge set because it declines rather than invents; and Haiku with the same tools,
-which matches Opus on structured questions at 1/49 of the cost but fails look-alike names until the guard."
+which answers 0/44 on the challenge set because it declines rather than invents; and Haiku with the same tools,
+which nearly matches Opus on structured questions at 1/52 of the cost but fails look-alike names until the guard."
 
 **Q: What are the agent results?**
 
-"v1 set, 101 questions: Opus 87/88 answerable and 13/13 correct refusals, 0 fabricated IDs out of 614 cited, mean 2.4
-steps, about 3 cents and 7 seconds a question. Haiku scored 83/88, 83/88, 83/88 in three runs; with the guard
-82/88, 83/88, 83/88. Harder challenge set, 38 answerable plus 14 traps: Opus 38/38 and 13/14 at $0.041 a question.
-Haiku 38/38, 38/38, 38/38 but traps 7/14, 9/14, 9/14. With the guard, traps 13/14, 14/14, 13/14. On the eight
-near-miss traps specifically: Haiku 1/8, 3/8, 3/8; Haiku with the guard 7/8, 8/8, 7/8; Opus 7/8, 7/8, 7/8."
+"All on the current prompt and five tools. v1 set, 101 questions: Opus 87/88 answerable and 13/13 correct refusals,
+0 fabricated IDs out of 657 cited, mean 2.5 steps, about 4 cents and 7 seconds a question. Haiku scored
+83/88, 83/88, 83/88 in three runs; with the guard 83/88, 83/88, 82/88. Harder challenge set, 44 answerable plus 16 traps (eight of
+them what-if questions): Opus 44/44 and 15/16 at $0.045 a question. Haiku 43/44, 44/44, 43/44 but traps 12/16, 12/16,
+12/16. With the guard, traps 15/16, 16/16, 16/16. On the eight near-miss traps specifically: Haiku 4/8, 4/8, 4/8;
+Haiku with the guard 8/8, 8/8, 8/8; Opus 7/8, one run."
 (`reports/comparison.md`, `reports/eval_report.md`.)
 
 > **⚠ Pushback risk: Haiku's citations.** In one v1 run each, Haiku cited real supplier IDs under the wrong prefix
-> (`parent:` instead of `supplier:`): 0, 0, 3 (guard: 0, 0, 4) per run. The scorer counts them as fabricated because
+> (`parent:` instead of `supplier:`): 1, 0, 0 (guard: 0, 0, 3) per run. The scorer counts them as fabricated because
 > no ParentCompany has that ID. They're mislabelled, not invented, but say "Opus had zero; Haiku mis-typed a few."
 
 **Q: Isn't revising the challenge set after a pilot tuning to the test?**
@@ -452,10 +464,10 @@ disclosed with before and after numbers."
 **Q: Confidence intervals and variance?**
 
 "Wilson intervals are in the comparison report. 87/88 is about 93.8% to 99.8%, and 13/13 is 77% to 100% because 13
-is small. They're optimistic: questions from one template are correlated. Haiku ran every set three times. Opus ran
-the full sets once, because one challenge run costs about $2.14 and two more would break the $10 cap; I spent the
-remaining budget re-running Opus on the eight near-miss traps, where variance matters for the guard comparison: 7/8,
-7/8, 7/8."
+is small. They're optimistic: questions from one template are correlated. Haiku ran every set three times and
+varied by at most one answerable question. Opus ran each set once on the current prompt; a run of both sets costs
+over $6, so its run-to-run variance is not measured. Earlier, under the previous prompt, its near-miss traps
+were repeated three times; those runs are archived, not mixed into the current numbers."
 
 **Q: What does "zero fabricated IDs" actually mean?**
 
@@ -492,11 +504,11 @@ validated short list to look at first."
 
 "Five layers. One: it can't compute numbers itself. Every number comes from a named query that I also implemented
 in SQL and checked for exact agreement. Two: every expected answer in the test sets was computed two ways, and the
-scoring is deterministic code. Opus got 87/88 and 38/38. Three: citations are checked. Every cited ID must exist
+scoring is deterministic code. Opus got 87/88 and 44/44. Three: citations are checked. Every cited ID must exist
 and must have appeared in that run's tool output, and Opus had 0 fabricated. Four: it's tested on questions it
-should refuse: 13/13 unanswerable on v1, 13/14 traps on the harder set. Without tools it answers 0/38 rather than
+should refuse: 13/13 unanswerable on v1, 15/16 traps on the harder set. Without tools it answers 0/44 rather than
 invent, so the model's default is to decline. Five: the failure I did find, look-alike names, I fixed in the tool,
-and the guard fires on 0 of 88 Opus lookups on answerable questions, so it can't break them. What I can't yet show
+and the guard fires on 0 of 96 Opus lookups on answerable questions, so it can't break them. What I can't yet show
 is claim-level support for every sentence; that's the next check I'd build."
 
 **Q: "Why a graph instead of SQL?"**
@@ -616,12 +628,12 @@ requirements with acceptance criteria, a blockers log, a one-page brief and a de
 
 Line numbers as of this regeneration.
 
-### 4.1 The agent loop: `src/supplier_graph/agent/agent.py:148` (`ask`)
-Builds the message list and loops up to `MAX_STEPS = 8` (line 27). Each iteration checks the budget (line 158),
-calls `client.beta.messages.create` (line 162), records cost, appends the assistant content unchanged (thinking
-blocks survive), and runs requested tools (line 186), returning errors to the model instead of crashing. After the
-loop, `skill_caveat` (line 129) attaches the feed caveat when needed and `parse_final_json` (line 102) takes the last
-JSON block. The client is `anthropic.Anthropic()` with no arguments (line 144).
+### 4.1 The agent loop: `src/supplier_graph/agent/agent.py:154` (`ask`)
+Builds the message list and loops up to `MAX_STEPS = 8` (line 27). Each iteration checks the budget (line 164),
+calls `client.beta.messages.create` (line 168), records cost, appends the assistant content unchanged (thinking
+blocks survive), and runs requested tools (line 192), returning errors to the model instead of crashing. After the
+loop, `skill_caveat` (line 139) attaches the feed caveat when needed and `parse_final_json` (line 112) takes the last
+JSON block. The client is `anthropic.Anthropic()` with no arguments (line 151).
 *Be ready for:* "What if the model never stops?" It stops at 8 steps and records an error.
 
 ### 4.2 Name resolution and the guard: `src/supplier_graph/agent/tools.py:90` (`resolve_supplier`), `:37` (`missing_words`)
@@ -632,10 +644,10 @@ and canonical abbreviations, and sets `exact_name_match: False`.
 *Be ready for:* "Why not just raise the threshold?" A look-alike can score high on similarity; the missing word is
 the signal.
 
-### 4.3 Blast radius, both paths: `src/supplier_graph/graph/queries.py:147` and `:441`
+### 4.3 Blast radius, both paths: `src/supplier_graph/graph/queries.py:153` and `:568`
 Graph: the supplier's prime awards are the direct set; awards it subcontracts on, minus those, are the indirect set;
 then group by office, collect programs and prime customers. SQL: one CTE builds the same set with `UNION` and
-`NOT IN`. The registry at line 633 validates names and parameters.
+`NOT IN`. The registry at line 829 validates names and parameters.
 
 ### 4.4 Learned evidence linkage: `src/supplier_graph/er/matcher.py:100` (`evidence`), `src/supplier_graph/er/linkage.py:35` (`fit`)
 `evidence()` returns agreement features with missing indicators; `fit()` is a logistic regression on dev pairs;
@@ -657,7 +669,7 @@ the main bootstrap draws don't change whether it runs. `likelihood_features` (li
 `FEATURE_GROUPS` (line 61) is the plain-language grouping the app, the site and `docs/model_card_likelihood.md` use;
 a test checks it covers the model's features exactly.
 
-### 4.7 Feed loader and skill policy: `src/supplier_graph/ingest/risk_feed.py:148` (`validate`), `:91` (`likelihood_allowed`), `:241` (`feed_in_likelihood`)
+### 4.7 Feed loader and skill policy: `src/supplier_graph/ingest/risk_feed.py:156` (`validate`), `:99` (`likelihood_allowed`), `:249` (`feed_in_likelihood`)
 Schema majors 1 and 2, `skill_status` required from 1.1, `label` carried through, constant within a file; sha256
 checked; newer major folders reported as notices; `snapshot` (line 256) pins the feed in the repo with the right
 attribution (UCDP for v2). `feed_in_likelihood` reads the backtest's decision, so the app and agent text follow it.
@@ -670,6 +682,17 @@ a declared alternative.
 ### 4.9 One source of truth: `src/supplier_graph/headline.py`, `tests/test_headline.py`
 `build()` reads the result JSONs into 62 named strings; the test checks the file is current, that each document
 quotes its numbers, and that no stale fractions, AUCs, spend or ER rates appear.
+
+### 4.10 What-if scenario and app navigation: `src/supplier_graph/graph/queries.py:452` (`g_what_if_remove`), `:753` (SQL), `:394` (`_alternatives`); `src/supplier_graph/nav.py`; `src/supplier_graph/graph_component.py`
+Removing suppliers unions their direct and subcontracted awards, groups the supplier's own money by office, and
+collects each office's 4-character service codes. `_alternatives` ranks other suppliers with prime awards in those
+codes: first those already holding such awards from that office, then by obligations; removed suppliers never count.
+Both paths share that ranking and the parity tests compare them. In the app, tabs, the supplier box, the office
+dropdown and the scenario list are keyed widgets, so `nav.py` navigates by setting their keys and keeps a Back stack.
+The graph is a small inline custom component (vis-network inlined, no CDN) that sends clicked office and supplier
+nodes back to Python.
+*Be ready for:* "Does an alternative mean someone can take over?" No: same type of work, not capacity or lead time.
+The agent's prompt says so, and a challenge trap asks how long a switch would take; the right answer is to decline.
 
 ---
 
@@ -702,6 +725,9 @@ tool shows those two things separately, and I can tell you exactly how far to tr
 | **Absent-company false link** | Linking a record whose company isn't in the index at all: a false merge. |
 | **UEI / CAGE** | The federal unique entity ID and the older facility code. Trusted before fuzzy matching. |
 | **PSC J** | Product and Service Code category for maintenance, repair and rebuilding of equipment, the scope. |
+| **Service code** | The 4-character PSC on an award (e.g. J015, aircraft maintenance); the what-if scenario matches alternatives on it. |
+| **Alternative supplier** | A supplier with DoD awards in the same service code; "already serves the office" if it holds such awards from that office. Same type of work, not proof it could take over. |
+| **HHI** | Herfindahl-Hirschman index: the sum of each supplier's squared percentage share of an office's spending, 0 to 10,000; above 1,800 is usually called highly concentrated. |
 | **Sole-source** | Not competed: extent-competed codes B, C, G and NDO. |
 | **Subaward** | A subcontract a prime reports publicly; only 3.8% of in-scope prime awards have any. |
 | **Knowledge / property graph** | Typed nodes and edges with properties; good for multi-hop "who depends on whom." |
@@ -739,7 +765,7 @@ Answer out loud, then check the key.
 6. How did you choose the ER operating point, and what did it buy?
 7. What's the agent's failure mode, and how do you know the fix doesn't hurt answerable questions?
 8. What does "zero fabricated IDs" mean, and what doesn't it check?
-9. Why didn't Opus run three times on every set, and what did you do instead?
+9. Why did Opus run only once per set, and what does that leave unmeasured?
 9b. The feed now beats the base rate. Why isn't `p_escalation` in the likelihood model?
 10. What is `skill_status`, and where does the project honour it?
 11. How would you run this on an air-gapped network?
@@ -754,8 +780,8 @@ Answer out loud, then check the key.
 ### 8a. Status
 
 All plan phases and both presentation plans are complete and committed. `make test` passes with the live-API tests
-skipped unless `RUN_LIVE=1`; the Neo4j parity test runs when Neo4j is up. Total spend $9.15 of the $10 cap
-(`BUDGET_USD` raised to 9.40 to re-ask the feed-v2 questions).
+skipped unless `RUN_LIVE=1`; the Neo4j parity test runs when Neo4j is up. Total spend $16.74 of the $20 cap (raised
+from $10 by the owner on 2026-11-19; `BUDGET_USD=19.40`).
 
 ### 8b. Open items
 
@@ -765,7 +791,7 @@ skipped unless `RUN_LIVE=1`; the Neo4j parity test runs when Neo4j is up. Total 
 | 2 | Code license: MIT (done). | No |
 | 3 | Public repo: published as a fresh single-commit history (done; `FINAL_REPORT.md`, *Public release*). | No |
 | 4 | Claim-level citation checker. | No |
-| 5 | Opus repeats on the full sets (about $4.30): not possible under the $10 cap. | Only with a higher cap |
+| 5 | Opus repeats on the full sets with the current prompt (over $12 for two more runs of both sets). | Budget call |
 | 6 | SAM enrichment beyond 67 entities (optional daily `make sam`). | Your key |
 | 7 | Re-run `make backtest` when the MENA feed publishes forecasts covering FY2022-FY2024; the gate decides. | Later |
 | 8 | ACLED-based v1 feed output: left out of the public repo (done; `docs/DATA_LICENSES.md`). | No |
@@ -801,12 +827,13 @@ of use by a real customer.
 6. A rule fixed in advance (correct minus 2 x false merges), a 140-point grid on a hash-split tuning half, reported on
    the confirmation half: threshold 0.70, margin 0.20; absent false links 8.7% → 4.4%, wrong 3.8% → 0.6%, correct
    83.6% → 78.5%.
-7. Look-alike names. The guard lists missing query words; Haiku went from 1/8, 3/8, 3/8 to 7/8, 8/8, 7/8 on near-miss
-   traps, stayed 38/38, 38/38, 38/38 on answerable challenge questions, and the guard fires on 0 of 88 logged Opus
-   lookups on answerable questions.
+7. Look-alike names. The guard lists missing query words; on near-miss traps Haiku catches 4/8, 4/8, 4/8 without it
+   and 8/8, 8/8, 8/8 with it, scores 44/44 on answerable challenge questions in all three guarded runs, and the guard
+   fires on 0 of 96 logged Opus lookups on answerable questions.
 8. Every cited ID exists and appeared in that run's tool I/O. It doesn't check that the record supports the sentence.
-9. One full Opus challenge run costs about $2.14; two more would exceed the $10 cap. Instead the near-miss traps were
-   re-run twice: 7/8, 7/8, 7/8.
+9. Cost: one Opus run of both sets costs over $6, and after the re-run on the current prompt the total was $16.74
+   of a $20 cap. So Opus's run-to-run variance is unmeasured (near-miss traps 7/8 in its one run); Haiku ran three
+   times and varied by at most one answerable question.
 9b. The gate requires skill, point-in-time coverage and a measured gain. v2 forecasts start in August 2026, after
     every feature year, so coverage is 0% and testing it would mean leaking the future; feed-country exposure was
     testable and gave no gain. It stays context.

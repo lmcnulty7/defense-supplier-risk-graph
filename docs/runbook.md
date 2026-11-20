@@ -74,7 +74,7 @@ implementing `graph/queries.py` functions in Cypher and adding them as a third p
 | `risk feed ... SchemaError` | The feed's `schema_version` major isn't 1 or 2, `skill_status` is missing or invalid, or the sha256 doesn't match its manifest. Fix the feed and re-run `make feed-snapshot`, or delete `data/feeds/mena/` and unset `MENA_RISK_FEED_PATH` to use the labeled fixture. |
 | Refreshing the country-risk feed | `make feed-snapshot` (reads `MENA_RISK_FEED_PATH`), then `make stage er graph backtest`. Regenerate the question set with `python -m supplier_graph.evalh.golden`, list the questions whose expected answers changed, and re-ask only those with `--rerun-qids` (see `reports/feed_refresh_rerun_qids.json`). |
 | Tests skipped with "staged data not built" | Run `make data graph`. |
-| `budget: Anthropic spend ...` | The guard tripped. Raise `BUDGET_USD` only deliberately (hard cap $10 for this project). |
+| `budget: Anthropic spend ...` | The guard tripped. Raise `BUDGET_USD` only deliberately (hard cap $20 for this project, raised from $10 on 2026-11-19). |
 | SAM 429 | Daily limit reached; the cache keeps what was fetched. Retry tomorrow. |
 | Different numbers after re-pull | Expected: USAspending revises records. Pulls are keyed by request hash and dated in `meta.json`. |
 

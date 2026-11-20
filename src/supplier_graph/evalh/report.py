@@ -42,8 +42,11 @@ def write_report(res: dict, runs: list[dict], items: dict[str, GoldenItem]) -> N
         f"(20 template-rendered correct answers and 20 deliberate corruptions: wrong value, wrong entity, false refusal, "
         f"invented answer). **Agreement {_p(val['agreement'])}** "
         f"({by_case}). "
-        f"The use threshold is {_p(val['min_agreement_to_use'])}, so the judge is "
-        f"{'used' if val['usable'] else 'NOT used'}.")
+        f"The use threshold is {_p(val['min_agreement_to_use'])}, so the judge "
+        f"{'may be used' if val['usable'] else 'is NOT used'}.")
+    if not jd.get("used"):
+        judge_txt += (f"\n\nThe judge's free-text pass was not run on this agent run ({jd.get('reason', 'skipped')}); "
+                      "it is optional and costs extra API calls.")
     if jd.get("used"):
         jfails = [v for v in jd["verdicts"] if v["verdict"] == "FAIL"]
         judge_txt += (f"\n\nOn the agent's {jd['n']} answers, the judge's free-text **pass rate is {_p(jd['pass_rate'])}**."
@@ -85,7 +88,7 @@ Numbers below come from `reports/eval_results.json`.
 | latency (mean / p90) | {o['latency_mean_s']}s / {o['latency_p90_s']}s |
 | API/budget errors | {o['n_errors']} |
 
-Total Anthropic spend for the whole project at scoring time: **${res['anthropic_spend_total_usd']:.4f}** (budget $10).
+Total Anthropic spend for the whole project at scoring time: **${res['anthropic_spend_total_usd']:.4f}** (cap $20).
 
 ## Results by question type
 

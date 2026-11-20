@@ -1,4 +1,4 @@
-"""The agent's four read-only tools. No free-form query generation: `run_query` only runs named,
+"""The agent's five read-only tools. No free-form query generation: `run_query` only runs named,
 parameterized queries from graph/queries.py."""
 
 from __future__ import annotations
@@ -141,6 +141,14 @@ def run_query(query_name: str, params: dict) -> dict:
         return {"error": str(e), "query": query_name, "params": params}
 
 
+def what_if_remove(supplier_ids, limit: int = 25) -> dict:
+    """Scenario: what breaks if these suppliers fail (offices, dollars, programs, alternatives per office)."""
+    try:
+        return _compact(Q.run("what_if_remove", {"supplier_ids": supplier_ids, "limit": limit}, backend="graph"))
+    except Q.QueryError as e:
+        return {"error": str(e), "supplier_ids": supplier_ids}
+
+
 def country_risk(country_iso3: str) -> dict:
     iso = (country_iso3 or "").strip().upper()
     con = connect(read_only=True)
@@ -193,11 +201,14 @@ TOOL_FUNCS = {
     "run_query": lambda i: run_query(i["query_name"], i.get("params", {})),
     "country_risk": lambda i: country_risk(i["country_iso3"]),
     "award_details": lambda i: award_details(i["award_id"]),
+    "what_if_remove": lambda i: what_if_remove(i["supplier_ids"], i.get("limit", 25)),
 }
+# what_if_remove has its own tool, so run_query does not list it
+RUN_QUERY_NAMES = sorted(q for q in Q.QUERIES if q != "what_if_remove")
 
 _QUERY_DOC = "\n".join(
     f"- {q.name}({', '.join(list(q.params) + [f'{k}={v}' for k, v in q.optional.items()])}): {q.description}"
-    for q in Q.QUERIES.values())
+    for q in Q.QUERIES.values() if q.name in RUN_QUERY_NAMES)
 
 TOOL_SCHEMAS = [
     {"name": "resolve_supplier",
@@ -208,13 +219,19 @@ TOOL_SCHEMAS = [
     {"name": "run_query",
      "description": "Run one named, read-only, parameterized query over the supplier graph. Queries:\n" + _QUERY_DOC,
      "input_schema": {"type": "object", "additionalProperties": False, "required": ["query_name", "params"],
-                      "properties": {"query_name": {"type": "string", "enum": sorted(Q.QUERIES)},
+                      "properties": {"query_name": {"type": "string", "enum": RUN_QUERY_NAMES},
                                      "params": {"type": "object"}}}},
     {"name": "country_risk",
      "description": "Latest MENA escalation-risk estimate (p_escalation, week, model version, drivers) for a country "
                     "by ISO alpha-3 code. Says so if the feed does not cover the country.",
      "input_schema": {"type": "object", "additionalProperties": False, "required": ["country_iso3"],
                       "properties": {"country_iso3": {"type": "string"}}}},
+    {"name": "what_if_remove",
+     "description": "Scenario for 'what if these suppliers fail?': " + Q.QUERIES["what_if_remove"].description
+                    + " Takes supplier_ids (UEIs from resolve_supplier).",
+     "input_schema": {"type": "object", "additionalProperties": False, "required": ["supplier_ids"],
+                      "properties": {"supplier_ids": {"type": "array", "items": {"type": "string"}},
+                                     "limit": {"type": "integer"}}}},
     {"name": "award_details",
      "description": "Full details of one prime award by award_id (USAspending generated unique award key), "
                     "including office, program, competition, place of performance and top subcontractors.",

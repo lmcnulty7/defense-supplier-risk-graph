@@ -171,7 +171,8 @@ agreement is tested for every query.
 * Manual tool-use loop on the Messages API (beta endpoint, for the server-side refusal fallback). The client is
   `anthropic.Anthropic()` with no arguments. Model `claude-opus-5-5`, effort `low`, adaptive thinking (always on for
   this model), automatic prompt caching, max 8 steps. Thinking blocks are passed back unchanged.
-* Tools: `resolve_supplier`, `run_query` (enum of named queries), `country_risk`, `award_details`. No free-form SQL
+* Tools: `resolve_supplier`, `run_query` (enum of named queries), `what_if_remove` (scenario: offices, dollars,
+  programs and alternative suppliers if given suppliers fail), `country_risk`, `award_details`. No free-form SQL
   or Cypher generation.
 * Output contract: short prose with inline `[award:...]`, `[supplier:...]` citations, then a JSON block
   `{answerable, answer, citations}`. The eval scores the JSON deterministically.

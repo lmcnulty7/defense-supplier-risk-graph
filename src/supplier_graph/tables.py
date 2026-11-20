@@ -30,6 +30,12 @@ SPEC: dict[str, tuple[str, str]] = {
     "sub_amount": ("Subcontract amount received ($M)", "musd"),
     "n_indirect_awards": ("Awards via subcontracts", "count"),
     "example_award_ids": ("Example awards", "list"),
+    "psc_codes": ("Service codes", "list"),
+    "n_alternatives_at_office": ("Alternatives already serving this office", "count"),
+    "n_alternatives": ("Alternatives doing this work anywhere", "count"),
+    "alternatives": ("Top alternatives", "text"),
+    "share": ("Share of office spending", "share"),
+    "sole_source_obligations": ("Sole-source obligations ($M)", "musd"),
 }
 FLAGS = (("flag_concentrated", "Concentrated"), ("flag_sole_source", "Sole-source"), ("flag_geo_exposed", "Geo-exposed"))
 
@@ -38,6 +44,9 @@ RISK_COLUMNS = ["name", "state", "prime_obligations", "sole_source_share", "max_
 OUTLOOK_COLUMNS = ["name", "p_disruption_next_fy", "excess_vs_size", "prime_obligations", "n_dependent_offices",
                    "flags", "supplier_id"]
 BLAST_COLUMNS = ["office", "n_awards", "obligations"]
+SCENARIO_COLUMNS = ["office", "obligations", "psc_codes", "n_alternatives_at_office", "n_alternatives", "alternatives"]
+OFFICE_SUPPLIER_COLUMNS = ["name", "obligations", "share", "n_awards", "supplier_id"]
+SOLE_SOURCE_COLUMNS = ["name", "sole_source_obligations", "sole_source_share", "supplier_id"]
 DEPENDENT_COLUMNS = ["office", "direct_obligations", "n_direct_awards", "sub_amount", "n_indirect_awards",
                      "example_award_ids"]
 
@@ -83,6 +92,11 @@ def readable(df: pd.DataFrame, columns: list[str]) -> tuple[pd.DataFrame, dict]:
         else:
             config[col] = st.column_config.TextColumn(label, help=col)
     return d[columns], config
+
+
+def alternatives_text(top: list[dict]) -> str:
+    """'AMENTUM SERVICES, INC. (serves this office) · V2X AEROSPACE LLC'."""
+    return " · ".join(a["name"] + (" (serves this office)" if a["serves_office"] else "") for a in top) or "none"
 
 
 def count_line(n: int, cap: int = 500) -> str:

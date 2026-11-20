@@ -3,7 +3,7 @@
 Prices are USD per 1M tokens from Anthropic's published table (snapshot 2026-11-03). Cache writes are
 billed at 1.25x input (5-minute TTL); cache reads at the listed cache-read price.
 The ledger (logs/spend_ledger.jsonl, committed) records every API call's cost. `check_budget()` raises
-before a call if the running total would exceed BUDGET_USD (default 9.00, under the $10 hard cap).
+before a call if the running total would exceed BUDGET_USD (default 9.00; the project's hard cap is $20, raised from $10 on 2026-11-19).
 """
 
 from __future__ import annotations

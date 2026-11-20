@@ -1,7 +1,7 @@
 """Agent comparison: the same questions under different configurations, scored by the same deterministic rules.
 
 Configurations
-  opus_tools     claude-opus-5-5, four read-only tools (the shipped agent)
+  opus_tools     claude-opus-5-5, five read-only tools (the shipped agent)
   haiku_tools    claude-haiku-5-5, same tools and prompt (about 1/40 of Opus's per-token price)
   opus_no_tools  claude-opus-5-5, no tools: what a plain chat model gives the analyst
   *_guard        the same with the resolver's grounding guard on (flags query words the matched name lacks)

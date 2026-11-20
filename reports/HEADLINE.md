@@ -14,6 +14,7 @@ fails if they disagree.
 | `n_suppliers` | 11,658 | resolved suppliers | `graph_summary.json` |
 | `n_parents` | 9,096 | parent companies | `graph_summary.json` |
 | `n_offices` | 757 | awarding offices | `graph_summary.json` |
+| `offices_sole_source_majority` | 188 | awarding offices where one supplier gets over half the office's obligations and over half of that supplier's obligations from the office were not competed | `awards_scope (office_view.py)` |
 | `n_transactions` | 187,320 | contract transactions FY2022-FY2025 | `risk_backtest.json` |
 | `sub_coverage` | 3.8% | share of prime awards with any reported subaward | `graph_summary.json` |
 | `flagged_share` | 86.75% | obligations going to a supplier with at least one flag | `graph_summary.json` |
@@ -90,21 +91,21 @@ fails if they disagree.
 | `v1_opus_ref` | 13/13 | v1: Opus correct refusals | `comparison.json` |
 | `v1_opus_fab` | 0 | v1: Opus fabricated IDs | `eval_results.json` |
 | `v1_haiku` | 83/88, 83/88, 83/88 | v1: Haiku answerable correct, three runs | `comparison.json` |
-| `v1_haiku_guard` | 82/88, 83/88, 83/88 | v1: Haiku + guard answerable correct, three runs | `comparison.json` |
-| `v1_haiku_fab` | 0, 0, 3 (guard: 0, 0, 4) | v1: Haiku citation IDs not found, per run (real supplier IDs cited under the parent: prefix) | `comparison.json` |
+| `v1_haiku_guard` | 83/88, 83/88, 82/88 | v1: Haiku + guard answerable correct, three runs | `comparison.json` |
+| `v1_haiku_fab` | 1, 0, 0 (guard: 0, 0, 3) | v1: Haiku citation IDs not found, per run (real supplier IDs cited under the parent: prefix) | `comparison.json` |
 | `draft_haiku` | 44/44, 44/44, 44/44 | first challenge draft: Haiku answerable correct (saturated; set revised) | `comparison_challenge_draft.json` |
-| `ch_opus` | 38/38 | challenge: Opus answerable correct | `comparison.json` |
-| `ch_opus_traps` | 13/14 | challenge: Opus traps declined | `comparison.json` |
-| `ch_haiku` | 38/38, 38/38, 38/38 | challenge: Haiku answerable, three runs | `comparison.json` |
-| `ch_haiku_traps` | 7/14, 9/14, 9/14 | challenge: Haiku traps declined | `comparison.json` |
-| `ch_guard_traps` | 13/14, 14/14, 13/14 | challenge: Haiku + guard traps declined | `comparison.json` |
-| `ch_notools` | 0/38 | challenge: Opus without tools, answerable | `comparison.json` |
-| `nm_haiku` | 1/8, 3/8, 3/8 | near-miss traps caught, Haiku | `comparison.json` |
-| `nm_guard` | 7/8, 8/8, 7/8 | near-miss traps caught, Haiku + guard | `comparison.json` |
-| `nm_opus` | 7/8, 7/8, 7/8 | near-miss traps caught, Opus (three runs of the trap template) | `comparison.json` |
-| `cost_opus` | $0.041 | Opus cost per challenge question | `comparison.json` |
-| `cost_ratio` | 1/49 | Haiku cost relative to Opus per challenge question | `comparison.json` |
-| `guard_replay` | 0 of 88 | logged Opus resolver calls on answerable questions where the guard fires | `guard_eval.json` |
+| `ch_opus` | 44/44 | challenge: Opus answerable correct | `comparison.json` |
+| `ch_opus_traps` | 15/16 | challenge: Opus traps declined | `comparison.json` |
+| `ch_haiku` | 43/44, 44/44, 43/44 | challenge: Haiku answerable, three runs | `comparison.json` |
+| `ch_haiku_traps` | 12/16, 12/16, 12/16 | challenge: Haiku traps declined | `comparison.json` |
+| `ch_guard_traps` | 15/16, 16/16, 16/16 | challenge: Haiku + guard traps declined | `comparison.json` |
+| `ch_notools` | 0/44 | challenge: Opus without tools, answerable | `comparison.json` |
+| `nm_haiku` | 4/8, 4/8, 4/8 | near-miss traps caught, Haiku | `comparison.json` |
+| `nm_guard` | 8/8, 8/8, 8/8 | near-miss traps caught, Haiku + guard | `comparison.json` |
+| `nm_opus` | 7/8 | near-miss traps caught, Opus (one run with the current prompt) | `comparison.json` |
+| `cost_opus` | $0.045 | Opus cost per challenge question | `comparison.json` |
+| `cost_ratio` | 1/52 | Haiku cost relative to Opus per challenge question | `comparison.json` |
+| `guard_replay` | 0 of 96 | logged Opus resolver calls on answerable questions where the guard fires | `guard_eval.json` |
 
 ## Trust and cost
 
@@ -112,5 +113,5 @@ fails if they disagree.
 |---|---|---|---|
 | `judge_blatant` | 40/40 | LLM judge agreement, blatant corruptions | `judge_validation.json` |
 | `judge_subtle` | 30/30 | LLM judge agreement, subtle corruptions in real agent prose | `judge_validation_subtle.json` |
-| `spend` | $9.15 | total Anthropic API spend (cap $10) | `logs/spend_ledger.jsonl` |
-| `tests` | 144 tests | pytest tests collected (`make test`) | `pytest --collect-only` |
+| `spend` | $16.74 | total Anthropic API spend (cap $20, raised from $10 on 2026-11-19) | `logs/spend_ledger.jsonl` |
+| `tests` | 176 tests | pytest tests collected (`make test`) | `pytest --collect-only` |

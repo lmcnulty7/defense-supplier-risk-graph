@@ -378,6 +378,121 @@ def g_office_flagged_suppliers(office_code: str, limit: int = 15) -> dict:
                    [i for r in rows for i in r["example_award_ids"]], [r["supplier_id"] for r in rows])
 
 
+# ------------------------------------------------------------------ what-if scenario (remove suppliers)
+def _ids(supplier_ids) -> list[str]:
+    """Normalize a list (or comma/space separated string) of UEIs: upper case, unique, sorted."""
+    if isinstance(supplier_ids, str):
+        supplier_ids = supplier_ids.replace(",", " ").split()
+    out = sorted({str(x).strip().upper() for x in (supplier_ids or []) if str(x).strip()})
+    if not out:
+        raise QueryError("what_if_remove needs at least one supplier_id")
+    if len(out) > 10:
+        raise QueryError("what_if_remove takes at most 10 supplier_ids")
+    return out
+
+
+def _alternatives(pscs: set, office: str, removed: set, by_psc: dict, at_office: dict, names: dict) -> dict:
+    """Suppliers (not removed) with DoD prime awards in the same 4-character PSC codes, ranked by whether they
+    already hold such awards from this office, then by their obligations in those codes."""
+    obl: dict[str, float] = defaultdict(float)
+    for p in pscs:
+        for sid, v in by_psc.get(p, {}).items():
+            if sid not in removed:
+                obl[sid] += v
+    serves = {sid for p in pscs for sid in at_office.get((office, p), ()) if sid not in removed}
+    ranked = sorted(obl, key=lambda x: (x not in serves, -round(obl[x], 2), x))
+    return {"n_alternatives": len(ranked), "n_alternatives_at_office": len(serves),
+            "top_alternatives": [{"supplier_id": x, "name": names[x], "serves_office": x in serves,
+                                  "obligations": m(obl[x])} for x in ranked[:3]]}
+
+
+def _what_if_rows(offices: dict, removed: set, by_psc: dict, at_office: dict, names: dict, office_names: dict,
+                  limit: int) -> tuple[list[dict], int, int]:
+    rows = []
+    for code, o in offices.items():
+        alt = _alternatives(o["psc"], code, removed, by_psc, at_office, names)
+        rows.append({"office_code": code, "office_name": office_names[code],
+                     "obligations": m(o["direct"] + o["sub"]), "direct_obligations": m(o["direct"]),
+                     "sub_amount": m(o["sub"]), "n_awards": len(o["awards"]), "psc_codes": sorted(o["psc"]), **alt})
+    rows.sort(key=lambda r: (-r["obligations"], r["office_code"]))
+    no_alt_here = sum(r["n_alternatives_at_office"] == 0 for r in rows)
+    no_alt = sum(r["n_alternatives"] == 0 for r in rows)
+    return rows[:limit], no_alt_here, no_alt
+
+
+def _what_if_result(ids, names_removed, offices, rows, no_here, no_any, prime, sub, n_awards, programs, codes,
+                    top_awards, limit) -> dict:
+    summary = {"supplier_ids": ids, "names": names_removed, "n_offices": len(offices), "n_awards": n_awards,
+               "prime_obligations": m(prime), "sub_amount": m(sub), "programs": programs, "program_codes": codes,
+               "n_offices_no_alternative_at_office": no_here, "n_offices_no_alternative": no_any}
+    ents = ids + [a["supplier_id"] for r in rows for a in r["top_alternatives"]]
+    return _result("what_if_remove", {"supplier_ids": ids, "limit": limit}, summary, rows, top_awards, ents)
+
+
+_PSC_INDEX: dict[int, tuple[dict, dict]] = {}
+
+
+def _psc_index(G) -> tuple[dict, dict]:
+    """psc -> {supplier: obligations in that psc}; (office, psc) -> {suppliers with such awards from the office}."""
+    if id(G) not in _PSC_INDEX:
+        by_psc: dict[str, dict[str, float]] = defaultdict(lambda: defaultdict(float))
+        at_office: dict[tuple[str, str], set[str]] = defaultdict(set)
+        for _n, d in G.nodes(data=True):
+            if d.get("label") != "Award" or not d.get("psc"):
+                continue
+            s = _award_supplier(G, d["award_id"])
+            by_psc[d["psc"]][s] += d["obl_pos"]
+            if d.get("office_code"):
+                at_office[(d["office_code"], d["psc"])].add(s)
+        _PSC_INDEX.clear()
+        _PSC_INDEX[id(G)] = (by_psc, at_office)
+    return _PSC_INDEX[id(G)]
+
+
+def g_what_if_remove(supplier_ids, limit: int = 25) -> dict:
+    G = _G()
+    ids = _ids(supplier_ids)
+    sns = {sid: _supplier(G, sid) for sid in ids}
+    removed = set(ids)
+    offices: dict[str, dict] = defaultdict(lambda: {"direct": 0.0, "sub": 0.0, "awards": set(), "psc": set()})
+    affected: set[str] = set()
+    prime = sub = 0.0
+    direct_pairs, indirect_pairs = [], []
+    for sn in sns.values():
+        direct = _prime_awards(G, sn)
+        direct_ids = {a["award_id"] for a in direct}
+        for a in direct:
+            prime += a["obl_pos"]
+            affected.add(a["award_id"])
+            direct_pairs.append((a["obl_pos"], a["award_id"]))
+            if a["office_code"]:
+                o = offices[a["office_code"]]
+                o["direct"] += a["obl_pos"]
+                o["awards"].add(a["award_id"])
+                o["psc"].add(a["psc"])
+        for d in _sub_edges_in(G, sn):
+            amt = max(d["amount"] or 0, 0)
+            sub += amt
+            a = _award(G, d["prime_award_id"])
+            affected.add(a["award_id"])
+            if a["award_id"] in direct_ids:
+                continue
+            indirect_pairs.append((a["obl_pos"], a["award_id"]))
+            if a["office_code"]:
+                o = offices[a["office_code"]]
+                o["sub"] += amt
+                o["awards"].add(a["award_id"])
+                o["psc"].add(a["psc"])
+    progs = {a["program_code"]: a.get("program_name") for a in (_award(G, x) for x in affected) if a["program_code"]}
+    by_psc, at_office = _psc_index(G)
+    names = {d["supplier_id"]: d["name"] for _n, d in G.nodes(data=True) if d.get("label") == "Supplier"}
+    office_names = {c: G.nodes[nid("Office", c)]["name"] for c in offices}
+    rows, no_here, no_any = _what_if_rows(offices, removed, by_psc, at_office, names, office_names, limit)
+    return _what_if_result(ids, [names[i] for i in ids], offices, rows, no_here, no_any, prime, sub, len(affected),
+                           sorted({v for v in progs.values() if v}), sorted(progs),
+                           _top_ids(direct_pairs, 5) + _top_ids(indirect_pairs, 5), limit)
+
+
 # ------------------------------------------------------------------ queries: SQL path
 def _q(con, sql: str, params: list | None = None) -> list[dict]:
     cur = con.execute(sql, params or [])
@@ -635,6 +750,71 @@ def s_office_flagged_suppliers(con, office_code: str, limit: int = 15) -> dict:
                    [i for r in out for i in r["example_award_ids"]], [r["supplier_id"] for r in out])
 
 
+def s_what_if_remove(con, supplier_ids, limit: int = 25) -> dict:
+    ids = _ids(supplier_ids)
+    known = {r["supplier_id"] for r in _q(con, "SELECT supplier_id FROM suppliers WHERE list_contains($1, supplier_id)",
+                                           [ids])}
+    for sid in ids:
+        if sid not in known:
+            raise QueryError(f"unknown supplier_id {sid!r}")
+    removed = set(ids)
+    d = _q(con, """SELECT award_id, supplier_id, office_code, psc, obl_pos, program_code, program_name
+                   FROM awards_scope WHERE list_contains($1, supplier_id)""", [ids])
+    s_rows = _q(con, """SELECT s.sub_supplier_id, s.amt_pos, a.award_id, a.office_code, a.psc, a.obl_pos,
+                               a.program_code, a.program_name
+                        FROM subawards_scope s JOIN awards_scope a ON a.award_id = s.prime_award_id
+                        WHERE list_contains($1, s.sub_supplier_id)""", [ids])
+    offices: dict[str, dict] = defaultdict(lambda: {"direct": 0.0, "sub": 0.0, "awards": set(), "psc": set()})
+    affected, progs = set(), {}
+    direct_by: dict[str, set] = defaultdict(set)
+    direct_pairs, indirect_pairs = [], []
+    for r in d:
+        affected.add(r["award_id"])
+        direct_by[r["supplier_id"]].add(r["award_id"])
+        direct_pairs.append((r["obl_pos"], r["award_id"]))
+        if r["program_code"]:
+            progs[r["program_code"]] = r["program_name"]
+        if r["office_code"]:
+            o = offices[r["office_code"]]
+            o["direct"] += r["obl_pos"]
+            o["awards"].add(r["award_id"])
+            o["psc"].add(r["psc"])
+    for r in s_rows:
+        affected.add(r["award_id"])
+        if r["program_code"]:
+            progs[r["program_code"]] = r["program_name"]
+        if r["award_id"] in direct_by[r["sub_supplier_id"]]:
+            continue
+        indirect_pairs.append((r["obl_pos"], r["award_id"]))
+        if r["office_code"]:
+            o = offices[r["office_code"]]
+            o["sub"] += r["amt_pos"]
+            o["awards"].add(r["award_id"])
+            o["psc"].add(r["psc"])
+    pscs = sorted({p for o in offices.values() for p in o["psc"]})
+    by_psc: dict[str, dict[str, float]] = defaultdict(dict)
+    at_office: dict[tuple[str, str], set[str]] = defaultdict(set)
+    if pscs:
+        for r in _q(con, "SELECT psc, supplier_id, sum(obl_pos) v FROM awards_scope WHERE list_contains($1, psc) "
+                         "GROUP BY 1, 2", [pscs]):
+            by_psc[r["psc"]][r["supplier_id"]] = r["v"]
+        for r in _q(con, "SELECT DISTINCT office_code, psc, supplier_id FROM awards_scope "
+                         "WHERE list_contains($1, psc) AND office_code IS NOT NULL", [pscs]):
+            at_office[(r["office_code"], r["psc"])].add(r["supplier_id"])
+    cand = sorted({x for v in by_psc.values() for x in v} | removed)
+    names = {r["supplier_id"]: r["name"] for r in _q(
+        con, "SELECT supplier_id, name FROM suppliers WHERE list_contains($1, supplier_id)", [cand])}
+    office_names = {r["office_code"]: r["office_name"] for r in _q(
+        con, "SELECT office_code, min(office_name) office_name FROM office_totals WHERE list_contains($1, office_code) "
+             "GROUP BY 1", [sorted(offices)])} if offices else {}
+    rows, no_here, no_any = _what_if_rows(offices, removed, by_psc, at_office, names, office_names, limit)
+    prime = sum(r["obl_pos"] for r in d)
+    sub = sum(r["amt_pos"] for r in s_rows)
+    return _what_if_result(ids, [names[i] for i in ids], offices, rows, no_here, no_any, prime, sub, len(affected),
+                           sorted({v for v in progs.values() if v}), sorted(progs),
+                           _top_ids(direct_pairs, 5) + _top_ids(indirect_pairs, 5), limit)
+
+
 # ------------------------------------------------------------------ registry
 @dataclass(frozen=True)
 class QuerySpec:
@@ -665,6 +845,12 @@ QUERIES: dict[str, QuerySpec] = {q.name: q for q in [
     QuerySpec("program_suppliers", "Suppliers on a DoD acquisition program's awards with obligations and "
               "sole-source amounts.", {"program_code": "DoD acquisition program code, e.g. 341"},
               g_program_suppliers, s_program_suppliers, {"limit": 15}),
+    QuerySpec("what_if_remove", "Scenario: remove one or more suppliers (list of UEIs). Returns the offices affected, "
+              "prime obligations and subaward dollars at stake, programs touched, and for each affected office its "
+              "service codes (4-character PSC) and alternative suppliers: suppliers with DoD awards in the same "
+              "service codes, ranked by whether they already do that work for the office, then by obligations. An "
+              "alternative means the same type of work, not proof it could take over.",
+              {"supplier_ids": "list of UEIs (1 to 10)"}, g_what_if_remove, s_what_if_remove, {"limit": 25}),
     QuerySpec("country_exposure", "Prime awards and subawards performed in a country, the suppliers involved, the "
               "offices awarding that work (top_offices), and the country's latest p_escalation if the risk feed "
               "covers it.",

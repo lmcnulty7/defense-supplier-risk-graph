@@ -136,12 +136,12 @@
   ],
   "replay_logged_opus_resolver_calls": {
     "answerable": {
-      "calls": 88,
+      "calls": 96,
       "flagged": 0
     },
     "unanswerable": {
-      "calls": 34,
-      "flagged": 24
+      "calls": 23,
+      "flagged": 9
     }
   }
 }

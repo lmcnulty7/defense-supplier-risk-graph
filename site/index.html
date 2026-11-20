@@ -58,7 +58,7 @@ padding:4px 12px;font-size:13px;cursor:pointer}
  <div><b>57,596</b><span>contracts ($225.2B)</span></div>
  <div><b>11,658</b><span>companies</span></div>
  <div><b>87/88</b><span>assistant answers correct</span></div>
- <div><b>$9.15</b><span>total AI cost to build and test</span></div>
+ <div><b>$16.74</b><span>total AI cost to build and test</span></div>
 </div>
 <p class="fine">Use ← → or PageUp/PageDown to move between sections.</p></div></section>
 <section class="slide" id="overview"><div class="inner">
@@ -161,9 +161,9 @@ records which download it came from.</p>
 on). <b>Each is computed two independent ways</b>, and the tests fail if the answers ever differ.</p>
 <p>I also loaded the map into Neo4j, a standard graph database, and checked it gives exactly the same results.</p>
 </div>
-<div class="answer"><p class="q">Example question to the assistant: For awarding office W91WFU (0409 AQ HQ CONTRACT): among the suppliers it pays that are flagged as concentrated, sole-sourced or geographically exposed, take the one with the largest obligations from this office. If that supplier failed, how many awarding offices in total would be affected? Give the count.</p><p>If M. C. Dean, Inc. failed, <b>14 awarding offices</b> would be affected <span class="cite">supplier:RD55NEXJ5EW4</span>. All 14 pay it directly as a prime contractor. None depend on it only as a subcontractor.<br><br>- <b>Supplier selected:</b> Four of the five suppliers that office W91WFU pays are flagged. M. C. Dean, Inc. gets the most from this office, $21,913,020.05 across 21 awards. It is flagged as both concentrated and geographically exposed <span class="cite">office:W91WFU</span> <span class="cite">supplier:RD55NEXJ5EW4</span> <span class="cite">award:CONT_AWD_W91WFU22F0053_9700_W91WFU22A0002_9700</span>.<br>- <b>Next largest:</b> Roeschke Sicherheitstechnik GmbH, the second-largest flagged supplier, gets only $765,236.42 <span class="cite">supplier:YK91YR73RK97</span> <span class="cite">award:CONT_AWD_W91WFU23C0003_9700_-NONE-_-NONE-</span>…</p>
+<div class="answer"><p class="q">Example question to the assistant: For awarding office W519TC (W6QK ACC-RI): among the suppliers it pays that are flagged as concentrated, sole-sourced or geographically exposed, take the one with the largest obligations from this office. If that supplier failed, how many awarding offices in total would be affected? Give the count.</p><p><b>The answer is 11.</b> V2X Systems LLC is the flagged supplier with the most money from W519TC, and if it failed, 11 awarding offices would be affected <span class="cite">supplier:RRFJZGASZJ41</span>.<br><br>- <b>Which supplier:</b> Among the suppliers W519TC (W6QK ACC-RI) pays that are flagged, V2X Systems LLC has the most obligations from this office: about $889.6M across 3 awards. It is flagged as concentrated and geographically exposed <span class="cite">office:W519TC</span> <span class="cite">supplier:RRFJZGASZJ41</span> <span class="cite">award:CONT_AWD_0001_9700_W52P1J13G0027_9700</span> <span class="cite">award:CONT_AWD_W52P1J21F0035_9700_W52P1J17G0066_9700</span>. The next largest is Amentum Services at about $342.2M <span class="cite">supplier:QEMLRQA7PLG4</span>.<br>- <b>What a failure would touch:</b> 11 offices and 37 awards. That is a…</p>
 <p class="fine">A real logged answer. Grey tags are record IDs; the scorer checks each one against what the lookup
-returned. 2 lookups, $0.052, 10 seconds.</p></div>
+returned. 2 lookups, $0.076, 11 seconds.</p></div>
 </div>
 <details><summary>Technical detail (for follow-up questions)</summary><div class="det">Schema: Supplier, ParentCompany, Award, Office, Country, ProductServiceCode nodes; AWARDED_TO, SUBCONTRACTS_TO, SUBSIDIARY_OF, PERFORMED_IN, AWARDED_BY, CATEGORIZED_AS edges. The two paths are a NetworkX graph traversal and DuckDB SQL. Neo4j: node counts equal for every label, edge counts equal for every type, and a Cypher two-hop blast radius equal to NetworkX for 30/30 sampled suppliers.</div></details></div></section>
 <section class="slide" id="backtest"><div class="inner">
@@ -209,38 +209,52 @@ least twice as likely as their size alone would suggest: the ones worth a closer
 <table><tr><th>supplier</th><th>chance</th><th>vs size</th><th>at stake</th><th>offices</th></tr><tr><td>RAYTHEON COMPANY</td><td>36.8%</td><td>2.3×</td><td>$3.3B</td><td>9</td></tr><tr><td>AIRBUS US SPACE &amp; DEFENSE INC</td><td>2.9%</td><td>2.1×</td><td>$2.6B</td><td>3</td></tr><tr><td>NORTHROP GRUMMAN SYSTEMS CORP</td><td>52.3%</td><td>2.8×</td><td>$436.4M</td><td>11</td></tr><tr><td>ALABAMA SHIPYARD LLC</td><td>19.7%</td><td>3.5×</td><td>$380.0M</td><td>2</td></tr><tr><td>DRS SUSTAINMENT SYSTEMS, INC</td><td>74.3%</td><td>4.7×</td><td>$367.7M</td><td>4</td></tr><tr><td>EPSILON SYSTEMS SOLUTIONS INC</td><td>81.0%</td><td>2.2×</td><td>$300.4M</td><td>15</td></tr></table>
 <p class="fine">"Chance" is the chance of any termination or cancellation, not of the company failing. Largest six red dots shown.</p>
 </div></div></div></section>
+<section class="slide" id="scenario"><div class="inner">
+<h2>What if a supplier fails? The tool answers in one click</h2>
+<p class="big">Removing Sikorsky Aircraft affects 7 offices and $167M (plus $8.0M in subcontracts); DCMA Stratford has no alternative supplier already doing this work (same service code).</p>
+<div class="two">
+<div><table><tr><th>office</th><th>at stake</th><th>others already doing this work there</th><th>top alternative</th></tr>
+<tr><td>NAVAIR (N00019)</td><td>$117.3M</td><td>21</td><td>Amentum Services</td></tr><tr><td>DCMA Stratford (S0707A)</td><td>$37.0M</td><td>0</td><td>Amentum Services (not yet for this office)</td></tr><tr><td>AFSC PZAAA (FA8524)</td><td>$10.9M</td><td>53</td><td>Northrop Grumman Systems</td></tr><tr><td>ACC-RSA (W9124P)</td><td>$7.7M</td><td>2</td><td>S &amp; K Logistics Services</td></tr><tr><td>ACC-RSA (W58RGZ)</td><td>$1.1M</td><td>35</td><td>Amentum Services</td></tr><tr><td>CCAD CONTR OFF (W912NW)</td><td>$0.6M</td><td>2</td><td>Amentum Services</td></tr><tr><td>ACC-APG (W91CRB)</td><td>$0.4M</td><td>2</td><td>S &amp; K Federal Services</td></tr></table></div>
+<div>
+<p>Pick one or more suppliers to remove. The tool lists every office that loses work, the dollars and programs involved,
+and, for each office, the other suppliers doing the same type of work (same service code), starting with those that
+already do it for that office.</p>
+<p>The same check across the whole dataset: <b>188 of 757</b> awarding
+offices rely on one supplier, mostly sole-source, for over half their spending.</p>
+<p class="fine">An alternative here means a supplier doing the same type of work (same service code), not proof it could take over. The assistant can run the same scenario (its fifth tool).</p>
+</div></div></div></section>
 <section class="slide" id="agent-eval"><div class="inner">
 <h2>Step 5: The AI assistant, and testing it fairly</h2>
-<p>You type a question. Claude can't search freely: it can only use four lookup tools (find a company by name, run one of
-the ten pre-written questions, get a country's risk, get a contract's details). Every fact must cite a record ID, or it must
+<p>You type a question. Claude can't search freely: it can only use five lookup tools (find a company by name, run one of
+the ten pre-written questions, test what happens if suppliers fail, get a country's risk, get a contract's details). Every fact must cite a record ID, or it must
 say the data can't answer.</p>
 <p><b>Testing:</b> questions whose correct answers are computed from the data, plus trick questions about companies that
 don't exist. The first test was too easy (87/88
 right, 13/13 tricks declined), so I wrote a harder
 one with comparisons, rankings and look-alike names.</p>
-<svg viewBox="0 0 760 324" role="img" class="chart"><rect x="40" y="4" width="12" height="12" fill="var(--c1)"/><text x="58" y="14" class="lg">real questions answered correctly</text><rect x="344" y="4" width="12" height="12" fill="var(--c3)"/><text x="362" y="14" class="lg">trick questions correctly declined</text><line x1="40" x2="750" y1="270.0" y2="270.0" class="grid"/><text x="34" y="274.0" text-anchor="end" class="ax">0%</text><line x1="40" x2="750" y1="213.5" y2="213.5" class="grid"/><text x="34" y="217.5" text-anchor="end" class="ax">25%</text><line x1="40" x2="750" y1="157.0" y2="157.0" class="grid"/><text x="34" y="161.0" text-anchor="end" class="ax">50%</text><line x1="40" x2="750" y1="100.5" y2="100.5" class="grid"/><text x="34" y="104.5" text-anchor="end" class="ax">75%</text><line x1="40" x2="750" y1="44.0" y2="44.0" class="grid"/><text x="34" y="48.0" text-anchor="end" class="ax">100%</text><rect x="58.0" y="44.0" width="67.8" height="226.0" fill="var(--c1)" opacity="0.9"/><text x="91.9" y="34.0" text-anchor="middle" class="val">100%</text><rect x="131.8" y="60.1" width="67.8" height="209.9" fill="var(--c3)" opacity="0.9"/><text x="165.6" y="50.1" text-anchor="middle" class="val">93%</text><text x="128.8" y="290" text-anchor="middle" class="lb">Large model + tools</text><rect x="235.5" y="44.0" width="67.8" height="226.0" fill="var(--c1)" opacity="0.9"/><circle cx="269.4" cy="44.0" r="3.5" class="rundot"/><circle cx="269.4" cy="44.0" r="3.5" class="rundot"/><circle cx="269.4" cy="44.0" r="3.5" class="rundot"/><text x="269.4" y="34.0" text-anchor="middle" class="val">100% mean</text><rect x="309.2" y="135.5" width="67.8" height="134.5" fill="var(--c3)" opacity="0.9"/><circle cx="343.1" cy="157.0" r="3.5" class="rundot"/><circle cx="343.1" cy="124.7" r="3.5" class="rundot"/><circle cx="343.1" cy="124.7" r="3.5" class="rundot"/><text x="343.1" y="114.7" text-anchor="middle" class="val">60% mean</text><text x="306.2" y="290" text-anchor="middle" class="lb">Small model + tools</text><rect x="413.0" y="44.0" width="67.8" height="226.0" fill="var(--c1)" opacity="0.9"/><circle cx="446.9" cy="44.0" r="3.5" class="rundot"/><circle cx="446.9" cy="44.0" r="3.5" class="rundot"/><circle cx="446.9" cy="44.0" r="3.5" class="rundot"/><text x="446.9" y="34.0" text-anchor="middle" class="val">100% mean</text><rect x="486.8" y="54.8" width="67.8" height="215.2" fill="var(--c3)" opacity="0.9"/><circle cx="520.6" cy="60.1" r="3.5" class="rundot"/><circle cx="520.6" cy="44.0" r="3.5" class="rundot"/><circle cx="520.6" cy="60.1" r="3.5" class="rundot"/><text x="520.6" y="34.0" text-anchor="middle" class="val">95% mean</text><text x="483.8" y="290" text-anchor="middle" class="lb">Small + tools + fix</text><rect x="590.5" y="270.0" width="67.8" height="0.0" fill="var(--c1)" opacity="0.9"/><text x="624.4" y="260.0" text-anchor="middle" class="val">0%</text><rect x="664.2" y="44.0" width="67.8" height="226.0" fill="var(--c3)" opacity="0.9"/><text x="698.1" y="34.0" text-anchor="middle" class="val">100%</text><text x="661.2" y="290" text-anchor="middle" class="lb">Large model, no tools</text></svg>
+<svg viewBox="0 0 760 324" role="img" class="chart"><rect x="40" y="4" width="12" height="12" fill="var(--c1)"/><text x="58" y="14" class="lg">real questions answered correctly</text><rect x="344" y="4" width="12" height="12" fill="var(--c3)"/><text x="362" y="14" class="lg">trick questions correctly declined</text><line x1="40" x2="750" y1="270.0" y2="270.0" class="grid"/><text x="34" y="274.0" text-anchor="end" class="ax">0%</text><line x1="40" x2="750" y1="213.5" y2="213.5" class="grid"/><text x="34" y="217.5" text-anchor="end" class="ax">25%</text><line x1="40" x2="750" y1="157.0" y2="157.0" class="grid"/><text x="34" y="161.0" text-anchor="end" class="ax">50%</text><line x1="40" x2="750" y1="100.5" y2="100.5" class="grid"/><text x="34" y="104.5" text-anchor="end" class="ax">75%</text><line x1="40" x2="750" y1="44.0" y2="44.0" class="grid"/><text x="34" y="48.0" text-anchor="end" class="ax">100%</text><rect x="58.0" y="44.0" width="67.8" height="226.0" fill="var(--c1)" opacity="0.9"/><text x="91.9" y="34.0" text-anchor="middle" class="val">100%</text><rect x="131.8" y="58.1" width="67.8" height="211.9" fill="var(--c3)" opacity="0.9"/><text x="165.6" y="48.1" text-anchor="middle" class="val">94%</text><text x="128.8" y="290" text-anchor="middle" class="lb">Large model + tools</text><rect x="235.5" y="47.4" width="67.8" height="222.6" fill="var(--c1)" opacity="0.9"/><circle cx="269.4" cy="49.1" r="3.5" class="rundot"/><circle cx="269.4" cy="44.0" r="3.5" class="rundot"/><circle cx="269.4" cy="49.1" r="3.5" class="rundot"/><text x="269.4" y="34.0" text-anchor="middle" class="val">98% mean</text><rect x="309.2" y="100.5" width="67.8" height="169.5" fill="var(--c3)" opacity="0.9"/><circle cx="343.1" cy="100.5" r="3.5" class="rundot"/><circle cx="343.1" cy="100.5" r="3.5" class="rundot"/><circle cx="343.1" cy="100.5" r="3.5" class="rundot"/><text x="343.1" y="90.5" text-anchor="middle" class="val">75% mean</text><text x="306.2" y="290" text-anchor="middle" class="lb">Small model + tools</text><rect x="413.0" y="44.0" width="67.8" height="226.0" fill="var(--c1)" opacity="0.9"/><circle cx="446.9" cy="44.0" r="3.5" class="rundot"/><circle cx="446.9" cy="44.0" r="3.5" class="rundot"/><circle cx="446.9" cy="44.0" r="3.5" class="rundot"/><text x="446.9" y="34.0" text-anchor="middle" class="val">100% mean</text><rect x="486.8" y="48.7" width="67.8" height="221.3" fill="var(--c3)" opacity="0.9"/><circle cx="520.6" cy="58.1" r="3.5" class="rundot"/><circle cx="520.6" cy="44.0" r="3.5" class="rundot"/><circle cx="520.6" cy="44.0" r="3.5" class="rundot"/><text x="520.6" y="34.0" text-anchor="middle" class="val">98% mean</text><text x="483.8" y="290" text-anchor="middle" class="lb">Small + tools + fix</text><rect x="590.5" y="270.0" width="67.8" height="0.0" fill="var(--c1)" opacity="0.9"/><text x="624.4" y="260.0" text-anchor="middle" class="val">0%</text><rect x="664.2" y="44.0" width="67.8" height="226.0" fill="var(--c3)" opacity="0.9"/><text x="698.1" y="34.0" text-anchor="middle" class="val">100%</text><text x="661.2" y="290" text-anchor="middle" class="lb">Large model, no tools</text></svg>
 <ul>
- <li><b>Without the lookup tools</b>, Claude answers nothing (0/38). It declines
+ <li><b>Without the lookup tools</b>, Claude answers nothing (0/44). It declines
      rather than making things up, but it can't help. The map is what makes it useful.</li>
- <li><b>With the tools, even the small model</b> gets every real question right, in all three runs, at about
-     1/49 of the large model's cost.</li>
- <li>The small model's mistakes were all on trick questions. The next slide shows which ones.</li>
+ <li><b>With the tools, even the small model</b> gets nearly every real question right (43/44, 44/44, 43/44), at about
+     1/52 of the large model's cost.</li>
+ <li>Most of the small model's mistakes were on trick questions (its other misses: c_what_if_top_alt). The next slide shows the tricks it fell for.</li>
 </ul>
-<p class="fine">Black dots are separate runs (small model 3 times; large model once on the full set, because two more
-full runs would break the $10 budget, and 3 times on the look-alike tricks). Cost per question:
-Large model + tools $0.0412 · Small model + tools $0.0008 · Small + tools + fix $0.0008 · Large model, no tools $0.0067.</p></div></section>
+<p class="fine">Black dots are separate runs (small model 3 times; large model once per set). All runs use the
+assistant's current instructions and tools. Cost per question:
+Large model + tools $0.0447 · Small model + tools $0.0009 · Small + tools + fix $0.0009 · Large model, no tools $0.0067.</p></div></section>
 <section class="slide" id="guard"><div class="inner">
 <h2>The weak spot, and the fix: look-alike company names</h2>
 <p><b>The trick:</b> ask about a company whose name is a real supplier's name with one word changed. The name lookup finds
 the real company as the closest match, and the small model often answered about it anyway, as if it were the company asked about.</p>
 <p><b>The fix:</b> the lookup now lists any words in the question that the matched name doesn't contain, and says not to
 swap companies silently. I changed the tool, not the instructions to the AI, so it works for any model.</p>
-<p class="big">Look-alike tricks caught (of 8): small model 1, 3, 3 →
-with the fix 7, 8, 7. Large model: 7, 7, 7.
-Real questions: still 38/38, 38/38, 38/38.</p>
-<div class="two"><div class="answer bad"><p class="q">Small model, before the fix</p><p><b>Two awarding offices</b> depend on Epsilon Systems Solutions Mission Solutions Group, Inc., all through subcontracts and none directly.<br><br>The name you gave doesn&#x27;t match exactly. The only candidate was EPSILON SYSTEMS SOLUTIONS MISSION SOLUTIONS GROUP, INC (San Diego, CA), which I used. It is the only UEI returned, but I could not confirm it is the entity you meant. It holds no prime awards, only subcontracts.<br><br>- Sout…</p></div>
-<div class="answer good"><p class="q">Small model, after the fix</p><p>I can&#x27;t answer this as asked. &quot;Epsilon Sys Solns Mission Rotorcraft Grp LLC&quot; is not in the graph. The closest match is EPSILON SYSTEMS SOLUTIONS MISSION SOLUTIONS GROUP, INC (San Diego, CA) <span class="cite">supplier:HT6GVGHMD357</span>. It lacks &quot;Rotorcraft&quot; in its name, so it may be a different company. I have not run dependency counts on it.<br><br>- The closest candidate has no prime awards, only 6 subawards received <span class="cite">supplier:HT6GVGHMD357</span>.…</p></div></div>
-<details><summary>Technical detail (for follow-up questions)</summary><div class="det">Offline checks: the check fires on 8/8 look-alike tricks, 0/3 misspelled-but-correct names, 0.08% of synthetic same-company pairs, and 0 of 88 logged large-model lookups on real questions. One trick every model missed is arguably mislabelled; it is still counted as a miss.</div></details></div></section>
+<p class="big">Look-alike tricks caught (of 8): small model 4, 4, 4 →
+with the fix 8, 8, 8. Large model: 7.
+Real questions: still 44/44, 44/44, 44/44.</p>
+<div class="two"><div class="answer bad"><p class="q">Small model, before the fix</p><p><b>Two awarding offices</b> depend on this supplier, both only indirectly, through subcontracts. The closest match to your name is EPSILON SYSTEMS SOLUTIONS MISSION SOLUTIONS GROUP, INC (San Diego, CA) <span class="cite">supplier:HT6GVGHMD357</span>. I used it because it was the only candidate returned, and the name differs slightly from the one you gave (&quot;Mission Rotorcraft Grp&quot;), so please confirm it is the entity you mean.<br><br>- Southwest Regi…</p></div>
+<div class="answer good"><p class="q">Small model, after the fix</p><p>&quot;Epsilon Sys Solns Mission Rotorcraft Grp LLC&quot; is not in the data. The closest match is EPSILON SYSTEMS SOLUTIONS MISSION SOLUTIONS GROUP, INC (San Diego, CA) <span class="cite">supplier:HT6GVGHMD357</span>. I used that entity only as a stand-in, and it is not confirmed to be the same company.<br><br>For that closest match, 2 awarding offices depend on it, both indirectly through subcontracts and none through prime awards:<br>- Southwest Regional Ma…</p></div></div>
+<details><summary>Technical detail (for follow-up questions)</summary><div class="det">Offline checks: the check fires on 8/8 look-alike tricks, 0/3 misspelled-but-correct names, 0.08% of synthetic same-company pairs, and 0 of 96 logged large-model lookups on real questions.  The one trick the large model missed is arguably mislabelled (the matched company shares every other distinctive word, and the model said it was a likely, not certain, match); it is still counted as a miss.</div></details></div></section>
 <section class="slide" id="trust"><div class="inner">
 <h2>Why these numbers can be trusted</h2>
 <ul>
@@ -251,8 +265,9 @@ Real questions: still 38/38, 38/38, 38/38.</p>
      100% of 30 subtle ones (a count off by one, a percentage off by 5 points).</li>
  <li><b>No hand-made labels.</b> Test labels come from ID numbers, deliberate misspellings and the government's own
      termination codes.</li>
- <li><b>Changes made after seeing results are disclosed.</b> The harder question set was revised once after a trial run,
-     and the address check was added after studying failures. Both are reported with before and after numbers.</li>
+ <li><b>Changes made after seeing results are disclosed.</b> The harder question set was revised once after a trial run
+     (and later extended with eight what-if questions for the scenario tool), and the address check was added after
+     studying failures. Both are reported with before and after numbers.</li>
  <li><b>Automatic checks.</b> The test suite fails if any of these results gets worse.</li>
 </ul></div></section>
 <section class="slide" id="limits"><div class="inner">
@@ -281,9 +296,9 @@ make eval-offline compare-offline guard-eval   # re-score the saved assistant ru
 make test                # automatic checks
 make site                # this page
 make app                 # interactive demo</pre>
-<p>Total AI cost for everything above: <b>$9.15</b> (cap $10).
-Built 2026-11-20 06:22 UTC.</p></div></section>
-<div id="nav"><span id="pos">1</span> / 15</div>
+<p>Total AI cost for everything above: <b>$16.74</b> (cap $10).
+Built 2026-11-20 07:21 UTC.</p></div></section>
+<div id="nav"><span id="pos">1</span> / 16</div>
 <script>
 const S=[...document.querySelectorAll('.slide')];
 function cur(){let b=0,d=1e9;S.forEach((s,i)=>{const t=Math.abs(s.getBoundingClientRect().top);if(t<d){d=t;b=i}});return b}

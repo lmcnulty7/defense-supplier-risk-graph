@@ -1,6 +1,6 @@
 {
-  "tag": "20261118T092857Z",
-  "scored_at_utc": "2026-11-19T07:13:28.808675+00:00",
+  "tag": "20261120T064235Z",
+  "scored_at_utc": "2026-11-20T07:14:06.771722+00:00",
   "model": "claude-opus-5-5",
   "effort": "low",
   "golden_size": 101,
@@ -15,15 +15,15 @@
     "citation_precision_micro": 1.0,
     "citation_precision_macro": 1.0,
     "citation_exists_rate": 1.0,
-    "required_citation_hit_rate": 1.0,
+    "required_citation_hit_rate": 0.9886,
     "n_fabricated_citations": 0,
-    "tool_call_correctness": 0.9898,
-    "steps_mean": 2.4257,
-    "steps_max": 4,
-    "cost_total_usd": 3.286,
-    "cost_mean_usd": 0.0325,
-    "latency_mean_s": 7.1044,
-    "latency_p90_s": 9.8,
+    "tool_call_correctness": 0.9592,
+    "steps_mean": 2.505,
+    "steps_max": 5,
+    "cost_total_usd": 3.7745,
+    "cost_mean_usd": 0.0374,
+    "latency_mean_s": 7.2545,
+    "latency_p90_s": 10.21,
     "n_errors": 0
   },
   "by_template": {
@@ -43,10 +43,10 @@
       "tool_call_correctness": 1.0,
       "steps_mean": 2.0,
       "steps_max": 2,
-      "cost_total_usd": 0.0377,
-      "cost_mean_usd": 0.0188,
-      "latency_mean_s": 4.54,
-      "latency_p90_s": 4.33,
+      "cost_total_usd": 0.044,
+      "cost_mean_usd": 0.022,
+      "latency_mean_s": 4.21,
+      "latency_p90_s": 3.44,
       "n_errors": 0
     },
     "absent_program": {
@@ -65,10 +65,10 @@
       "tool_call_correctness": 1.0,
       "steps_mean": 2.0,
       "steps_max": 2,
-      "cost_total_usd": 0.0185,
-      "cost_mean_usd": 0.0185,
-      "latency_mean_s": 4.25,
-      "latency_p90_s": 4.25,
+      "cost_total_usd": 0.0212,
+      "cost_mean_usd": 0.0212,
+      "latency_mean_s": 3.58,
+      "latency_p90_s": 3.58,
       "n_errors": 0
     },
     "absent_supplier": {
@@ -87,10 +87,10 @@
       "tool_call_correctness": 1.0,
       "steps_mean": 2.0,
       "steps_max": 2,
-      "cost_total_usd": 0.0538,
-      "cost_mean_usd": 0.0179,
-      "latency_mean_s": 4.2333,
-      "latency_p90_s": 4.28,
+      "cost_total_usd": 0.0637,
+      "cost_mean_usd": 0.0212,
+      "latency_mean_s": 4.13,
+      "latency_p90_s": 3.67,
       "n_errors": 0
     },
     "award_sole_source": {
@@ -109,10 +109,10 @@
       "tool_call_correctness": 1.0,
       "steps_mean": 2.0,
       "steps_max": 2,
-      "cost_total_usd": 0.1148,
-      "cost_mean_usd": 0.023,
-      "latency_mean_s": 4.986,
-      "latency_p90_s": 5.26,
+      "cost_total_usd": 0.1329,
+      "cost_mean_usd": 0.0266,
+      "latency_mean_s": 4.708,
+      "latency_p90_s": 4.83,
       "n_errors": 0
     },
     "blast_radius_awards": {
@@ -131,10 +131,10 @@
       "tool_call_correctness": 1.0,
       "steps_mean": 3.0,
       "steps_max": 3,
-      "cost_total_usd": 0.1517,
-      "cost_mean_usd": 0.0303,
-      "latency_mean_s": 8.23,
-      "latency_p90_s": 9.16,
+      "cost_total_usd": 0.185,
+      "cost_mean_usd": 0.037,
+      "latency_mean_s": 8.52,
+      "latency_p90_s": 8.97,
       "n_errors": 0
     },
     "blast_radius_programs": {
@@ -153,10 +153,10 @@
       "tool_call_correctness": 1.0,
       "steps_mean": 3.0,
       "steps_max": 3,
-      "cost_total_usd": 0.1474,
-      "cost_mean_usd": 0.0295,
-      "latency_mean_s": 9.692,
-      "latency_p90_s": 10.66,
+      "cost_total_usd": 0.1839,
+      "cost_mean_usd": 0.0368,
+      "latency_mean_s": 8.322,
+      "latency_p90_s": 9.37,
       "n_errors": 0
     },
     "country_prime_awards": {
@@ -175,10 +175,10 @@
       "tool_call_correctness": 1.0,
       "steps_mean": 2.0,
       "steps_max": 2,
-      "cost_total_usd": 0.1391,
-      "cost_mean_usd": 0.0278,
-      "latency_mean_s": 5.498,
-      "latency_p90_s": 6.08,
+      "cost_total_usd": 0.1726,
+      "cost_mean_usd": 0.0345,
+      "latency_mean_s": 5.122,
+      "latency_p90_s": 5.23,
       "n_errors": 0
     },
     "country_risk": {
@@ -197,10 +197,10 @@
       "tool_call_correctness": 1.0,
       "steps_mean": 2.0,
       "steps_max": 2,
-      "cost_total_usd": 0.1058,
-      "cost_mean_usd": 0.0212,
-      "latency_mean_s": 4.544,
-      "latency_p90_s": 4.55,
+      "cost_total_usd": 0.122,
+      "cost_mean_usd": 0.0244,
+      "latency_mean_s": 4.602,
+      "latency_p90_s": 4.86,
       "n_errors": 0
     },
     "dependent_offices_count": {
@@ -219,10 +219,10 @@
       "tool_call_correctness": 1.0,
       "steps_mean": 3.0,
       "steps_max": 3,
-      "cost_total_usd": 0.1737,
-      "cost_mean_usd": 0.0347,
-      "latency_mean_s": 8.586,
-      "latency_p90_s": 9.35,
+      "cost_total_usd": 0.1915,
+      "cost_mean_usd": 0.0383,
+      "latency_mean_s": 8.396,
+      "latency_p90_s": 8.58,
       "n_errors": 0
     },
     "hard_company_rollup": {
@@ -239,12 +239,12 @@
       "required_citation_hit_rate": 1.0,
       "n_fabricated_citations": 0,
       "tool_call_correctness": 1.0,
-      "steps_mean": 4.0,
-      "steps_max": 4,
-      "cost_total_usd": 0.1347,
-      "cost_mean_usd": 0.0449,
-      "latency_mean_s": 8.8833,
-      "latency_p90_s": 8.75,
+      "steps_mean": 4.3333,
+      "steps_max": 5,
+      "cost_total_usd": 0.1552,
+      "cost_mean_usd": 0.0517,
+      "latency_mean_s": 9.95,
+      "latency_p90_s": 9.63,
       "n_errors": 0
     },
     "hard_feed_country": {
@@ -263,10 +263,10 @@
       "tool_call_correctness": 1.0,
       "steps_mean": 2.0,
       "steps_max": 2,
-      "cost_total_usd": 0.1261,
-      "cost_mean_usd": 0.042,
-      "latency_mean_s": 7.7633,
-      "latency_p90_s": 7.97,
+      "cost_total_usd": 0.1429,
+      "cost_mean_usd": 0.0476,
+      "latency_mean_s": 8.81,
+      "latency_p90_s": 7.9,
       "n_errors": 0
     },
     "hard_noisy_name": {
@@ -280,15 +280,15 @@
       "citation_precision_micro": 1.0,
       "citation_precision_macro": 1.0,
       "citation_exists_rate": 1.0,
-      "required_citation_hit_rate": 1.0,
+      "required_citation_hit_rate": 0.6667,
       "n_fabricated_citations": 0,
       "tool_call_correctness": 0.6667,
       "steps_mean": 2.6667,
       "steps_max": 3,
-      "cost_total_usd": 0.0998,
-      "cost_mean_usd": 0.0333,
-      "latency_mean_s": 8.1367,
-      "latency_p90_s": 7.87,
+      "cost_total_usd": 0.1109,
+      "cost_mean_usd": 0.037,
+      "latency_mean_s": 7.3767,
+      "latency_p90_s": 6.74,
       "n_errors": 0
     },
     "hard_office_flagged_blast": {
@@ -304,13 +304,13 @@
       "citation_exists_rate": 1.0,
       "required_citation_hit_rate": 1.0,
       "n_fabricated_citations": 0,
-      "tool_call_correctness": 1.0,
+      "tool_call_correctness": 0.0,
       "steps_mean": 3.0,
       "steps_max": 3,
-      "cost_total_usd": 0.1699,
-      "cost_mean_usd": 0.0566,
-      "latency_mean_s": 9.5733,
-      "latency_p90_s": 9.22,
+      "cost_total_usd": 0.2045,
+      "cost_mean_usd": 0.0682,
+      "latency_mean_s": 9.7833,
+      "latency_p90_s": 9.46,
       "n_errors": 0
     },
     "hard_prime_customers": {
@@ -329,10 +329,10 @@
       "tool_call_correctness": 1.0,
       "steps_mean": 3.0,
       "steps_max": 3,
-      "cost_total_usd": 0.0991,
-      "cost_mean_usd": 0.033,
-      "latency_mean_s": 10.0733,
-      "latency_p90_s": 10.41,
+      "cost_total_usd": 0.1135,
+      "cost_mean_usd": 0.0378,
+      "latency_mean_s": 9.61,
+      "latency_p90_s": 9.75,
       "n_errors": 0
     },
     "hard_single_point": {
@@ -349,12 +349,12 @@
       "required_citation_hit_rate": 1.0,
       "n_fabricated_citations": 0,
       "tool_call_correctness": 1.0,
-      "steps_mean": 4.0,
+      "steps_mean": 3.6667,
       "steps_max": 4,
-      "cost_total_usd": 0.2046,
-      "cost_mean_usd": 0.0682,
-      "latency_mean_s": 11.53,
-      "latency_p90_s": 11.61,
+      "cost_total_usd": 0.1542,
+      "cost_mean_usd": 0.0514,
+      "latency_mean_s": 9.97,
+      "latency_p90_s": 10.21,
       "n_errors": 0
     },
     "office_flagged_share": {
@@ -373,10 +373,10 @@
       "tool_call_correctness": 1.0,
       "steps_mean": 2.0,
       "steps_max": 2,
-      "cost_total_usd": 0.2105,
-      "cost_mean_usd": 0.0421,
-      "latency_mean_s": 8.792,
-      "latency_p90_s": 9.27,
+      "cost_total_usd": 0.2276,
+      "cost_mean_usd": 0.0455,
+      "latency_mean_s": 8.916,
+      "latency_p90_s": 10.08,
       "n_errors": 0
     },
     "office_hhi": {
@@ -395,10 +395,10 @@
       "tool_call_correctness": 1.0,
       "steps_mean": 2.0,
       "steps_max": 2,
-      "cost_total_usd": 0.1999,
-      "cost_mean_usd": 0.04,
-      "latency_mean_s": 7.512,
-      "latency_p90_s": 8.55,
+      "cost_total_usd": 0.2097,
+      "cost_mean_usd": 0.0419,
+      "latency_mean_s": 7.206,
+      "latency_p90_s": 7.53,
       "n_errors": 0
     },
     "office_top_supplier": {
@@ -417,10 +417,10 @@
       "tool_call_correctness": 1.0,
       "steps_mean": 2.0,
       "steps_max": 2,
-      "cost_total_usd": 0.1565,
-      "cost_mean_usd": 0.0313,
-      "latency_mean_s": 6.494,
-      "latency_p90_s": 7.02,
+      "cost_total_usd": 0.1713,
+      "cost_mean_usd": 0.0343,
+      "latency_mean_s": 6.472,
+      "latency_p90_s": 6.36,
       "n_errors": 0
     },
     "out_of_schema": {
@@ -437,12 +437,12 @@
       "required_citation_hit_rate": null,
       "n_fabricated_citations": 0,
       "tool_call_correctness": null,
-      "steps_mean": 1.3333,
-      "steps_max": 2,
-      "cost_total_usd": 0.0611,
-      "cost_mean_usd": 0.0204,
-      "latency_mean_s": 4.9833,
-      "latency_p90_s": 5.24,
+      "steps_mean": 2.6667,
+      "steps_max": 3,
+      "cost_total_usd": 0.1292,
+      "cost_mean_usd": 0.0431,
+      "latency_mean_s": 8.7233,
+      "latency_p90_s": 10.47,
       "n_errors": 0
     },
     "parent_subsidiaries": {
@@ -461,10 +461,10 @@
       "tool_call_correctness": 1.0,
       "steps_mean": 2.0,
       "steps_max": 2,
-      "cost_total_usd": 0.1239,
-      "cost_mean_usd": 0.0248,
-      "latency_mean_s": 5.442,
-      "latency_p90_s": 5.87,
+      "cost_total_usd": 0.1437,
+      "cost_mean_usd": 0.0287,
+      "latency_mean_s": 5.266,
+      "latency_p90_s": 5.59,
       "n_errors": 0
     },
     "program_top_supplier": {
@@ -483,10 +483,10 @@
       "tool_call_correctness": 1.0,
       "steps_mean": 2.0,
       "steps_max": 2,
-      "cost_total_usd": 0.1563,
-      "cost_mean_usd": 0.0313,
-      "latency_mean_s": 6.286,
-      "latency_p90_s": 6.93,
+      "cost_total_usd": 0.1598,
+      "cost_mean_usd": 0.032,
+      "latency_mean_s": 5.648,
+      "latency_p90_s": 5.93,
       "n_errors": 0
     },
     "risk_not_in_feed": {
@@ -503,12 +503,12 @@
       "required_citation_hit_rate": null,
       "n_fabricated_citations": 0,
       "tool_call_correctness": 1.0,
-      "steps_mean": 2.0,
-      "steps_max": 2,
-      "cost_total_usd": 0.0692,
-      "cost_mean_usd": 0.0173,
-      "latency_mean_s": 3.4775,
-      "latency_p90_s": 3.34,
+      "steps_mean": 3.0,
+      "steps_max": 3,
+      "cost_total_usd": 0.1615,
+      "cost_mean_usd": 0.0404,
+      "latency_mean_s": 8.4625,
+      "latency_p90_s": 8.12,
       "n_errors": 0
     },
     "sole_source_share": {
@@ -527,10 +527,10 @@
       "tool_call_correctness": 1.0,
       "steps_mean": 3.0,
       "steps_max": 3,
-      "cost_total_usd": 0.1911,
-      "cost_mean_usd": 0.0382,
-      "latency_mean_s": 8.31,
-      "latency_p90_s": 8.34,
+      "cost_total_usd": 0.2004,
+      "cost_mean_usd": 0.0401,
+      "latency_mean_s": 8.318,
+      "latency_p90_s": 8.44,
       "n_errors": 0
     },
     "subcontractor_count": {
@@ -549,10 +549,10 @@
       "tool_call_correctness": 1.0,
       "steps_mean": 3.0,
       "steps_max": 3,
-      "cost_total_usd": 0.1829,
-      "cost_mean_usd": 0.0366,
-      "latency_mean_s": 8.21,
-      "latency_p90_s": 9.36,
+      "cost_total_usd": 0.1999,
+      "cost_mean_usd": 0.04,
+      "latency_mean_s": 7.812,
+      "latency_p90_s": 8.35,
       "n_errors": 0
     },
     "top_sole_source_country": {
@@ -571,628 +571,40 @@
       "tool_call_correctness": 1.0,
       "steps_mean": 2.0,
       "steps_max": 2,
-      "cost_total_usd": 0.158,
-      "cost_mean_usd": 0.0316,
-      "latency_mean_s": 6.372,
-      "latency_p90_s": 6.35,
+      "cost_total_usd": 0.173,
+      "cost_mean_usd": 0.0346,
+      "latency_mean_s": 7.05,
+      "latency_p90_s": 7.85,
       "n_errors": 0
     }
   },
   "judge": {
-    "used": true,
-    "validation_agreement": 1.0,
-    "n": 101,
-    "pass_rate": 0.9901,
-    "verdicts": [
-      {
-        "qid": "dependent_offices_count-4b2df80a",
-        "template": "dependent_offices_count",
-        "verdict": "PASS",
-        "reason": "The answer gives a count of 2 and names offices W519TC and W912HZ, which matches the reference facts. The extra details about award values and subcontracts do not contradict anything in the reference."
-      },
-      {
-        "qid": "dependent_offices_count-9d7f3f57",
-        "template": "dependent_offices_count",
-        "verdict": "PASS",
-        "reason": "The answer gives a count of 5, which matches the reference. All five office IDs it lists match the reference set. Nothing in it contradicts the reference facts."
-      },
-      {
-        "qid": "dependent_offices_count-3cfcee09",
-        "template": "dependent_offices_count",
-        "verdict": "PASS",
-        "reason": "The candidate answers the question directly with a count of 2 awarding offices. That count and the office IDs SP4702 and W912P4 match the reference facts. The added details about award counts and the absence of subcontracts do not contradict the reference."
-      },
-      {
-        "qid": "dependent_offices_count-529aa26d",
-        "template": "dependent_offices_count",
-        "verdict": "PASS",
-        "reason": "The answer gives a count of 2 offices, FA2396 and W911PT, which matches the reference facts. The extra award details do not contradict anything in the reference."
-      },
-      {
-        "qid": "sole_source_share-4459b136",
-        "template": "sole_source_share",
-        "verdict": "PASS",
-        "reason": "The answer gives 0.0225, which matches the reference share. The prime total of $15,868,241.18 and sole-source total of $356,371.41 also match. The extra details do not contradict the reference facts."
-      },
-      {
-        "qid": "dependent_offices_count-b58fe31b",
-        "template": "dependent_offices_count",
-        "verdict": "PASS",
-        "reason": "The answer gives a count of 3 offices, and the IDs W912CM, FA5606 and W564KV match the reference facts. The other details do not contradict the reference."
-      },
-      {
-        "qid": "sole_source_share-08bd5a0b",
-        "template": "sole_source_share",
-        "verdict": "PASS",
-        "reason": "The answer gives a sole-source share of 0.4302, which matches the reference. Its totals of $3,538,506.01 sole-source and $8,224,876.29 in prime obligations also match. The extra details do not contradict the reference facts."
-      },
-      {
-        "qid": "sole_source_share-f28dcf46",
-        "template": "sole_source_share",
-        "verdict": "PASS",
-        "reason": "The answer gives 0.0566, and its dollar figures match the reference facts. It answers the question directly, and the extra details do not contradict the reference."
-      },
-      {
-        "qid": "sole_source_share-ce2e5f05",
-        "template": "sole_source_share",
-        "verdict": "PASS",
-        "reason": "The candidate gives 0.9185, matching the reference share. The sole-source amount of $1,436,199.06 and prime total of $1,563,693.33 also match. The listed awards sum consistently: the five sole-source awards total 1,436,199.06, and adding the competed award gives 1,563,693.33. Nothing contradicts the reference facts."
-      },
-      {
-        "qid": "blast_radius_awards-5ab741ac",
-        "template": "blast_radius_awards",
-        "verdict": "PASS",
-        "reason": "The answer gives a total of 1, split as 0 direct and 1 indirect, with 1 office. All of this matches the reference facts. The extra details do not contradict them."
-      },
-      {
-        "qid": "blast_radius_awards-4cecc105",
-        "template": "blast_radius_awards",
-        "verdict": "PASS",
-        "reason": "The answer gives a total of 2 prime awards, with 0 held directly and 2 through subcontracts, which matches the reference facts. It names 1 office and 1 prime customer, which also matches. The extra details do not contradict anything."
-      },
-      {
-        "qid": "sole_source_share-c6e1e08b",
-        "template": "sole_source_share",
-        "verdict": "PASS",
-        "reason": "The answer gives a share of 0.7652, which matches the reference. The sole-source amount ($1,499,239.88) and the total prime obligations ($1,959,395.88) also match. The extra details do not contradict the reference facts."
-      },
-      {
-        "qid": "blast_radius_awards-3b1bbbb8",
-        "template": "blast_radius_awards",
-        "verdict": "PASS",
-        "reason": "The answer states 1 prime award affected: 0 held directly and 1 through subcontracting. That matches the reference facts, as do the one office and the one prime customer it names."
-      },
-      {
-        "qid": "blast_radius_awards-0847006b",
-        "template": "blast_radius_awards",
-        "verdict": "PASS",
-        "reason": "The answer gives 238 total, which is 196 direct plus 42 indirect, and that matches the reference. It also correctly reports 12 offices and 4 prime customers. Nothing contradicts the reference facts."
-      },
-      {
-        "qid": "blast_radius_awards-2d272272",
-        "template": "blast_radius_awards",
-        "verdict": "PASS",
-        "reason": "Answers the question with 11 (3 direct + 8 indirect). The counts of 4 prime customers and 3 offices match the reference. Nothing contradicts the reference facts."
-      },
-      {
-        "qid": "blast_radius_programs-62885167",
-        "template": "blast_radius_programs",
-        "verdict": "PASS",
-        "reason": "Gives program code 178 as the only program, which matches the reference. The extra details do not contradict the reference facts."
-      },
-      {
-        "qid": "blast_radius_programs-266a66ce",
-        "template": "blast_radius_programs",
-        "verdict": "PASS",
-        "reason": "The answer lists program 191, which matches the reference facts. It answers the question directly and contradicts nothing in the reference. The extra details are plausible and do not conflict with the reference facts."
-      },
-      {
-        "qid": "blast_radius_programs-b80c5ed4",
-        "template": "blast_radius_programs",
-        "verdict": "PASS",
-        "reason": "The candidate answers directly that program 420 is the only program touched, which matches the reference. The supporting details add context and do not contradict the reference facts."
-      },
-      {
-        "qid": "blast_radius_programs-800d4875",
-        "template": "blast_radius_programs",
-        "verdict": "PASS",
-        "reason": "The answer names program 260 as the only affected program, which matches the reference facts. The extra details do not contradict them."
-      },
-      {
-        "qid": "top_sole_source_country-ec8a0678",
-        "template": "top_sole_source_country",
-        "verdict": "PASS",
-        "reason": "Names GE Energy Power Conversion USA Inc. with ID U864F3HRME53 and $2,761,310.45 in sole-source obligations, all matching the reference facts. The extra details on other suppliers and totals do not contradict anything in the reference."
-      },
-      {
-        "qid": "blast_radius_programs-42d44f45",
-        "template": "blast_radius_programs",
-        "verdict": "PASS",
-        "reason": "The answer directly names program 374, which matches the reference facts. It does not hedge, and the extra details about awards and offices do not contradict anything in the reference."
-      },
-      {
-        "qid": "top_sole_source_country-5ea2e6c0",
-        "template": "top_sole_source_country",
-        "verdict": "PASS",
-        "reason": "Names V2X Systems LLC, supplier_id RRFJZGASZJ41, and $3,338,092, all matching the reference. The extra details are internally consistent: 3,338,092 + 97,000 + 28,189.65 \u2248 3,463,282, and V2X's ~96% share follows from that total."
-      },
-      {
-        "qid": "top_sole_source_country-c0963f1c",
-        "template": "top_sole_source_country",
-        "verdict": "PASS",
-        "reason": "Names the correct supplier and supplier_id U3MMZ4SBMJJ3 with an obligation figure ($11,137,706) that matches the reference. The extra details do not contradict the reference facts."
-      },
-      {
-        "qid": "top_sole_source_country-2c702b7f",
-        "template": "top_sole_source_country",
-        "verdict": "PASS",
-        "reason": "Names Clarus Fluid Intelligence, LLC with supplier_id F2BEQJNKFY83 and $834,258.11, which matches the reference facts. The extra details are internally consistent: the three amounts sum to $1,448,027.41 and Clarus's share is about 58%. Nothing contradicts the reference."
-      },
-      {
-        "qid": "top_sole_source_country-ad0d4c46",
-        "template": "top_sole_source_country",
-        "verdict": "PASS",
-        "reason": "The candidate answers the question directly. It names Motorola Solutions, Inc. with the correct supplier_id HFK9V1G2B513, and its ~$14.62M matches the reference figure of 14,616,480.77. The extra details (award count, share, second and third place) do not contradict the reference facts."
-      },
-      {
-        "qid": "office_top_supplier-fcc29c5c",
-        "template": "office_top_supplier",
-        "verdict": "PASS",
-        "reason": "The answer names TA1 LLC with its supplier_id, matching the reference top supplier. The 35.2% share and the HHI of about 1979 both agree with the reference facts, and the extra details do not contradict them."
-      },
-      {
-        "qid": "office_top_supplier-e8f71631",
-        "template": "office_top_supplier",
-        "verdict": "PASS",
-        "reason": "The answer names MIA General Contracting LLC as the top supplier and gives a supplier_id. Its 37.3% share matches the reference 0.3727, and its HHI of about 3147 matches 3146.8. The extra details do not contradict the reference facts."
-      },
-      {
-        "qid": "office_top_supplier-baa28398",
-        "template": "office_top_supplier",
-        "verdict": "PASS",
-        "reason": "Names TRIAD LOGISTICS as the top supplier and gives its supplier_id. The 28.74% share and HHI of 1288.3 match the reference facts. The extra details do not contradict them."
-      },
-      {
-        "qid": "office_top_supplier-7314fa49",
-        "template": "office_top_supplier",
-        "verdict": "PASS",
-        "reason": "The answer names TGW Landscaping as the top supplier with about 37.9%, which matches the 0.3786 share. It gives a supplier_id as asked, and its HHI of 2178.8 matches the reference. The extra details do not contradict the reference facts."
-      },
-      {
-        "qid": "office_top_supplier-127f7117",
-        "template": "office_top_supplier",
-        "verdict": "PASS",
-        "reason": "The answer names MACCS-EASI JV 1 LLC as the top supplier with a 54.3% share and an HHI of about 3549, all consistent with the reference facts. It gives a supplier_id as asked, and its extra details do not contradict the reference."
-      },
-      {
-        "qid": "office_hhi-624db3cb",
-        "template": "office_hhi",
-        "verdict": "PASS",
-        "reason": "The answer gives the HHI as about 1,999.9, which matches the reference. It also correctly states 18 suppliers and a top supplier share of 36.7%. The added amounts and supplier names do not contradict the reference facts. One flaw: calling 1,999.9 'right at the line' between the 1,500 and 2,500 thresholds is imprecise, since it sits mid-range. This is commentary rather than a factual contradiction."
-      },
-      {
-        "qid": "office_hhi-1f399ff7",
-        "template": "office_hhi",
-        "verdict": "PASS",
-        "reason": "The answer states an HHI of 1642.2, 40 suppliers and a top supplier share of 27.6%, all of which match the reference facts. The extra context it adds does not contradict them."
-      },
-      {
-        "qid": "office_hhi-0513773d",
-        "template": "office_hhi",
-        "verdict": "PASS",
-        "reason": "The answer states HHI 3665.3, 7 suppliers and a top supplier share of 49.8%, all matching the reference facts. The extra details do not contradict them, and the shares are internally consistent: 49.8\u00b2+32.1\u00b2+10.5\u00b2+6.6\u00b2\u22483665."
-      },
-      {
-        "qid": "office_hhi-9f599c16",
-        "template": "office_hhi",
-        "verdict": "PASS",
-        "reason": "The answer states HHI 1701.3, 16 suppliers and a top supplier share of 22.43%, all matching the reference facts. The extra details about other suppliers and parent-company grouping do not contradict the reference."
-      },
-      {
-        "qid": "program_top_supplier-39dfc9ff",
-        "template": "program_top_supplier",
-        "verdict": "PASS",
-        "reason": "The answer names IMIA, LLC with $593,981.80, which matches the reference facts, and it gives a supplier_id as the question asked. The extra details about the other suppliers and the program total add up consistently: 593,981.8 + 133,021 + 28,480 = 755,482.8, and 593,981.8 / 755,482.8 is about 79%. Nothing contradicts the reference."
-      },
-      {
-        "qid": "office_hhi-d6692d0f",
-        "template": "office_hhi",
-        "verdict": "PASS",
-        "reason": "The answer gives HHI 3056.2, 29 suppliers and a 53.0% top share, all matching the reference facts. The extra details (spend figures, other suppliers, 0.53^2*10000\u22482812) are consistent with them."
-      },
-      {
-        "qid": "program_top_supplier-5e5ad0b7",
-        "template": "program_top_supplier",
-        "verdict": "PASS",
-        "reason": "The answer names BAE Systems Land & Armaments L.P. as the top supplier with about $7,626,776, which matches the reference. It gives a supplier_id as asked. The extra details are not in the reference facts, but none of them contradict it: $7,626,776.26 plus $135.04 equals $7,626,911.30, which matches the stated program total."
-      },
-      {
-        "qid": "program_top_supplier-f38cfe2e",
-        "template": "program_top_supplier",
-        "verdict": "PASS",
-        "reason": "The answer names The Boeing Company as the top supplier with about $2.85B (2849622092.03), which matches the reference facts, and gives a supplier_id. The other details (share, second UEI, runner-up) are not in the reference and do not contradict it."
-      },
-      {
-        "qid": "program_top_supplier-a4ac914c",
-        "template": "program_top_supplier",
-        "verdict": "PASS",
-        "reason": "The answer names PAE Applied Technologies LLC as the top supplier with $2,210,050, which matches the reference facts, and it gives a supplier_id as asked. The extra details (other suppliers, the total, an 84% share) do not contradict the reference: 2,210,050 / 2,620,176.56 \u2248 0.843, and the three supplier amounts add up to the stated total."
-      },
-      {
-        "qid": "program_top_supplier-ec7f1f65",
-        "template": "program_top_supplier",
-        "verdict": "PASS",
-        "reason": "Names Vigor Marine LLC as the top supplier and gives a supplier_id, with obligations of $426,287,024.51, matching the reference. The extra details do not contradict the reference facts."
-      },
-      {
-        "qid": "country_prime_awards-18951a64",
-        "template": "country_prime_awards",
-        "verdict": "PASS",
-        "reason": "The answer gives the count of 3 prime awards directly. The obligations (161477.95) and the single supplier match the reference facts. The other details do not contradict them."
-      },
-      {
-        "qid": "country_prime_awards-ff7cbdce",
-        "template": "country_prime_awards",
-        "verdict": "PASS",
-        "reason": "The answer gives 234 prime awards, which matches the reference. Its $465.2M in obligations and 41 suppliers also match. The extra details about specific suppliers do not contradict any reference fact."
-      },
-      {
-        "qid": "country_prime_awards-595148ff",
-        "template": "country_prime_awards",
-        "verdict": "PASS",
-        "reason": "The answer states 2 prime awards and 69,376.93 in obligations, both matching the reference facts. It names two suppliers, consistent with n_suppliers=2, and the per-award amounts (43,852 + 25,524.93) sum to the reported total. The extra details about subawards and the risk feed do not contradict the reference."
-      },
-      {
-        "qid": "country_prime_awards-11a7a5a5",
-        "template": "country_prime_awards",
-        "verdict": "PASS",
-        "reason": "The answer states 712 prime awards and about $267.5M in obligations, both matching the reference. It also gives 168 suppliers, which matches the reference count. The 168 is phrased as \"in total\" alongside the subawards, which is slightly ambiguous but does not contradict anything. The remaining details are additional and do not conflict with the reference facts."
-      },
-      {
-        "qid": "country_prime_awards-cd23546b",
-        "template": "country_prime_awards",
-        "verdict": "PASS",
-        "reason": "Count of 26 matches the reference, as do the ~$70.6M obligations and 6 suppliers. The extra supplier details do not contradict the reference."
-      },
-      {
-        "qid": "parent_subsidiaries-cfad86ee",
-        "template": "parent_subsidiaries",
-        "verdict": "PASS",
-        "reason": "The answer gives the count as 3, which matches the reference. Its statement of 0 prime obligations matches the reference total of 0.0. The note about the parent's own UEI is extra detail that does not change the headline count."
-      },
-      {
-        "qid": "subcontractor_count-31e24051",
-        "template": "subcontractor_count",
-        "verdict": "PASS",
-        "reason": "Count of 2 subcontractors, 2 subawards, and total 2,083,185.61 match the reference; the individual amounts sum to the total. It directly answers the question."
-      },
-      {
-        "qid": "subcontractor_count-6a69eaac",
-        "template": "subcontractor_count",
-        "verdict": "PASS",
-        "reason": "The answer gives a count of 2 distinct subcontractors, which matches the reference. The 2 subawards and the total of 1,559,740 (1,063,250 + 496,490) also match. Nothing contradicts the reference facts."
-      },
-      {
-        "qid": "subcontractor_count-4634ca3c",
-        "template": "subcontractor_count",
-        "verdict": "PASS",
-        "reason": "The answer gives the count of 4 distinct subcontractors, which matches the reference. The 9 subawards and the 5.69M total also match. The per-subcontractor breakdown sums consistently (2+4+2+1=9 subawards; 4.75+0.78+0.114+0.038\u22485.68M) and contradicts nothing."
-      },
-      {
-        "qid": "subcontractor_count-b0779ce3",
-        "template": "subcontractor_count",
-        "verdict": "PASS",
-        "reason": "The answer gives 11 distinct subcontractors, 66 subawards and about $51.7M, all matching the reference facts. The extra details, including the Rockwell Collins duplicate-UEI caveat, add context without contradicting the headline count."
-      },
-      {
-        "qid": "office_flagged_share-0f6368dd",
-        "template": "office_flagged_share",
-        "verdict": "PASS",
-        "reason": "The candidate answers the question directly with 0.6033, which matches the reference flagged_share. It also reports 21 flagged suppliers out of 39, matching both reference counts. The extra supplier details do not contradict the reference facts, and the note about unlisted suppliers is a reasonable scope limit rather than a hedge on the headline answer."
-      },
-      {
-        "qid": "subcontractor_count-05232241",
-        "template": "subcontractor_count",
-        "verdict": "PASS",
-        "reason": "The answer states 57 distinct subcontractors, 98 subawards and about $64.1M, all of which match the reference facts. The extra details do not contradict anything, and the caveat about UEI overlap is reasonable and does not hedge the headline count."
-      },
-      {
-        "qid": "office_flagged_share-d5e4a55f",
-        "template": "office_flagged_share",
-        "verdict": "PASS",
-        "reason": "The answer gives 0.972 directly, and its counts of 4 flagged suppliers out of 5 match the reference. The dollar figures are internally consistent: 11,485,030.10 / 11,816,111.70 \u2248 0.972. Nothing contradicts the reference facts."
-      },
-      {
-        "qid": "office_flagged_share-d549a678",
-        "template": "office_flagged_share",
-        "verdict": "PASS",
-        "reason": "The answer gives 0.4637, with 38 flagged suppliers out of 84. Both match the reference. The dollar figures are consistent with that share (947.2M/2042.5M \u2248 0.4637). The extra supplier details do not contradict the reference facts."
-      },
-      {
-        "qid": "office_flagged_share-9fd17c79",
-        "template": "office_flagged_share",
-        "verdict": "PASS",
-        "reason": "The candidate gives a flagged share of 0.9325, with 6 of 11 suppliers flagged, which matches the reference facts. The dollar breakdown is internally consistent: 3,538,390.24 / 3,794,385.13 \u2248 0.9325, and the six listed supplier amounts sum to that total. Nothing contradicts the reference, and it answers the question directly."
-      },
-      {
-        "qid": "office_flagged_share-5ff7fb31",
-        "template": "office_flagged_share",
-        "verdict": "PASS",
-        "reason": "The answer gives a share of 0.4271 and says 12 of 34 suppliers are flagged, both matching the reference. 6644254.34/15554987.52 \u2248 0.4271, which is consistent. It answers the question directly, and the extra detail does not contradict the reference."
-      },
-      {
-        "qid": "award_sole_source-a6f49da5",
-        "template": "award_sole_source",
-        "verdict": "PASS",
-        "reason": "The candidate answers false (not sole-source) and says the award was full and open competition, which matches the reference facts. The extra details (offers, dollar amount, supplier, work) are not in the reference but do not contradict it."
-      },
-      {
-        "qid": "award_sole_source-b7c731db",
-        "template": "award_sole_source",
-        "verdict": "PASS",
-        "reason": "The candidate answers 'False' (not sole-source) with full and open competition, which matches the reference facts. The extra details about contractor, office and order value do not contradict anything in the reference."
-      },
-      {
-        "qid": "award_sole_source-5202b68b",
-        "template": "award_sole_source",
-        "verdict": "PASS",
-        "reason": "The candidate answers false and says the award went through full and open competition, which matches the reference facts. The extra details about the supplier, office and amount do not contradict anything in the reference."
-      },
-      {
-        "qid": "award_sole_source-b7c90b1f",
-        "template": "award_sole_source",
-        "verdict": "PASS",
-        "reason": "Answers False, consistent with is_sole_source false and extent competed 'COMPETED UNDER SAP'. The extra details (code F, 2 offers, the dollar amount, the supplier) are not in the reference facts but do not contradict them."
-      },
-      {
-        "qid": "award_sole_source-c4dc9830",
-        "template": "award_sole_source",
-        "verdict": "PASS",
-        "reason": "The candidate answers false, meaning not sole-source, and cites full and open competition. Both match the reference facts. The added supplier, office and amount details do not contradict anything in the reference."
-      },
-      {
-        "qid": "absent_supplier-b2bb3e8a",
-        "template": "absent_supplier",
-        "verdict": "PASS",
-        "reason": "The reference marks the question unanswerable because the supplier does not exist in the data. The candidate says plainly that it could not find the supplier, does not invent a blast radius or an award count, and offers a sensible next step."
-      },
-      {
-        "qid": "absent_supplier-5c21424d",
-        "template": "absent_supplier",
-        "verdict": "PASS",
-        "reason": "Reference says unanswerable (supplier not in data); candidate clearly states supplier not found, does not invent offices, offers reasonable next steps."
-      },
-      {
-        "qid": "absent_supplier-8a929bcb",
-        "template": "absent_supplier",
-        "verdict": "PASS",
-        "reason": "Says plainly that the supplier is not in the data and gives no blast radius or award count. That matches the reference, which marks the question unanswerable because the supplier does not exist, and nothing is contradicted."
-      },
-      {
-        "qid": "risk_not_in_feed-b3a22329",
-        "template": "risk_not_in_feed",
-        "verdict": "PASS",
-        "reason": "The reference marks the question unanswerable because Bulgaria is not covered by the MENA risk feed. The candidate says plainly that the data can't answer, gives the same reason, and does not invent a number. The list of covered countries is an extra detail, but it does not contradict the reference."
-      },
-      {
-        "qid": "risk_not_in_feed-01d2b245",
-        "template": "risk_not_in_feed",
-        "verdict": "PASS",
-        "reason": "The reference marks the question unanswerable because Indonesia is outside the MENA risk feed. The candidate says plainly that it cannot answer, gives the same reason, and does not invent a probability. The extra list of covered countries and the offer to check contract exposure do not contradict the reference."
-      },
-      {
-        "qid": "risk_not_in_feed-d2310ac4",
-        "template": "risk_not_in_feed",
-        "verdict": "PASS",
-        "reason": "The reference marks the question unanswerable because Denmark is not covered by the MENA risk feed. The candidate says clearly that it cannot answer, explains that Denmark is outside the MENA feed, and does not invent a probability. The list of covered countries is extra detail and does not contradict the reference."
-      },
-      {
-        "qid": "risk_not_in_feed-f7135078",
-        "template": "risk_not_in_feed",
-        "verdict": "PASS",
-        "reason": "The candidate says plainly that the data cannot answer the question and gives no number. Its explanation, that the Netherlands is not covered by the MENA risk feed, matches the reference. Listing the 14 covered countries is extra detail that does not contradict the reference."
-      },
-      {
-        "qid": "absent_award-6c89d7f3",
-        "template": "absent_award",
-        "verdict": "PASS",
-        "reason": "The reference marks the question unanswerable because the award ID does not exist. The candidate clearly says the award isn't in the dataset, does not invent a contractor or competition status, and offers reasonable next steps."
-      },
-      {
-        "qid": "absent_award-11da0348",
-        "template": "absent_award",
-        "verdict": "PASS",
-        "reason": "Reference says unanswerable because the award ID does not exist. The candidate states plainly that the award is not in the data and invents no contractor or competition status. Its speculation about FY2026 is hedged and does not contradict the reference."
-      },
-      {
-        "qid": "absent_program-028e774b",
-        "template": "absent_program",
-        "verdict": "PASS",
-        "reason": "The reference marks the question as unanswerable because the program code is absent from the data. The candidate says plainly that the data cannot answer it and names no suppliers. The extra context about scope and possible causes does not contradict the reference."
-      },
-      {
-        "qid": "out_of_schema-9c4fdb9f",
-        "template": "out_of_schema",
-        "verdict": "PASS",
-        "reason": "The reference marks the question unanswerable. The candidate says plainly that the data has no on-time delivery figure and does not make one up. Nothing in it contradicts the reference, and the extra context it gives is reasonable."
-      },
-      {
-        "qid": "out_of_schema-b5456256",
-        "template": "out_of_schema",
-        "verdict": "PASS",
-        "reason": "The reference marks the question unanswerable. The candidate says plainly that the data cannot give FY2027 obligations and invents no figure. Nothing in it contradicts the reference facts."
-      },
-      {
-        "qid": "out_of_schema-baca9f48",
-        "template": "out_of_schema",
-        "verdict": "PASS",
-        "reason": "The reference marks the question as unanswerable. The candidate says plainly that the data has no employee or headcount figures and does not make up a number. The extra details about Sikorsky's awards do not contradict the reference."
-      },
-      {
-        "qid": "hard_office_flagged_blast-4754b6da",
-        "template": "hard_office_flagged_blast",
-        "verdict": "PASS",
-        "reason": "The answer names V2X Systems LLC (RRFJZGASZJ41) as the top flagged supplier and gives 11 affected offices, both matching the reference facts. The extra details do not contradict the reference."
-      },
-      {
-        "qid": "hard_prime_customers-4540e56d",
-        "template": "hard_prime_customers",
-        "verdict": "PASS",
-        "reason": "The answer names the same two prime contractors as the reference, GMBYU6KAN9J3 and NBSLHP77ZJQ1, and answers the question directly. The extra details about awards, offices and dollar amounts do not contradict the reference facts."
-      },
-      {
-        "qid": "hard_prime_customers-9932c169",
-        "template": "hard_prime_customers",
-        "verdict": "PASS",
-        "reason": "The answer names both prime contractors, Q85KVUK3JBF5 and ZMBFGXHLGLM3, which match the reference facts. Nothing in it contradicts the reference, and the extra details (5 awards, the office) are additional information rather than conflicts."
-      },
-      {
-        "qid": "hard_prime_customers-645b65c6",
-        "template": "hard_prime_customers",
-        "verdict": "PASS",
-        "reason": "The answer names exactly the two prime supplier_ids in the reference facts, ERMDZBE4J8Q9 and J1FCJLK5LGU5. The extra details (awards, office, obligations) do not contradict the reference."
-      },
-      {
-        "qid": "hard_single_point-c2f3e23f",
-        "template": "hard_single_point",
-        "verdict": "PASS",
-        "reason": "The answer says True, which matches flag_concentrated=true. The 28.1% max share matches the reference 0.2813, and 47.03M/167.2M is consistent with that. The extra details do not contradict the reference facts."
-      },
-      {
-        "qid": "hard_single_point-5c983fb4",
-        "template": "hard_single_point",
-        "verdict": "PASS",
-        "reason": "The answer is 'false', which matches flag_concentrated=false, and the stated share of 3.72% matches max_office_share 0.0372. The extra details do not contradict the reference facts."
-      },
-      {
-        "qid": "hard_single_point-fd9c629a",
-        "template": "hard_single_point",
-        "verdict": "PASS",
-        "reason": "The answer gives True and a maximum office share of 48.3%, both of which match the reference facts. The other details it adds do not contradict the reference, and it answers the question directly."
-      },
-      {
-        "qid": "hard_noisy_name-3b531f36",
-        "template": "hard_noisy_name",
-        "verdict": "FAIL",
-        "reason": "The reference treats the question as answerable: the misspelled name is noise for ORACLE ELEVATOR HOLDCO, INC., and the count is 2 offices. The candidate found the correct entity but refused to give the count and did not provide the answer of 2."
-      },
-      {
-        "qid": "hard_noisy_name-c13f18c0",
-        "template": "hard_noisy_name",
-        "verdict": "PASS",
-        "reason": "The answer gives 2 offices, which matches the reference. It correctly resolves the misspelled name to AEROSONIC LLC and answers directly. Nothing in it contradicts the reference facts."
-      },
-      {
-        "qid": "hard_noisy_name-eef87083",
-        "template": "hard_noisy_name",
-        "verdict": "PASS",
-        "reason": "The answer gives a count of 4, which matches the reference. It resolves the misspelled name to the correct entity, BRINDLEE MOUNTAIN FIRE APPARATUS, LLC, and nothing in it contradicts the reference facts."
-      },
-      {
-        "qid": "parent_subsidiaries-40143086",
-        "template": "parent_subsidiaries",
-        "verdict": "PASS",
-        "reason": "The answer states 2 subsidiaries, which matches the reference. The total of $5,013,722.96 also matches, and the two subsidiary amounts sum to that figure. The added subsidiary details do not contradict anything in the reference."
-      },
-      {
-        "qid": "parent_subsidiaries-0e1aa57b",
-        "template": "parent_subsidiaries",
-        "verdict": "PASS",
-        "reason": "The answer gives a count of 2 subsidiaries and $0 in total prime obligations, both matching the reference facts. The named subsidiaries and the subcontractor caveat are extra details that do not contradict the reference."
-      },
-      {
-        "qid": "parent_subsidiaries-8fdfd4b3",
-        "template": "parent_subsidiaries",
-        "verdict": "PASS",
-        "reason": "Count of 2 matches. The $63.1M total matches 63,145,934. The per-subsidiary figures ($63.13M + $15.6K) are consistent with that total."
-      },
-      {
-        "qid": "parent_subsidiaries-30cd5fe0",
-        "template": "parent_subsidiaries",
-        "verdict": "PASS",
-        "reason": "The answer gives a count of two subsidiary UEIs, which matches the reference. The combined total of $890,451.32 also matches, and the two subsidiary amounts add up to that figure. Nothing in the answer contradicts the reference facts."
-      },
-      {
-        "qid": "hard_company_rollup-b40685b4",
-        "template": "hard_company_rollup",
-        "verdict": "PASS",
-        "reason": "The answer gives a count of 3 and a combined total of $1,219,262, both matching the reference facts. The parent name matches. The per-UEI amounts sum to the total (419,560 + 429,480 + 370,222 = 1,219,262), and nothing contradicts the reference."
-      },
-      {
-        "qid": "hard_company_rollup-fd3f4c89",
-        "template": "hard_company_rollup",
-        "verdict": "PASS",
-        "reason": "Count of 3 matches the reference. The listed amounts sum to 451,041, which matches the total prime obligations. The candidate answers the question directly and contradicts none of the reference facts."
-      },
-      {
-        "qid": "hard_company_rollup-c311b46a",
-        "template": "hard_company_rollup",
-        "verdict": "PASS",
-        "reason": "The answer gives a count of 3, which matches n_subsidiaries. Total obligations of 424749.09 match the reference, and the per-UEI amounts sum to that total. The answer is direct and contradicts nothing in the reference facts."
-      },
-      {
-        "qid": "hard_office_flagged_blast-c85ed147",
-        "template": "hard_office_flagged_blast",
-        "verdict": "PASS",
-        "reason": "The answer names the same supplier as the reference, Amentum Services, Inc. (QEMLRQA7PLG4), and gives the same count of 25 affected offices. The extra details it adds do not contradict the reference facts."
-      },
-      {
-        "qid": "hard_office_flagged_blast-51235740",
-        "template": "hard_office_flagged_blast",
-        "verdict": "PASS",
-        "reason": "The answer gives 6 offices and names Aero Turbine, Inc (LUMJB673C9K9) as the supplier, both matching the reference facts. The extra details do not contradict the reference, and the answer is direct with no hedging."
-      },
-      {
-        "qid": "country_risk-3113515b",
-        "template": "country_risk",
-        "verdict": "PASS",
-        "reason": "The answer gives p_escalation as 0.0567 for the week starting 2026-11-09, which matches the reference facts. The extra details do not contradict them."
-      },
-      {
-        "qid": "country_risk-31aefefb",
-        "template": "country_risk",
-        "verdict": "PASS",
-        "reason": "Answer gives 0.0788 for week starting 2026-11-09, matching the reference. The extra details do not contradict it."
-      },
-      {
-        "qid": "country_risk-5787a1fe",
-        "template": "country_risk",
-        "verdict": "PASS",
-        "reason": "The answer gives 0.0673 for the week starting 2026-11-09, which matches the reference facts. The extra details about the model, caveats and drivers do not contradict them, and the answer addresses the question directly."
-      },
-      {
-        "qid": "country_risk-c8d9ed9f",
-        "template": "country_risk",
-        "verdict": "PASS",
-        "reason": "Answer gives p_escalation 0.0476 and week 2026-11-09, both matching the reference facts. The extra details do not contradict them."
-      },
-      {
-        "qid": "country_risk-1c9fdafe",
-        "template": "country_risk",
-        "verdict": "PASS",
-        "reason": "The answer gives p_escalation = 0.072 for the week starting 2026-11-09, which matches the reference facts. The extra details (model version, SHAP drivers, caveats) do not contradict them."
-      },
-      {
-        "qid": "hard_feed_country-5ea2e6c0",
-        "template": "hard_feed_country",
-        "verdict": "PASS",
-        "reason": "The answer directly addresses both parts of the question. The prime obligations of about $13,207,348 match the reference ($13,207,348.43). The escalation probability of 0.0219 and the week start of 2026-11-09 also match. The added details on suppliers, awards and subawards do not contradict the reference facts."
-      },
-      {
-        "qid": "hard_feed_country-478e62b1",
-        "template": "hard_feed_country",
-        "verdict": "PASS",
-        "reason": "The answer gives the obligation as $181,481,103.84 and the escalation probability as 0.1006 for the week of 2026-11-09, all matching the reference facts. It answers the question directly, and the extra details do not contradict the reference."
-      },
-      {
-        "qid": "hard_feed_country-6dcf0894",
-        "template": "hard_feed_country",
-        "verdict": "PASS",
-        "reason": "Prime obligations ($213,150,580.76), escalation probability (0.0702), and week (2026-11-09) all match the reference. The question is answered directly, and the extra details do not contradict the reference facts."
-      }
-    ]
+    "used": false,
+    "reason": "skipped (--no-judge or offline)"
   },
   "scores": [
+    {
+      "qid": "dependent_offices_count-3cfcee09",
+      "template": "dependent_offices_count",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 7,
+        "n_exist": 7,
+        "n_grounded": 7,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 3,
+      "cost_usd": 0.037687,
+      "latency_s": 7.47,
+      "expected": 2,
+      "got": 2,
+      "said_answerable": true
+    },
     {
       "qid": "dependent_offices_count-4b2df80a",
       "template": "dependent_offices_count",
@@ -1209,8 +621,8 @@
         "fabricated": []
       },
       "steps": 3,
-      "cost_usd": 0.031518,
-      "latency_s": 7.81,
+      "cost_usd": 0.035115,
+      "latency_s": 8.58,
       "expected": 2,
       "got": 2,
       "said_answerable": true
@@ -1231,32 +643,32 @@
         "fabricated": []
       },
       "steps": 3,
-      "cost_usd": 0.039333,
-      "latency_s": 8.96,
+      "cost_usd": 0.044342,
+      "latency_s": 10.79,
       "expected": 5,
       "got": 5,
       "said_answerable": true
     },
     {
-      "qid": "dependent_offices_count-3cfcee09",
+      "qid": "dependent_offices_count-b58fe31b",
       "template": "dependent_offices_count",
       "answerable": true,
       "correct": true,
       "category": "ok",
       "tool_call_correct": true,
       "citations": {
-        "n_citations": 7,
-        "n_exist": 7,
-        "n_grounded": 7,
+        "n_citations": 10,
+        "n_exist": 10,
+        "n_grounded": 10,
         "precision": 1.0,
         "required_hit": true,
         "fabricated": []
       },
       "steps": 3,
-      "cost_usd": 0.034374,
-      "latency_s": 9.35,
-      "expected": 2,
-      "got": 2,
+      "cost_usd": 0.038832,
+      "latency_s": 7.85,
+      "expected": 3,
+      "got": 3,
       "said_answerable": true
     },
     {
@@ -1275,8 +687,8 @@
         "fabricated": []
       },
       "steps": 3,
-      "cost_usd": 0.032044,
-      "latency_s": 7.41,
+      "cost_usd": 0.035495,
+      "latency_s": 7.29,
       "expected": 2,
       "got": 2,
       "said_answerable": true
@@ -1297,32 +709,10 @@
         "fabricated": []
       },
       "steps": 3,
-      "cost_usd": 0.035325,
-      "latency_s": 7.56,
+      "cost_usd": 0.035689,
+      "latency_s": 7.78,
       "expected": 0.0225,
       "got": 0.0225,
-      "said_answerable": true
-    },
-    {
-      "qid": "dependent_offices_count-b58fe31b",
-      "template": "dependent_offices_count",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 10,
-        "n_exist": 10,
-        "n_grounded": 10,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 3,
-      "cost_usd": 0.036449,
-      "latency_s": 9.4,
-      "expected": 3,
-      "got": 3,
       "said_answerable": true
     },
     {
@@ -1341,8 +731,8 @@
         "fabricated": []
       },
       "steps": 3,
-      "cost_usd": 0.038177,
-      "latency_s": 8.12,
+      "cost_usd": 0.041288,
+      "latency_s": 7.85,
       "expected": 0.4302,
       "got": 0.4302,
       "said_answerable": true
@@ -1363,8 +753,8 @@
         "fabricated": []
       },
       "steps": 3,
-      "cost_usd": 0.037457,
-      "latency_s": 8.34,
+      "cost_usd": 0.039471,
+      "latency_s": 9.52,
       "expected": 0.0566,
       "got": 0.0566,
       "said_answerable": true
@@ -1377,18 +767,40 @@
       "category": "ok",
       "tool_call_correct": true,
       "citations": {
-        "n_citations": 9,
-        "n_exist": 9,
-        "n_grounded": 9,
+        "n_citations": 7,
+        "n_exist": 7,
+        "n_grounded": 7,
         "precision": 1.0,
         "required_hit": true,
         "fabricated": []
       },
       "steps": 3,
-      "cost_usd": 0.038612,
-      "latency_s": 8.34,
+      "cost_usd": 0.041378,
+      "latency_s": 8.0,
       "expected": 0.9185,
       "got": 0.9185,
+      "said_answerable": true
+    },
+    {
+      "qid": "sole_source_share-c6e1e08b",
+      "template": "sole_source_share",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 6,
+        "n_exist": 6,
+        "n_grounded": 6,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 3,
+      "cost_usd": 0.042599,
+      "latency_s": 8.44,
+      "expected": 0.7652,
+      "got": 0.7652,
       "said_answerable": true
     },
     {
@@ -1407,8 +819,8 @@
         "fabricated": []
       },
       "steps": 3,
-      "cost_usd": 0.012295,
-      "latency_s": 5.86,
+      "cost_usd": 0.030769,
+      "latency_s": 6.27,
       "expected": 1,
       "got": 1,
       "said_answerable": true
@@ -1429,32 +841,10 @@
         "fabricated": []
       },
       "steps": 3,
-      "cost_usd": 0.029928,
-      "latency_s": 7.94,
+      "cost_usd": 0.033498,
+      "latency_s": 8.15,
       "expected": 2,
       "got": 2,
-      "said_answerable": true
-    },
-    {
-      "qid": "sole_source_share-c6e1e08b",
-      "template": "sole_source_share",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 7,
-        "n_exist": 7,
-        "n_grounded": 7,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 3,
-      "cost_usd": 0.041523,
-      "latency_s": 9.19,
-      "expected": 0.7652,
-      "got": 0.7652,
       "said_answerable": true
     },
     {
@@ -1473,8 +863,8 @@
         "fabricated": []
       },
       "steps": 3,
-      "cost_usd": 0.029022,
-      "latency_s": 6.69,
+      "cost_usd": 0.033486,
+      "latency_s": 6.62,
       "expected": 1,
       "got": 1,
       "said_answerable": true
@@ -1487,16 +877,16 @@
       "category": "ok",
       "tool_call_correct": true,
       "citations": {
-        "n_citations": 10,
-        "n_exist": 10,
-        "n_grounded": 10,
+        "n_citations": 8,
+        "n_exist": 8,
+        "n_grounded": 8,
         "precision": 1.0,
         "required_hit": true,
         "fabricated": []
       },
       "steps": 3,
-      "cost_usd": 0.039367,
-      "latency_s": 9.16,
+      "cost_usd": 0.040534,
+      "latency_s": 8.97,
       "expected": 238,
       "got": 238,
       "said_answerable": true
@@ -1517,8 +907,8 @@
         "fabricated": []
       },
       "steps": 3,
-      "cost_usd": 0.041045,
-      "latency_s": 11.5,
+      "cost_usd": 0.046667,
+      "latency_s": 12.59,
       "expected": 11,
       "got": 11,
       "said_answerable": true
@@ -1539,39 +929,13 @@
         "fabricated": []
       },
       "steps": 3,
-      "cost_usd": 0.020918,
-      "latency_s": 10.53,
+      "cost_usd": 0.042105,
+      "latency_s": 9.37,
       "expected": [
         "178"
       ],
       "got": [
         "178"
-      ],
-      "said_answerable": true
-    },
-    {
-      "qid": "blast_radius_programs-266a66ce",
-      "template": "blast_radius_programs",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 5,
-        "n_exist": 5,
-        "n_grounded": 5,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 3,
-      "cost_usd": 0.026781,
-      "latency_s": 8.09,
-      "expected": [
-        "191"
-      ],
-      "got": [
-        "191"
       ],
       "said_answerable": true
     },
@@ -1591,14 +955,62 @@
         "fabricated": []
       },
       "steps": 3,
-      "cost_usd": 0.028004,
-      "latency_s": 7.84,
+      "cost_usd": 0.032059,
+      "latency_s": 6.24,
       "expected": [
         "420"
       ],
       "got": [
         "420"
       ],
+      "said_answerable": true
+    },
+    {
+      "qid": "blast_radius_programs-266a66ce",
+      "template": "blast_radius_programs",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 5,
+        "n_exist": 5,
+        "n_grounded": 5,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 3,
+      "cost_usd": 0.030805,
+      "latency_s": 7.29,
+      "expected": [
+        "191"
+      ],
+      "got": [
+        "191"
+      ],
+      "said_answerable": true
+    },
+    {
+      "qid": "top_sole_source_country-ec8a0678",
+      "template": "top_sole_source_country",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 6,
+        "n_exist": 6,
+        "n_grounded": 6,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 2,
+      "cost_usd": 0.035218,
+      "latency_s": 5.75,
+      "expected": "U864F3HRME53",
+      "got": "U864F3HRME53",
       "said_answerable": true
     },
     {
@@ -1617,36 +1029,14 @@
         "fabricated": []
       },
       "steps": 3,
-      "cost_usd": 0.031428,
-      "latency_s": 10.66,
+      "cost_usd": 0.033391,
+      "latency_s": 9.14,
       "expected": [
         "260"
       ],
       "got": [
         "260"
       ],
-      "said_answerable": true
-    },
-    {
-      "qid": "top_sole_source_country-ec8a0678",
-      "template": "top_sole_source_country",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 8,
-        "n_exist": 8,
-        "n_grounded": 8,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.033532,
-      "latency_s": 6.35,
-      "expected": "U864F3HRME53",
-      "got": "U864F3HRME53",
       "said_answerable": true
     },
     {
@@ -1665,8 +1055,8 @@
         "fabricated": []
       },
       "steps": 3,
-      "cost_usd": 0.040318,
-      "latency_s": 11.34,
+      "cost_usd": 0.045585,
+      "latency_s": 9.57,
       "expected": [
         "374"
       ],
@@ -1683,16 +1073,16 @@
       "category": "ok",
       "tool_call_correct": true,
       "citations": {
-        "n_citations": 7,
-        "n_exist": 7,
-        "n_grounded": 7,
+        "n_citations": 6,
+        "n_exist": 6,
+        "n_grounded": 6,
         "precision": 1.0,
         "required_hit": true,
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.027917,
-      "latency_s": 6.05,
+      "cost_usd": 0.030603,
+      "latency_s": 5.35,
       "expected": "RRFJZGASZJ41",
       "got": "RRFJZGASZJ41",
       "said_answerable": true
@@ -1713,8 +1103,8 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.034107,
-      "latency_s": 7.1,
+      "cost_usd": 0.038453,
+      "latency_s": 9.42,
       "expected": "U3MMZ4SBMJJ3",
       "got": "U3MMZ4SBMJJ3",
       "said_answerable": true
@@ -1735,8 +1125,8 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.030267,
-      "latency_s": 6.14,
+      "cost_usd": 0.033193,
+      "latency_s": 7.85,
       "expected": "F2BEQJNKFY83",
       "got": "F2BEQJNKFY83",
       "said_answerable": true
@@ -1757,14 +1147,36 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.032133,
-      "latency_s": 6.22,
+      "cost_usd": 0.035538,
+      "latency_s": 6.88,
       "expected": "HFK9V1G2B513",
       "got": "HFK9V1G2B513",
       "said_answerable": true
     },
     {
       "qid": "office_top_supplier-fcc29c5c",
+      "template": "office_top_supplier",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 5,
+        "n_exist": 5,
+        "n_grounded": 5,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 2,
+      "cost_usd": 0.031709,
+      "latency_s": 5.22,
+      "expected": "JFY6VP1JAD89",
+      "got": "JFY6VP1JAD89",
+      "said_answerable": true
+    },
+    {
+      "qid": "office_top_supplier-baa28398",
       "template": "office_top_supplier",
       "answerable": true,
       "correct": true,
@@ -1779,10 +1191,10 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.030983,
-      "latency_s": 6.22,
-      "expected": "JFY6VP1JAD89",
-      "got": "JFY6VP1JAD89",
+      "cost_usd": 0.035439,
+      "latency_s": 6.36,
+      "expected": "D1VHG2D1XAL3",
+      "got": "D1VHG2D1XAL3",
       "said_answerable": true
     },
     {
@@ -1801,32 +1213,10 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.032578,
-      "latency_s": 7.02,
+      "cost_usd": 0.034883,
+      "latency_s": 8.74,
       "expected": "GKNAX87LFK71",
       "got": "GKNAX87LFK71",
-      "said_answerable": true
-    },
-    {
-      "qid": "office_top_supplier-baa28398",
-      "template": "office_top_supplier",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 6,
-        "n_exist": 6,
-        "n_grounded": 6,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.030773,
-      "latency_s": 6.19,
-      "expected": "D1VHG2D1XAL3",
-      "got": "D1VHG2D1XAL3",
       "said_answerable": true
     },
     {
@@ -1845,8 +1235,8 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.032133,
-      "latency_s": 7.13,
+      "cost_usd": 0.035599,
+      "latency_s": 6.29,
       "expected": "H8A4CT9CECS4",
       "got": "H8A4CT9CECS4",
       "said_answerable": true
@@ -1867,8 +1257,8 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.029998,
-      "latency_s": 5.91,
+      "cost_usd": 0.033704,
+      "latency_s": 5.75,
       "expected": "J8SMY4RMKSW9",
       "got": "J8SMY4RMKSW9",
       "said_answerable": true
@@ -1889,32 +1279,10 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.040477,
-      "latency_s": 6.39,
+      "cost_usd": 0.045902,
+      "latency_s": 8.27,
       "expected": 1999.9,
       "got": 1999.9,
-      "said_answerable": true
-    },
-    {
-      "qid": "office_hhi-1f399ff7",
-      "template": "office_hhi",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 8,
-        "n_exist": 8,
-        "n_grounded": 8,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.039741,
-      "latency_s": 7.08,
-      "expected": 1642.2,
-      "got": 1642.2,
       "said_answerable": true
     },
     {
@@ -1925,18 +1293,40 @@
       "category": "ok",
       "tool_call_correct": true,
       "citations": {
-        "n_citations": 11,
-        "n_exist": 11,
-        "n_grounded": 11,
+        "n_citations": 7,
+        "n_exist": 7,
+        "n_grounded": 7,
         "precision": 1.0,
         "required_hit": true,
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.040013,
-      "latency_s": 9.25,
+      "cost_usd": 0.036398,
+      "latency_s": 7.53,
       "expected": 3665.3,
       "got": 3665.3,
+      "said_answerable": true
+    },
+    {
+      "qid": "office_hhi-1f399ff7",
+      "template": "office_hhi",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 6,
+        "n_exist": 6,
+        "n_grounded": 6,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 2,
+      "cost_usd": 0.041467,
+      "latency_s": 6.64,
+      "expected": 1642.2,
+      "got": 1642.2,
       "said_answerable": true
     },
     {
@@ -1947,18 +1337,40 @@
       "category": "ok",
       "tool_call_correct": true,
       "citations": {
-        "n_citations": 8,
-        "n_exist": 8,
-        "n_grounded": 8,
+        "n_citations": 6,
+        "n_exist": 6,
+        "n_grounded": 6,
         "precision": 1.0,
         "required_hit": true,
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.040786,
-      "latency_s": 8.55,
+      "cost_usd": 0.042011,
+      "latency_s": 6.7,
       "expected": 1701.3,
       "got": 1701.3,
+      "said_answerable": true
+    },
+    {
+      "qid": "office_hhi-d6692d0f",
+      "template": "office_hhi",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 7,
+        "n_exist": 7,
+        "n_grounded": 7,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 2,
+      "cost_usd": 0.043967,
+      "latency_s": 6.89,
+      "expected": 3056.2,
+      "got": 3056.2,
       "said_answerable": true
     },
     {
@@ -1977,32 +1389,10 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.027247,
-      "latency_s": 5.55,
+      "cost_usd": 0.030642,
+      "latency_s": 5.93,
       "expected": "EDNNTCM7SUS8",
       "got": "EDNNTCM7SUS8",
-      "said_answerable": true
-    },
-    {
-      "qid": "office_hhi-d6692d0f",
-      "template": "office_hhi",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 6,
-        "n_exist": 6,
-        "n_grounded": 6,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.038921,
-      "latency_s": 6.29,
-      "expected": 3056.2,
-      "got": 3056.2,
       "said_answerable": true
     },
     {
@@ -2021,8 +1411,8 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.025017,
-      "latency_s": 5.22,
+      "cost_usd": 0.027372,
+      "latency_s": 5.01,
       "expected": "DMHSJF9K3XP9",
       "got": "DMHSJF9K3XP9",
       "said_answerable": true
@@ -2043,8 +1433,8 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.032206,
-      "latency_s": 6.7,
+      "cost_usd": 0.033952,
+      "latency_s": 5.91,
       "expected": "MF2LE5RK6L84",
       "got": "MF2LE5RK6L84",
       "said_answerable": true
@@ -2065,8 +1455,8 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.031331,
-      "latency_s": 7.03,
+      "cost_usd": 0.033297,
+      "latency_s": 6.22,
       "expected": "K55GHE7FCEF5",
       "got": "K55GHE7FCEF5",
       "said_answerable": true
@@ -2079,16 +1469,16 @@
       "category": "ok",
       "tool_call_correct": true,
       "citations": {
-        "n_citations": 7,
-        "n_exist": 7,
-        "n_grounded": 7,
+        "n_citations": 6,
+        "n_exist": 6,
+        "n_grounded": 6,
         "precision": 1.0,
         "required_hit": true,
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.040492,
-      "latency_s": 6.93,
+      "cost_usd": 0.034517,
+      "latency_s": 5.17,
       "expected": "L7ZETMM4M9R3",
       "got": "L7ZETMM4M9R3",
       "said_answerable": true
@@ -2101,16 +1491,16 @@
       "category": "ok",
       "tool_call_correct": true,
       "citations": {
-        "n_citations": 5,
-        "n_exist": 5,
-        "n_grounded": 5,
+        "n_citations": 6,
+        "n_exist": 6,
+        "n_grounded": 6,
         "precision": 1.0,
         "required_hit": true,
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.011316,
-      "latency_s": 4.76,
+      "cost_usd": 0.027824,
+      "latency_s": 5.1,
       "expected": 3,
       "got": 3,
       "said_answerable": true
@@ -2123,16 +1513,16 @@
       "category": "ok",
       "tool_call_correct": true,
       "citations": {
-        "n_citations": 5,
-        "n_exist": 5,
-        "n_grounded": 5,
+        "n_citations": 6,
+        "n_exist": 6,
+        "n_grounded": 6,
         "precision": 1.0,
         "required_hit": true,
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.035308,
-      "latency_s": 6.08,
+      "cost_usd": 0.041533,
+      "latency_s": 5.23,
       "expected": 234,
       "got": 234,
       "said_answerable": true
@@ -2145,16 +1535,16 @@
       "category": "ok",
       "tool_call_correct": true,
       "citations": {
-        "n_citations": 5,
-        "n_exist": 5,
-        "n_grounded": 5,
+        "n_citations": 6,
+        "n_exist": 6,
+        "n_grounded": 6,
         "precision": 1.0,
         "required_hit": true,
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.023924,
-      "latency_s": 5.11,
+      "cost_usd": 0.02751,
+      "latency_s": 4.54,
       "expected": 2,
       "got": 2,
       "said_answerable": true
@@ -2175,8 +1565,8 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.034758,
-      "latency_s": 4.73,
+      "cost_usd": 0.038518,
+      "latency_s": 3.88,
       "expected": 712,
       "got": 712,
       "said_answerable": true
@@ -2189,16 +1579,16 @@
       "category": "ok",
       "tool_call_correct": true,
       "citations": {
-        "n_citations": 9,
-        "n_exist": 9,
-        "n_grounded": 9,
+        "n_citations": 10,
+        "n_exist": 10,
+        "n_grounded": 10,
         "precision": 1.0,
         "required_hit": true,
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.033829,
-      "latency_s": 6.81,
+      "cost_usd": 0.03725,
+      "latency_s": 6.86,
       "expected": 26,
       "got": 26,
       "said_answerable": true
@@ -2219,864 +1609,32 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.023962,
-      "latency_s": 5.14,
+      "cost_usd": 0.026648,
+      "latency_s": 4.19,
       "expected": 3,
       "got": 3,
       "said_answerable": true
     },
     {
-      "qid": "subcontractor_count-31e24051",
-      "template": "subcontractor_count",
+      "qid": "parent_subsidiaries-8fdfd4b3",
+      "template": "parent_subsidiaries",
       "answerable": true,
       "correct": true,
       "category": "ok",
       "tool_call_correct": true,
       "citations": {
-        "n_citations": 4,
-        "n_exist": 4,
-        "n_grounded": 4,
+        "n_citations": 5,
+        "n_exist": 5,
+        "n_grounded": 5,
         "precision": 1.0,
         "required_hit": true,
         "fabricated": []
       },
-      "steps": 3,
-      "cost_usd": 0.029845,
-      "latency_s": 6.68,
+      "steps": 2,
+      "cost_usd": 0.029152,
+      "latency_s": 5.08,
       "expected": 2,
       "got": 2,
-      "said_answerable": true
-    },
-    {
-      "qid": "subcontractor_count-6a69eaac",
-      "template": "subcontractor_count",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 4,
-        "n_exist": 4,
-        "n_grounded": 4,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 3,
-      "cost_usd": 0.029946,
-      "latency_s": 6.77,
-      "expected": 2,
-      "got": 2,
-      "said_answerable": true
-    },
-    {
-      "qid": "subcontractor_count-4634ca3c",
-      "template": "subcontractor_count",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 8,
-        "n_exist": 8,
-        "n_grounded": 8,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 3,
-      "cost_usd": 0.036596,
-      "latency_s": 9.36,
-      "expected": 4,
-      "got": 4,
-      "said_answerable": true
-    },
-    {
-      "qid": "subcontractor_count-b0779ce3",
-      "template": "subcontractor_count",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 7,
-        "n_exist": 7,
-        "n_grounded": 7,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 3,
-      "cost_usd": 0.041191,
-      "latency_s": 8.44,
-      "expected": 11,
-      "got": 11,
-      "said_answerable": true
-    },
-    {
-      "qid": "office_flagged_share-0f6368dd",
-      "template": "office_flagged_share",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 9,
-        "n_exist": 9,
-        "n_grounded": 9,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.04276,
-      "latency_s": 8.21,
-      "expected": 0.6033,
-      "got": 0.6033,
-      "said_answerable": true
-    },
-    {
-      "qid": "subcontractor_count-05232241",
-      "template": "subcontractor_count",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 7,
-        "n_exist": 7,
-        "n_grounded": 7,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 3,
-      "cost_usd": 0.04532,
-      "latency_s": 9.8,
-      "expected": 57,
-      "got": 57,
-      "said_answerable": true
-    },
-    {
-      "qid": "office_flagged_share-d5e4a55f",
-      "template": "office_flagged_share",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 12,
-        "n_exist": 12,
-        "n_grounded": 12,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.03782,
-      "latency_s": 9.02,
-      "expected": 0.972,
-      "got": 0.972,
-      "said_answerable": true
-    },
-    {
-      "qid": "office_flagged_share-d549a678",
-      "template": "office_flagged_share",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 10,
-        "n_exist": 10,
-        "n_grounded": 10,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.043533,
-      "latency_s": 7.86,
-      "expected": 0.4637,
-      "got": 0.4637,
-      "said_answerable": true
-    },
-    {
-      "qid": "office_flagged_share-9fd17c79",
-      "template": "office_flagged_share",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 15,
-        "n_exist": 15,
-        "n_grounded": 15,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.041385,
-      "latency_s": 9.6,
-      "expected": 0.9325,
-      "got": 0.9325,
-      "said_answerable": true
-    },
-    {
-      "qid": "office_flagged_share-5ff7fb31",
-      "template": "office_flagged_share",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 14,
-        "n_exist": 14,
-        "n_grounded": 14,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.044984,
-      "latency_s": 9.27,
-      "expected": 0.4271,
-      "got": 0.4271,
-      "said_answerable": true
-    },
-    {
-      "qid": "award_sole_source-a6f49da5",
-      "template": "award_sole_source",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 3,
-        "n_exist": 3,
-        "n_grounded": 3,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.023519,
-      "latency_s": 4.41,
-      "expected": false,
-      "got": false,
-      "said_answerable": true
-    },
-    {
-      "qid": "award_sole_source-b7c731db",
-      "template": "award_sole_source",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 3,
-        "n_exist": 3,
-        "n_grounded": 3,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.024179,
-      "latency_s": 4.87,
-      "expected": false,
-      "got": false,
-      "said_answerable": true
-    },
-    {
-      "qid": "award_sole_source-5202b68b",
-      "template": "award_sole_source",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 3,
-        "n_exist": 3,
-        "n_grounded": 3,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.022673,
-      "latency_s": 4.19,
-      "expected": false,
-      "got": false,
-      "said_answerable": true
-    },
-    {
-      "qid": "award_sole_source-b7c90b1f",
-      "template": "award_sole_source",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 3,
-        "n_exist": 3,
-        "n_grounded": 3,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.021414,
-      "latency_s": 6.2,
-      "expected": false,
-      "got": false,
-      "said_answerable": true
-    },
-    {
-      "qid": "award_sole_source-c4dc9830",
-      "template": "award_sole_source",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 3,
-        "n_exist": 3,
-        "n_grounded": 3,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.023064,
-      "latency_s": 5.26,
-      "expected": false,
-      "got": false,
-      "said_answerable": true
-    },
-    {
-      "qid": "absent_supplier-b2bb3e8a",
-      "template": "absent_supplier",
-      "answerable": false,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 0,
-        "n_exist": 0,
-        "n_grounded": 0,
-        "precision": null,
-        "required_hit": null,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.017506,
-      "latency_s": 3.76,
-      "expected": null,
-      "got": null,
-      "said_answerable": false
-    },
-    {
-      "qid": "absent_supplier-5c21424d",
-      "template": "absent_supplier",
-      "answerable": false,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 0,
-        "n_exist": 0,
-        "n_grounded": 0,
-        "precision": null,
-        "required_hit": null,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.018709,
-      "latency_s": 4.66,
-      "expected": null,
-      "got": null,
-      "said_answerable": false
-    },
-    {
-      "qid": "absent_supplier-8a929bcb",
-      "template": "absent_supplier",
-      "answerable": false,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 0,
-        "n_exist": 0,
-        "n_grounded": 0,
-        "precision": null,
-        "required_hit": null,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.017571,
-      "latency_s": 4.28,
-      "expected": null,
-      "got": null,
-      "said_answerable": false
-    },
-    {
-      "qid": "risk_not_in_feed-b3a22329",
-      "template": "risk_not_in_feed",
-      "answerable": false,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 1,
-        "n_exist": 1,
-        "n_grounded": 1,
-        "precision": 1.0,
-        "required_hit": null,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.017158,
-      "latency_s": 3.21,
-      "expected": null,
-      "got": null,
-      "said_answerable": false
-    },
-    {
-      "qid": "risk_not_in_feed-01d2b245",
-      "template": "risk_not_in_feed",
-      "answerable": false,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 1,
-        "n_exist": 1,
-        "n_grounded": 1,
-        "precision": 1.0,
-        "required_hit": null,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.017728,
-      "latency_s": 4.1,
-      "expected": null,
-      "got": null,
-      "said_answerable": false
-    },
-    {
-      "qid": "risk_not_in_feed-d2310ac4",
-      "template": "risk_not_in_feed",
-      "answerable": false,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 1,
-        "n_exist": 1,
-        "n_grounded": 1,
-        "precision": 1.0,
-        "required_hit": null,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.016998,
-      "latency_s": 3.26,
-      "expected": null,
-      "got": null,
-      "said_answerable": false
-    },
-    {
-      "qid": "risk_not_in_feed-f7135078",
-      "template": "risk_not_in_feed",
-      "answerable": false,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 1,
-        "n_exist": 1,
-        "n_grounded": 1,
-        "precision": 1.0,
-        "required_hit": null,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.017268,
-      "latency_s": 3.34,
-      "expected": null,
-      "got": null,
-      "said_answerable": false
-    },
-    {
-      "qid": "absent_award-6c89d7f3",
-      "template": "absent_award",
-      "answerable": false,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 0,
-        "n_exist": 0,
-        "n_grounded": 0,
-        "precision": null,
-        "required_hit": null,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.018838,
-      "latency_s": 4.75,
-      "expected": null,
-      "got": null,
-      "said_answerable": false
-    },
-    {
-      "qid": "absent_award-11da0348",
-      "template": "absent_award",
-      "answerable": false,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 0,
-        "n_exist": 0,
-        "n_grounded": 0,
-        "precision": null,
-        "required_hit": null,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.018838,
-      "latency_s": 4.33,
-      "expected": null,
-      "got": null,
-      "said_answerable": false
-    },
-    {
-      "qid": "absent_program-028e774b",
-      "template": "absent_program",
-      "answerable": false,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 0,
-        "n_exist": 0,
-        "n_grounded": 0,
-        "precision": null,
-        "required_hit": null,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.018512,
-      "latency_s": 4.25,
-      "expected": null,
-      "got": null,
-      "said_answerable": false
-    },
-    {
-      "qid": "out_of_schema-9c4fdb9f",
-      "template": "out_of_schema",
-      "answerable": false,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": null,
-      "citations": {
-        "n_citations": 0,
-        "n_exist": 0,
-        "n_grounded": 0,
-        "precision": null,
-        "required_hit": null,
-        "fabricated": []
-      },
-      "steps": 1,
-      "cost_usd": 0.020561,
-      "latency_s": 5.58,
-      "expected": null,
-      "got": null,
-      "said_answerable": false
-    },
-    {
-      "qid": "out_of_schema-b5456256",
-      "template": "out_of_schema",
-      "answerable": false,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": null,
-      "citations": {
-        "n_citations": 0,
-        "n_exist": 0,
-        "n_grounded": 0,
-        "precision": null,
-        "required_hit": null,
-        "fabricated": []
-      },
-      "steps": 1,
-      "cost_usd": 0.018046,
-      "latency_s": 4.13,
-      "expected": null,
-      "got": null,
-      "said_answerable": false
-    },
-    {
-      "qid": "out_of_schema-baca9f48",
-      "template": "out_of_schema",
-      "answerable": false,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": null,
-      "citations": {
-        "n_citations": 1,
-        "n_exist": 1,
-        "n_grounded": 1,
-        "precision": 1.0,
-        "required_hit": null,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.022464,
-      "latency_s": 5.24,
-      "expected": null,
-      "got": null,
-      "said_answerable": false
-    },
-    {
-      "qid": "hard_office_flagged_blast-4754b6da",
-      "template": "hard_office_flagged_blast",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 14,
-        "n_exist": 14,
-        "n_grounded": 14,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 3,
-      "cost_usd": 0.052328,
-      "latency_s": 9.22,
-      "expected": 11,
-      "got": 11,
-      "said_answerable": true
-    },
-    {
-      "qid": "hard_prime_customers-4540e56d",
-      "template": "hard_prime_customers",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 8,
-        "n_exist": 8,
-        "n_grounded": 8,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 3,
-      "cost_usd": 0.034256,
-      "latency_s": 10.41,
-      "expected": [
-        "GMBYU6KAN9J3",
-        "NBSLHP77ZJQ1"
-      ],
-      "got": [
-        "GMBYU6KAN9J3",
-        "NBSLHP77ZJQ1"
-      ],
-      "said_answerable": true
-    },
-    {
-      "qid": "hard_prime_customers-9932c169",
-      "template": "hard_prime_customers",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 9,
-        "n_exist": 9,
-        "n_grounded": 9,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 3,
-      "cost_usd": 0.03489,
-      "latency_s": 11.04,
-      "expected": [
-        "Q85KVUK3JBF5",
-        "ZMBFGXHLGLM3"
-      ],
-      "got": [
-        "Q85KVUK3JBF5",
-        "ZMBFGXHLGLM3"
-      ],
-      "said_answerable": true
-    },
-    {
-      "qid": "hard_prime_customers-645b65c6",
-      "template": "hard_prime_customers",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 6,
-        "n_exist": 6,
-        "n_grounded": 6,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 3,
-      "cost_usd": 0.029928,
-      "latency_s": 8.77,
-      "expected": [
-        "ERMDZBE4J8Q9",
-        "J1FCJLK5LGU5"
-      ],
-      "got": [
-        "ERMDZBE4J8Q9",
-        "J1FCJLK5LGU5"
-      ],
-      "said_answerable": true
-    },
-    {
-      "qid": "hard_single_point-c2f3e23f",
-      "template": "hard_single_point",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 9,
-        "n_exist": 9,
-        "n_grounded": 9,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 4,
-      "cost_usd": 0.074444,
-      "latency_s": 11.61,
-      "expected": true,
-      "got": true,
-      "said_answerable": true
-    },
-    {
-      "qid": "hard_single_point-5c983fb4",
-      "template": "hard_single_point",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 7,
-        "n_exist": 7,
-        "n_grounded": 7,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 4,
-      "cost_usd": 0.046008,
-      "latency_s": 10.09,
-      "expected": false,
-      "got": false,
-      "said_answerable": true
-    },
-    {
-      "qid": "hard_single_point-fd9c629a",
-      "template": "hard_single_point",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 6,
-        "n_exist": 6,
-        "n_grounded": 6,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 4,
-      "cost_usd": 0.084197,
-      "latency_s": 12.89,
-      "expected": true,
-      "got": true,
-      "said_answerable": true
-    },
-    {
-      "qid": "hard_noisy_name-3b531f36",
-      "template": "hard_noisy_name",
-      "answerable": true,
-      "correct": false,
-      "category": "false_refusal",
-      "tool_call_correct": false,
-      "citations": {
-        "n_citations": 1,
-        "n_exist": 1,
-        "n_grounded": 1,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.026258,
-      "latency_s": 7.06,
-      "expected": 2,
-      "got": null,
-      "said_answerable": false
-    },
-    {
-      "qid": "hard_noisy_name-c13f18c0",
-      "template": "hard_noisy_name",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 6,
-        "n_exist": 6,
-        "n_grounded": 6,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 3,
-      "cost_usd": 0.032767,
-      "latency_s": 7.87,
-      "expected": 2,
-      "got": 2,
-      "said_answerable": true
-    },
-    {
-      "qid": "hard_noisy_name-eef87083",
-      "template": "hard_noisy_name",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 12,
-        "n_exist": 12,
-        "n_grounded": 12,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 3,
-      "cost_usd": 0.040777,
-      "latency_s": 9.48,
-      "expected": 4,
-      "got": 4,
       "said_answerable": true
     },
     {
@@ -3087,16 +1645,16 @@
       "category": "ok",
       "tool_call_correct": true,
       "citations": {
-        "n_citations": 3,
-        "n_exist": 3,
-        "n_grounded": 3,
+        "n_citations": 6,
+        "n_exist": 6,
+        "n_grounded": 6,
         "precision": 1.0,
         "required_hit": true,
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.023329,
-      "latency_s": 4.77,
+      "cost_usd": 0.030595,
+      "latency_s": 5.43,
       "expected": 2,
       "got": 2,
       "said_answerable": true
@@ -3117,30 +1675,8 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.022171,
-      "latency_s": 5.28,
-      "expected": 2,
-      "got": 2,
-      "said_answerable": true
-    },
-    {
-      "qid": "parent_subsidiaries-8fdfd4b3",
-      "template": "parent_subsidiaries",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 5,
-        "n_exist": 5,
-        "n_grounded": 5,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 2,
-      "cost_usd": 0.025786,
-      "latency_s": 5.87,
+      "cost_usd": 0.024997,
+      "latency_s": 6.04,
       "expected": 2,
       "got": 2,
       "said_answerable": true
@@ -3161,59 +1697,37 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.028628,
-      "latency_s": 6.15,
+      "cost_usd": 0.032334,
+      "latency_s": 5.59,
       "expected": 2,
       "got": 2,
       "said_answerable": true
     },
     {
-      "qid": "hard_company_rollup-b40685b4",
-      "template": "hard_company_rollup",
+      "qid": "subcontractor_count-31e24051",
+      "template": "subcontractor_count",
       "answerable": true,
       "correct": true,
       "category": "ok",
       "tool_call_correct": true,
       "citations": {
-        "n_citations": 5,
-        "n_exist": 5,
-        "n_grounded": 5,
+        "n_citations": 4,
+        "n_exist": 4,
+        "n_grounded": 4,
         "precision": 1.0,
         "required_hit": true,
         "fabricated": []
       },
-      "steps": 4,
-      "cost_usd": 0.044164,
-      "latency_s": 8.25,
-      "expected": 3,
-      "got": 3,
+      "steps": 3,
+      "cost_usd": 0.032608,
+      "latency_s": 7.88,
+      "expected": 2,
+      "got": 2,
       "said_answerable": true
     },
     {
-      "qid": "hard_company_rollup-fd3f4c89",
-      "template": "hard_company_rollup",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 7,
-        "n_exist": 7,
-        "n_grounded": 7,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 4,
-      "cost_usd": 0.045227,
-      "latency_s": 9.65,
-      "expected": 3,
-      "got": 3,
-      "said_answerable": true
-    },
-    {
-      "qid": "hard_company_rollup-c311b46a",
-      "template": "hard_company_rollup",
+      "qid": "subcontractor_count-4634ca3c",
+      "template": "subcontractor_count",
       "answerable": true,
       "correct": true,
       "category": "ok",
@@ -3226,16 +1740,126 @@
         "required_hit": true,
         "fabricated": []
       },
-      "steps": 4,
-      "cost_usd": 0.045319,
-      "latency_s": 8.75,
-      "expected": 3,
-      "got": 3,
+      "steps": 3,
+      "cost_usd": 0.040333,
+      "latency_s": 8.38,
+      "expected": 4,
+      "got": 4,
       "said_answerable": true
     },
     {
-      "qid": "hard_office_flagged_blast-c85ed147",
-      "template": "hard_office_flagged_blast",
+      "qid": "subcontractor_count-6a69eaac",
+      "template": "subcontractor_count",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 4,
+        "n_exist": 4,
+        "n_grounded": 4,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 3,
+      "cost_usd": 0.033201,
+      "latency_s": 6.97,
+      "expected": 2,
+      "got": 2,
+      "said_answerable": true
+    },
+    {
+      "qid": "subcontractor_count-05232241",
+      "template": "subcontractor_count",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 7,
+        "n_exist": 7,
+        "n_grounded": 7,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 3,
+      "cost_usd": 0.04766,
+      "latency_s": 7.48,
+      "expected": 57,
+      "got": 57,
+      "said_answerable": true
+    },
+    {
+      "qid": "subcontractor_count-b0779ce3",
+      "template": "subcontractor_count",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 9,
+        "n_exist": 9,
+        "n_grounded": 9,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 3,
+      "cost_usd": 0.04613,
+      "latency_s": 8.35,
+      "expected": 11,
+      "got": 11,
+      "said_answerable": true
+    },
+    {
+      "qid": "office_flagged_share-0f6368dd",
+      "template": "office_flagged_share",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 15,
+        "n_exist": 15,
+        "n_grounded": 15,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 2,
+      "cost_usd": 0.050345,
+      "latency_s": 10.2,
+      "expected": 0.6033,
+      "got": 0.6033,
+      "said_answerable": true
+    },
+    {
+      "qid": "office_flagged_share-d549a678",
+      "template": "office_flagged_share",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 11,
+        "n_exist": 11,
+        "n_grounded": 11,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 2,
+      "cost_usd": 0.046399,
+      "latency_s": 7.49,
+      "expected": 0.4637,
+      "got": 0.4637,
+      "said_answerable": true
+    },
+    {
+      "qid": "office_flagged_share-d5e4a55f",
+      "template": "office_flagged_share",
       "answerable": true,
       "correct": true,
       "category": "ok",
@@ -3248,33 +1872,11 @@
         "required_hit": true,
         "fabricated": []
       },
-      "steps": 3,
-      "cost_usd": 0.066292,
-      "latency_s": 10.74,
-      "expected": 25,
-      "got": 25,
-      "said_answerable": true
-    },
-    {
-      "qid": "hard_office_flagged_blast-51235740",
-      "template": "hard_office_flagged_blast",
-      "answerable": true,
-      "correct": true,
-      "category": "ok",
-      "tool_call_correct": true,
-      "citations": {
-        "n_citations": 10,
-        "n_exist": 10,
-        "n_grounded": 10,
-        "precision": 1.0,
-        "required_hit": true,
-        "fabricated": []
-      },
-      "steps": 3,
-      "cost_usd": 0.051275,
-      "latency_s": 8.76,
-      "expected": 6,
-      "got": 6,
+      "steps": 2,
+      "cost_usd": 0.040105,
+      "latency_s": 8.24,
+      "expected": 0.972,
+      "got": 0.972,
       "said_answerable": true
     },
     {
@@ -3293,10 +1895,54 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.022077,
-      "latency_s": 5.03,
+      "cost_usd": 0.024163,
+      "latency_s": 5.16,
       "expected": 0.0567,
       "got": 0.0567,
+      "said_answerable": true
+    },
+    {
+      "qid": "office_flagged_share-9fd17c79",
+      "template": "office_flagged_share",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 15,
+        "n_exist": 15,
+        "n_grounded": 15,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 2,
+      "cost_usd": 0.043951,
+      "latency_s": 10.08,
+      "expected": 0.9325,
+      "got": 0.9325,
+      "said_answerable": true
+    },
+    {
+      "qid": "office_flagged_share-5ff7fb31",
+      "template": "office_flagged_share",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 14,
+        "n_exist": 14,
+        "n_grounded": 14,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 2,
+      "cost_usd": 0.04683,
+      "latency_s": 8.57,
+      "expected": 0.4271,
+      "got": 0.4271,
       "said_answerable": true
     },
     {
@@ -3315,7 +1961,7 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.020536,
+      "cost_usd": 0.024702,
       "latency_s": 4.52,
       "expected": 0.0788,
       "got": 0.0788,
@@ -3337,8 +1983,8 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.021236,
-      "latency_s": 4.55,
+      "cost_usd": 0.024321,
+      "latency_s": 4.2,
       "expected": 0.0673,
       "got": 0.0673,
       "said_answerable": true
@@ -3359,8 +2005,8 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.021066,
-      "latency_s": 4.18,
+      "cost_usd": 0.025112,
+      "latency_s": 4.86,
       "expected": 0.0476,
       "got": 0.0476,
       "said_answerable": true
@@ -3381,37 +2027,125 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.020881,
-      "latency_s": 4.44,
+      "cost_usd": 0.023747,
+      "latency_s": 4.27,
       "expected": 0.072,
       "got": 0.072,
       "said_answerable": true
     },
     {
-      "qid": "hard_feed_country-5ea2e6c0",
-      "template": "hard_feed_country",
+      "qid": "award_sole_source-a6f49da5",
+      "template": "award_sole_source",
       "answerable": true,
       "correct": true,
       "category": "ok",
       "tool_call_correct": true,
       "citations": {
-        "n_citations": 8,
-        "n_exist": 8,
-        "n_grounded": 8,
+        "n_citations": 3,
+        "n_exist": 3,
+        "n_grounded": 3,
         "precision": 1.0,
         "required_hit": true,
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.041438,
-      "latency_s": 6.93,
-      "expected": 0.0219,
-      "got": 0.0219,
+      "cost_usd": 0.026785,
+      "latency_s": 4.2,
+      "expected": false,
+      "got": false,
       "said_answerable": true
     },
     {
-      "qid": "hard_feed_country-478e62b1",
-      "template": "hard_feed_country",
+      "qid": "award_sole_source-b7c731db",
+      "template": "award_sole_source",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 3,
+        "n_exist": 3,
+        "n_grounded": 3,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 2,
+      "cost_usd": 0.027685,
+      "latency_s": 5.36,
+      "expected": false,
+      "got": false,
+      "said_answerable": true
+    },
+    {
+      "qid": "award_sole_source-b7c90b1f",
+      "template": "award_sole_source",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 3,
+        "n_exist": 3,
+        "n_grounded": 3,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 2,
+      "cost_usd": 0.02638,
+      "latency_s": 4.83,
+      "expected": false,
+      "got": false,
+      "said_answerable": true
+    },
+    {
+      "qid": "award_sole_source-5202b68b",
+      "template": "award_sole_source",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 3,
+        "n_exist": 3,
+        "n_grounded": 3,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 2,
+      "cost_usd": 0.027219,
+      "latency_s": 4.78,
+      "expected": false,
+      "got": false,
+      "said_answerable": true
+    },
+    {
+      "qid": "award_sole_source-c4dc9830",
+      "template": "award_sole_source",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 3,
+        "n_exist": 3,
+        "n_grounded": 3,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 2,
+      "cost_usd": 0.02485,
+      "latency_s": 4.37,
+      "expected": false,
+      "got": false,
+      "said_answerable": true
+    },
+    {
+      "qid": "hard_company_rollup-b40685b4",
+      "template": "hard_company_rollup",
       "answerable": true,
       "correct": true,
       "category": "ok",
@@ -3424,11 +2158,381 @@
         "required_hit": true,
         "fabricated": []
       },
+      "steps": 4,
+      "cost_usd": 0.052232,
+      "latency_s": 9.63,
+      "expected": 3,
+      "got": 3,
+      "said_answerable": true
+    },
+    {
+      "qid": "hard_company_rollup-fd3f4c89",
+      "template": "hard_company_rollup",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 7,
+        "n_exist": 7,
+        "n_grounded": 7,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 5,
+      "cost_usd": 0.054497,
+      "latency_s": 11.24,
+      "expected": 3,
+      "got": 3,
+      "said_answerable": true
+    },
+    {
+      "qid": "hard_company_rollup-c311b46a",
+      "template": "hard_company_rollup",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 7,
+        "n_exist": 7,
+        "n_grounded": 7,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 4,
+      "cost_usd": 0.048459,
+      "latency_s": 8.98,
+      "expected": 3,
+      "got": 3,
+      "said_answerable": true
+    },
+    {
+      "qid": "hard_office_flagged_blast-4754b6da",
+      "template": "hard_office_flagged_blast",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": false,
+      "citations": {
+        "n_citations": 13,
+        "n_exist": 13,
+        "n_grounded": 13,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 3,
+      "cost_usd": 0.07556,
+      "latency_s": 11.35,
+      "expected": 11,
+      "got": 11,
+      "said_answerable": true
+    },
+    {
+      "qid": "hard_office_flagged_blast-51235740",
+      "template": "hard_office_flagged_blast",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": false,
+      "citations": {
+        "n_citations": 10,
+        "n_exist": 10,
+        "n_grounded": 10,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 3,
+      "cost_usd": 0.061942,
+      "latency_s": 8.54,
+      "expected": 6,
+      "got": 6,
+      "said_answerable": true
+    },
+    {
+      "qid": "hard_office_flagged_blast-c85ed147",
+      "template": "hard_office_flagged_blast",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": false,
+      "citations": {
+        "n_citations": 10,
+        "n_exist": 10,
+        "n_grounded": 10,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 3,
+      "cost_usd": 0.067013,
+      "latency_s": 9.46,
+      "expected": 25,
+      "got": 25,
+      "said_answerable": true
+    },
+    {
+      "qid": "hard_prime_customers-9932c169",
+      "template": "hard_prime_customers",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 9,
+        "n_exist": 9,
+        "n_grounded": 9,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 3,
+      "cost_usd": 0.038668,
+      "latency_s": 8.77,
+      "expected": [
+        "Q85KVUK3JBF5",
+        "ZMBFGXHLGLM3"
+      ],
+      "got": [
+        "Q85KVUK3JBF5",
+        "ZMBFGXHLGLM3"
+      ],
+      "said_answerable": true
+    },
+    {
+      "qid": "hard_prime_customers-4540e56d",
+      "template": "hard_prime_customers",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 8,
+        "n_exist": 8,
+        "n_grounded": 8,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 3,
+      "cost_usd": 0.041499,
+      "latency_s": 10.31,
+      "expected": [
+        "GMBYU6KAN9J3",
+        "NBSLHP77ZJQ1"
+      ],
+      "got": [
+        "GMBYU6KAN9J3",
+        "NBSLHP77ZJQ1"
+      ],
+      "said_answerable": true
+    },
+    {
+      "qid": "hard_prime_customers-645b65c6",
+      "template": "hard_prime_customers",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 6,
+        "n_exist": 6,
+        "n_grounded": 6,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 3,
+      "cost_usd": 0.033352,
+      "latency_s": 9.75,
+      "expected": [
+        "ERMDZBE4J8Q9",
+        "J1FCJLK5LGU5"
+      ],
+      "got": [
+        "ERMDZBE4J8Q9",
+        "J1FCJLK5LGU5"
+      ],
+      "said_answerable": true
+    },
+    {
+      "qid": "hard_single_point-5c983fb4",
+      "template": "hard_single_point",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 7,
+        "n_exist": 7,
+        "n_grounded": 7,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 3,
+      "cost_usd": 0.03826,
+      "latency_s": 8.45,
+      "expected": false,
+      "got": false,
+      "said_answerable": true
+    },
+    {
+      "qid": "hard_single_point-fd9c629a",
+      "template": "hard_single_point",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 6,
+        "n_exist": 6,
+        "n_grounded": 6,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 4,
+      "cost_usd": 0.055489,
+      "latency_s": 10.21,
+      "expected": true,
+      "got": true,
+      "said_answerable": true
+    },
+    {
+      "qid": "hard_single_point-c2f3e23f",
+      "template": "hard_single_point",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 7,
+        "n_exist": 7,
+        "n_grounded": 7,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 4,
+      "cost_usd": 0.060449,
+      "latency_s": 11.25,
+      "expected": true,
+      "got": true,
+      "said_answerable": true
+    },
+    {
+      "qid": "hard_noisy_name-3b531f36",
+      "template": "hard_noisy_name",
+      "answerable": true,
+      "correct": false,
+      "category": "false_refusal",
+      "tool_call_correct": false,
+      "citations": {
+        "n_citations": 0,
+        "n_exist": 0,
+        "n_grounded": 0,
+        "precision": null,
+        "required_hit": false,
+        "fabricated": []
+      },
       "steps": 2,
-      "cost_usd": 0.042828,
-      "latency_s": 8.39,
+      "cost_usd": 0.029814,
+      "latency_s": 6.06,
+      "expected": 2,
+      "got": null,
+      "said_answerable": false
+    },
+    {
+      "qid": "hard_noisy_name-c13f18c0",
+      "template": "hard_noisy_name",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 6,
+        "n_exist": 6,
+        "n_grounded": 6,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 3,
+      "cost_usd": 0.03515,
+      "latency_s": 6.74,
+      "expected": 2,
+      "got": 2,
+      "said_answerable": true
+    },
+    {
+      "qid": "hard_noisy_name-eef87083",
+      "template": "hard_noisy_name",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 12,
+        "n_exist": 12,
+        "n_grounded": 12,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 3,
+      "cost_usd": 0.045976,
+      "latency_s": 9.33,
+      "expected": 4,
+      "got": 4,
+      "said_answerable": true
+    },
+    {
+      "qid": "hard_feed_country-478e62b1",
+      "template": "hard_feed_country",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 10,
+        "n_exist": 10,
+        "n_grounded": 10,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 2,
+      "cost_usd": 0.047874,
+      "latency_s": 7.9,
       "expected": 0.1006,
       "got": 0.1006,
+      "said_answerable": true
+    },
+    {
+      "qid": "hard_feed_country-5ea2e6c0",
+      "template": "hard_feed_country",
+      "answerable": true,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 11,
+        "n_exist": 11,
+        "n_grounded": 11,
+        "precision": 1.0,
+        "required_hit": true,
+        "fabricated": []
+      },
+      "steps": 2,
+      "cost_usd": 0.049184,
+      "latency_s": 11.19,
+      "expected": 0.0219,
+      "got": 0.0219,
       "said_answerable": true
     },
     {
@@ -3447,12 +2551,319 @@
         "fabricated": []
       },
       "steps": 2,
-      "cost_usd": 0.041838,
-      "latency_s": 7.97,
+      "cost_usd": 0.045854,
+      "latency_s": 7.34,
       "expected": 0.0702,
       "got": 0.0702,
       "said_answerable": true
+    },
+    {
+      "qid": "absent_supplier-b2bb3e8a",
+      "template": "absent_supplier",
+      "answerable": false,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 0,
+        "n_exist": 0,
+        "n_grounded": 0,
+        "precision": null,
+        "required_hit": null,
+        "fabricated": []
+      },
+      "steps": 2,
+      "cost_usd": 0.020851,
+      "latency_s": 3.66,
+      "expected": null,
+      "got": null,
+      "said_answerable": false
+    },
+    {
+      "qid": "absent_supplier-5c21424d",
+      "template": "absent_supplier",
+      "answerable": false,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 0,
+        "n_exist": 0,
+        "n_grounded": 0,
+        "precision": null,
+        "required_hit": null,
+        "fabricated": []
+      },
+      "steps": 2,
+      "cost_usd": 0.021615,
+      "latency_s": 5.06,
+      "expected": null,
+      "got": null,
+      "said_answerable": false
+    },
+    {
+      "qid": "absent_supplier-8a929bcb",
+      "template": "absent_supplier",
+      "answerable": false,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 0,
+        "n_exist": 0,
+        "n_grounded": 0,
+        "precision": null,
+        "required_hit": null,
+        "fabricated": []
+      },
+      "steps": 2,
+      "cost_usd": 0.021216,
+      "latency_s": 3.67,
+      "expected": null,
+      "got": null,
+      "said_answerable": false
+    },
+    {
+      "qid": "risk_not_in_feed-01d2b245",
+      "template": "risk_not_in_feed",
+      "answerable": false,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 4,
+        "n_exist": 4,
+        "n_grounded": 4,
+        "precision": 1.0,
+        "required_hit": null,
+        "fabricated": []
+      },
+      "steps": 3,
+      "cost_usd": 0.031495,
+      "latency_s": 6.17,
+      "expected": null,
+      "got": null,
+      "said_answerable": false
+    },
+    {
+      "qid": "risk_not_in_feed-b3a22329",
+      "template": "risk_not_in_feed",
+      "answerable": false,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 7,
+        "n_exist": 7,
+        "n_grounded": 7,
+        "precision": 1.0,
+        "required_hit": null,
+        "fabricated": []
+      },
+      "steps": 3,
+      "cost_usd": 0.035567,
+      "latency_s": 7.6,
+      "expected": null,
+      "got": [
+        "CHHJY5LCVGR5",
+        "HERXJEEWZFL7",
+        "EWREJDW1K877"
+      ],
+      "said_answerable": false
+    },
+    {
+      "qid": "risk_not_in_feed-d2310ac4",
+      "template": "risk_not_in_feed",
+      "answerable": false,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 8,
+        "n_exist": 8,
+        "n_grounded": 8,
+        "precision": 1.0,
+        "required_hit": null,
+        "fabricated": []
+      },
+      "steps": 3,
+      "cost_usd": 0.03747,
+      "latency_s": 8.12,
+      "expected": null,
+      "got": [
+        "J3RRJT1JJT63",
+        "Y69JA9QHM117",
+        "DWGCRSAUWPY1"
+      ],
+      "said_answerable": false
+    },
+    {
+      "qid": "absent_award-6c89d7f3",
+      "template": "absent_award",
+      "answerable": false,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 0,
+        "n_exist": 0,
+        "n_grounded": 0,
+        "precision": null,
+        "required_hit": null,
+        "fabricated": []
+      },
+      "steps": 2,
+      "cost_usd": 0.021023,
+      "latency_s": 3.44,
+      "expected": null,
+      "got": null,
+      "said_answerable": false
+    },
+    {
+      "qid": "absent_award-11da0348",
+      "template": "absent_award",
+      "answerable": false,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 0,
+        "n_exist": 0,
+        "n_grounded": 0,
+        "precision": null,
+        "required_hit": null,
+        "fabricated": []
+      },
+      "steps": 2,
+      "cost_usd": 0.023023,
+      "latency_s": 4.98,
+      "expected": null,
+      "got": null,
+      "said_answerable": false
+    },
+    {
+      "qid": "absent_program-028e774b",
+      "template": "absent_program",
+      "answerable": false,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 0,
+        "n_exist": 0,
+        "n_grounded": 0,
+        "precision": null,
+        "required_hit": null,
+        "fabricated": []
+      },
+      "steps": 2,
+      "cost_usd": 0.021198,
+      "latency_s": 3.58,
+      "expected": null,
+      "got": null,
+      "said_answerable": false
+    },
+    {
+      "qid": "risk_not_in_feed-f7135078",
+      "template": "risk_not_in_feed",
+      "answerable": false,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": true,
+      "citations": {
+        "n_citations": 17,
+        "n_exist": 17,
+        "n_grounded": 17,
+        "precision": 1.0,
+        "required_hit": null,
+        "fabricated": []
+      },
+      "steps": 3,
+      "cost_usd": 0.057,
+      "latency_s": 11.96,
+      "expected": null,
+      "got": [
+        "HM7LW4KP7NA7",
+        "KDT2YLB34NT6",
+        "J3W1JD5LYME4",
+        "RD75KVKS7KJ5",
+        "LYN2KLH4KA25",
+        "NXWLJMUXP3X9",
+        "YZCTELBA1AM7",
+        "XWLJF3T1QGL9"
+      ],
+      "said_answerable": false
+    },
+    {
+      "qid": "out_of_schema-9c4fdb9f",
+      "template": "out_of_schema",
+      "answerable": false,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": null,
+      "citations": {
+        "n_citations": 0,
+        "n_exist": 0,
+        "n_grounded": 0,
+        "precision": null,
+        "required_hit": null,
+        "fabricated": []
+      },
+      "steps": 2,
+      "cost_usd": 0.02637,
+      "latency_s": 5.07,
+      "expected": null,
+      "got": null,
+      "said_answerable": false
+    },
+    {
+      "qid": "out_of_schema-baca9f48",
+      "template": "out_of_schema",
+      "answerable": false,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": null,
+      "citations": {
+        "n_citations": 10,
+        "n_exist": 10,
+        "n_grounded": 10,
+        "precision": 1.0,
+        "required_hit": null,
+        "fabricated": []
+      },
+      "steps": 3,
+      "cost_usd": 0.050671,
+      "latency_s": 10.47,
+      "expected": null,
+      "got": null,
+      "said_answerable": false
+    },
+    {
+      "qid": "out_of_schema-b5456256",
+      "template": "out_of_schema",
+      "answerable": false,
+      "correct": true,
+      "category": "ok",
+      "tool_call_correct": null,
+      "citations": {
+        "n_citations": 8,
+        "n_exist": 8,
+        "n_grounded": 8,
+        "precision": 1.0,
+        "required_hit": null,
+        "fabricated": []
+      },
+      "steps": 3,
+      "cost_usd": 0.05215,
+      "latency_s": 10.63,
+      "expected": null,
+      "got": {
+        "supplier_id": "UTJWTSLMFNG4",
+        "navair_N00019_obligations_fy23_25_awards": 117295006.63,
+        "S0707A_obligations": 37008330.66
+      },
+      "said_answerable": false
     }
   ],
-  "anthropic_spend_total_usd": 8.975939
+  "anthropic_spend_total_usd": 16.742539
 }

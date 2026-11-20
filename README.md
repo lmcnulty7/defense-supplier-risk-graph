@@ -5,16 +5,17 @@ concentrated, sole-sourced or geographically exposed, and what breaks if one of 
 
 **Built.** From public USAspending data (57,596 DoD maintenance contracts, $225.2B, 11,658 suppliers):
 entity resolution with an end-to-end test, a knowledge graph checked against SQL and Neo4j, a time-split backtest of
-the risk flags, and a Claude agent with four read-only tools that cites a record ID for every fact or declines.
+the risk flags, a what-if scenario (remove suppliers, see which offices lose work and who else does it), and a
+Claude agent with five read-only tools that cites a record ID for every fact or declines.
 Every part has an evaluation, and every number comes from a `make` target ([HEADLINE.md](reports/HEADLINE.md)).
 
 **Three findings**
 1. **The flags measure impact, not likelihood.** Against next-year contract terminations they score ROC-AUC 0.635,
    below simply counting contracts (0.758). Sole-source suppliers are *less* likely to see one: size-adjusted odds
    ratio 0.66 [0.52, 0.82]. The tool therefore shows likelihood and impact on separate axes.
-2. **Grounding is the agent's failure mode.** With named, verified queries even the small model answers every
-   structured question. It fails on a company name one word off: Haiku caught 1/8, 3/8, 3/8 look-alike traps. A
-   check in the name-lookup tool (not the prompt) raised that to 7/8, 8/8, 7/8.
+2. **Grounding is the agent's failure mode.** With named, verified queries even the small model answers nearly
+   every structured question (43/44, 44/44, 43/44 on the challenge set). It fails on a company name one word off: Haiku caught 4/8, 4/8, 4/8 look-alike traps. A
+   check in the name-lookup tool (not the prompt) raised that to 8/8, 8/8, 8/8.
 3. **Pairwise ER metrics overstate.** Matching scored above 0.9 on labelled pairs, yet resolved only 55.8% of renamed
    companies end to end. Facility-address blocking and learned evidence weights took it to 82.7%; a stricter
    operating point then cut false merges of absent companies 8.7% → 4.4%.
@@ -29,7 +30,7 @@ make test                      # regression gates
 
 > Portfolio project on public data (USAspending, SAM.gov, and a country-risk feed from a separate personal project;
 > its skill status is `beats_base_rate`, but the backtest couldn't test it, so it is context only). The persona is fictional. Not used by, endorsed by,
-> or built for the DoD or any company. Total Claude API spend: $9.15.
+> or built for the DoD or any company. Total Claude API spend: $16.74.
 
 ---
 
@@ -42,7 +43,7 @@ make test                      # regression gates
 | Graph | 6 node labels, 6 edge types, provenance everywhere; 10 named queries in graph and SQL with exact agreement; Neo4j parity on all counts and a Cypher blast radius (30/30) | [neo4j_parity.json](reports/neo4j_parity.json) |
 | Risk backtest | 5,541 test supplier-years, 145 events. ROC-AUC: flags 0.635, contract count 0.758, model 0.772 (gain over size +0.013 [-0.013, 0.039]; average precision +0.070 [0.028, 0.110]). Concentrated 3.06 → 0.77 after size; geo-exposed 1.75 → 1.00 without one Navy office in Japan | [risk_backtest.md](reports/risk_backtest.md) |
 | Agent, v1 (101 questions) | Opus 87/88 answerable, 13/13 refusals, 0 fabricated IDs; Haiku 83/88, 83/88, 83/88 | [eval_report.md](reports/eval_report.md) |
-| Agent, challenge (38 + 14 traps) | Opus 38/38 and 13/14; Haiku 38/38, 38/38, 38/38 but traps 7/14, 9/14, 9/14; Haiku + guard traps 13/14, 14/14, 13/14; Opus with no tools 0/38 (declines, invents nothing). Haiku costs 1/49 of Opus per question | [comparison.md](reports/comparison.md) |
+| Agent, challenge (44 + 16 traps, incl. 8 what-if questions) | Opus 44/44 and 15/16; Haiku 43/44, 44/44, 43/44 but traps 12/16, 12/16, 12/16; Haiku + guard traps 15/16, 16/16, 16/16; Opus with no tools 0/44 (declines, invents nothing). Haiku costs 1/52 of Opus per question | [comparison.md](reports/comparison.md) |
 | Trust | LLM judge validated on planted errors: 40/40 blatant, 30/30 subtle | [judge_validation_subtle.json](reports/judge_validation_subtle.json) |
 
 ## Architecture
@@ -76,6 +77,13 @@ Docs: [design doc](docs/design_doc.md) · [problem statement](docs/problem_state
 [likelihood model card](docs/model_card_likelihood.md) · [data licenses](docs/DATA_LICENSES.md)
 
 ## All commands
+
+**The app** (`make app`): an *Overview* with three headline facts and featured suppliers; *What if it fails?*
+(remove suppliers; offices, dollars and programs affected, and for each office the other suppliers doing the same
+type of work); the supplier risk table; likelihood x impact; the *Graph explorer* (a supplier's blast radius by
+office); the *Office view* (an office's suppliers, top share, concentration index, sole-source suppliers); the
+agent, with cited answers and suggested follow-ups; and *About the data*. Click a table row or a graph node to follow
+it; Back returns. Everything runs offline.
 
 **Running the agent yourself.** Everything except the "Ask the agent" tab runs with no key. To ask questions, put
 your own `ANTHROPIC_API_KEY` in `.env` (copy `.env.example`); the calls are billed to your account. The budget guard

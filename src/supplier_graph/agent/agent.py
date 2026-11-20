@@ -1,4 +1,4 @@
-"""Read-only supplier-risk agent: Claude tool use over four tools, cited answers, full run logging.
+"""Read-only supplier-risk agent: Claude tool use over five tools, cited answers, full run logging.
 
 The client is constructed with no arguments (`anthropic.Anthropic()`), so credentials resolve from the
 environment (ANTHROPIC_API_KEY locally, or Workload Identity Federation variables if set later).
@@ -36,7 +36,9 @@ How to work:
 - Use the tools. Resolve supplier names to supplier_ids (UEIs) with resolve_supplier before running supplier queries. \
 If several candidates are equally good (one company often holds several UEIs), say which one you used and why, \
 or use the parent company if the question is about the company as a whole.
-- You can only run the named queries offered by run_query. You cannot write new queries.
+- You can only run the named queries offered by run_query. You cannot write new queries. For "what if X fails" \
+questions use what_if_remove; an alternative supplier there means one doing the same type of work (same service \
+code), not proof it could take over, and the data says nothing about capacity or how long a switch would take.
 - Obligation amounts are lifetime obligations on awards that had activity in FY2023-FY2025, with de-obligations floored at zero.
 
 Answer rules:

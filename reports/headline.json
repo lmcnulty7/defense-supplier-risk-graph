@@ -48,6 +48,14 @@
     "alts": []
   },
   {
+    "key": "offices_sole_source_majority",
+    "text": "188",
+    "label": "awarding offices where one supplier gets over half the office's obligations and over half of that supplier's obligations from the office were not competed",
+    "source": "awards_scope (office_view.py)",
+    "section": "Data",
+    "alts": []
+  },
+  {
     "key": "n_transactions",
     "text": "187,320",
     "label": "contract transactions FY2022-FY2025",
@@ -509,7 +517,7 @@
   },
   {
     "key": "v1_haiku_guard",
-    "text": "82/88, 83/88, 83/88",
+    "text": "83/88, 83/88, 82/88",
     "label": "v1: Haiku + guard answerable correct, three runs",
     "source": "comparison.json",
     "section": "Agent",
@@ -517,7 +525,7 @@
   },
   {
     "key": "v1_haiku_fab",
-    "text": "0, 0, 3 (guard: 0, 0, 4)",
+    "text": "1, 0, 0 (guard: 0, 0, 3)",
     "label": "v1: Haiku citation IDs not found, per run (real supplier IDs cited under the parent: prefix)",
     "source": "comparison.json",
     "section": "Agent",
@@ -533,7 +541,7 @@
   },
   {
     "key": "ch_opus",
-    "text": "38/38",
+    "text": "44/44",
     "label": "challenge: Opus answerable correct",
     "source": "comparison.json",
     "section": "Agent",
@@ -541,7 +549,7 @@
   },
   {
     "key": "ch_opus_traps",
-    "text": "13/14",
+    "text": "15/16",
     "label": "challenge: Opus traps declined",
     "source": "comparison.json",
     "section": "Agent",
@@ -549,7 +557,7 @@
   },
   {
     "key": "ch_haiku",
-    "text": "38/38, 38/38, 38/38",
+    "text": "43/44, 44/44, 43/44",
     "label": "challenge: Haiku answerable, three runs",
     "source": "comparison.json",
     "section": "Agent",
@@ -557,7 +565,7 @@
   },
   {
     "key": "ch_haiku_traps",
-    "text": "7/14, 9/14, 9/14",
+    "text": "12/16, 12/16, 12/16",
     "label": "challenge: Haiku traps declined",
     "source": "comparison.json",
     "section": "Agent",
@@ -565,7 +573,7 @@
   },
   {
     "key": "ch_guard_traps",
-    "text": "13/14, 14/14, 13/14",
+    "text": "15/16, 16/16, 16/16",
     "label": "challenge: Haiku + guard traps declined",
     "source": "comparison.json",
     "section": "Agent",
@@ -573,7 +581,7 @@
   },
   {
     "key": "ch_notools",
-    "text": "0/38",
+    "text": "0/44",
     "label": "challenge: Opus without tools, answerable",
     "source": "comparison.json",
     "section": "Agent",
@@ -581,7 +589,7 @@
   },
   {
     "key": "nm_haiku",
-    "text": "1/8, 3/8, 3/8",
+    "text": "4/8, 4/8, 4/8",
     "label": "near-miss traps caught, Haiku",
     "source": "comparison.json",
     "section": "Agent",
@@ -589,7 +597,7 @@
   },
   {
     "key": "nm_guard",
-    "text": "7/8, 8/8, 7/8",
+    "text": "8/8, 8/8, 8/8",
     "label": "near-miss traps caught, Haiku + guard",
     "source": "comparison.json",
     "section": "Agent",
@@ -597,15 +605,15 @@
   },
   {
     "key": "nm_opus",
-    "text": "7/8, 7/8, 7/8",
-    "label": "near-miss traps caught, Opus (three runs of the trap template)",
+    "text": "7/8",
+    "label": "near-miss traps caught, Opus (one run with the current prompt)",
     "source": "comparison.json",
     "section": "Agent",
     "alts": []
   },
   {
     "key": "cost_opus",
-    "text": "$0.041",
+    "text": "$0.045",
     "label": "Opus cost per challenge question",
     "source": "comparison.json",
     "section": "Agent",
@@ -613,7 +621,7 @@
   },
   {
     "key": "cost_ratio",
-    "text": "1/49",
+    "text": "1/52",
     "label": "Haiku cost relative to Opus per challenge question",
     "source": "comparison.json",
     "section": "Agent",
@@ -621,7 +629,7 @@
   },
   {
     "key": "guard_replay",
-    "text": "0 of 88",
+    "text": "0 of 96",
     "label": "logged Opus resolver calls on answerable questions where the guard fires",
     "source": "guard_eval.json",
     "section": "Agent",
@@ -645,15 +653,15 @@
   },
   {
     "key": "spend",
-    "text": "$9.15",
-    "label": "total Anthropic API spend (cap $10)",
+    "text": "$16.74",
+    "label": "total Anthropic API spend (cap $20, raised from $10 on 2026-11-19)",
     "source": "logs/spend_ledger.jsonl",
     "section": "Trust and cost",
     "alts": []
   },
   {
     "key": "tests",
-    "text": "144 tests",
+    "text": "176 tests",
     "label": "pytest tests collected (`make test`)",
     "source": "pytest --collect-only",
     "section": "Trust and cost",

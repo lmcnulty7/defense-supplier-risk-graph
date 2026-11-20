@@ -257,6 +257,13 @@ def build() -> str:
     ratio = round(op_cost / hk_cost) if op_cost and hk_cost else None
     hg_ch = reps("challenge/haiku_tools_guard")
     nt_ch = reps("challenge/opus_no_tools")
+    hk_ch = reps("challenge/haiku_tools")
+    hk_ans = [r["answerable_correct"] for r in hk_ch]
+    hk_all_right = bool(hk_ch) and all(r["answerable_correct"].split("/")[0] == r["answerable_correct"].split("/")[1]
+                                       for r in hk_ch)
+    hk_real_misses = sorted({f["qid"].split("-")[0] for r in hk_ch for f in r["failures"] if f["qid"].startswith("c_")})
+    opus_nm_miss = [f["qid"] for r in reps("challenge/opus_tools") for f in r["failures"]
+                    if f["qid"].startswith("u_near_miss")]
 
     def details(inner: str) -> str:
         return f'<details><summary>Technical detail (for follow-up questions)</summary><div class="det">{inner}</div></details>'
@@ -474,10 +481,41 @@ least twice as likely as their size alone would suggest: the ones worth a closer
 <p class="fine">"Chance" is the chance of any termination or cancellation, not of the company failing. Largest six red dots shown.</p>
 </div></div>"""))
 
+    # what-if scenario: numbers from the what_if_remove query (graph and SQL paths, parity-tested) and HEADLINE.md
+    from supplier_graph import scenario as SC
+    from supplier_graph.graph_view import office_short
+    hl = load_headline()
+    sk = SC.run([SC.ANCHOR])
+    def top_alt(r: dict) -> str:
+        if not r["top_alternatives"]:
+            return "none"
+        t = r["top_alternatives"][0]
+        return esc(SC.short_name(t["name"])) + ("" if t["serves_office"] else " (not yet for this office)")
+
+    sc_rows = "".join(
+        f"<tr><td>{esc(office_short(r['office_name'], r['office_code']))} ({r['office_code']})</td>"
+        f"<td>{money(r['obligations'])}</td><td>{r['n_alternatives_at_office']}</td>"
+        f"<td>{top_alt(r)}</td></tr>"
+        for r in sk["rows"])
+    slides.append(("scenario", f"""
+<h2>What if a supplier fails? The tool answers in one click</h2>
+<p class="big">{esc(SC.headline(sk))}</p>
+<div class="two">
+<div><table><tr><th>office</th><th>at stake</th><th>others already doing this work there</th><th>top alternative</th></tr>
+{sc_rows}</table></div>
+<div>
+<p>Pick one or more suppliers to remove. The tool lists every office that loses work, the dollars and programs involved,
+and, for each office, the other suppliers doing the same type of work (same service code), starting with those that
+already do it for that office.</p>
+<p>The same check across the whole dataset: <b>{hl['offices_sole_source_majority']} of {hl['n_offices']}</b> awarding
+offices rely on one supplier, mostly sole-source, for over half their spending.</p>
+<p class="fine">{esc(SC.CAVEAT)} The assistant can run the same scenario (its fifth tool).</p>
+</div></div>"""))
+
     slides.append(("agent-eval", f"""
 <h2>Step 5: The AI assistant, and testing it fairly</h2>
-<p>You type a question. Claude can't search freely: it can only use four lookup tools (find a company by name, run one of
-the ten pre-written questions, get a country's risk, get a contract's details). Every fact must cite a record ID, or it must
+<p>You type a question. Claude can't search freely: it can only use five lookup tools (find a company by name, run one of
+the ten pre-written questions, test what happens if suppliers fail, get a country's risk, get a contract's details). Every fact must cite a record ID, or it must
 say the data can't answer.</p>
 <p><b>Testing:</b> questions whose correct answers are computed from the data, plus trick questions about companies that
 don't exist. The first test was too easy ({round(ov['answer_correctness'] * ov['n_answerable'])}/{ov['n_answerable']}
@@ -487,12 +525,15 @@ one with comparisons, rankings and look-alike names.</p>
 <ul>
  <li><b>Without the lookup tools</b>, Claude answers nothing ({nt_ch[0]['answerable_correct'] if nt_ch else '-'}). It declines
      rather than making things up, but it can't help. The map is what makes it useful.</li>
- <li><b>With the tools, even the small model</b> gets every real question right, in all three runs, at about
+ <li><b>With the tools, even the small model</b> gets {"every real question right, in all three runs" if hk_all_right
+     else "nearly every real question right (" + ", ".join(hk_ans) + ")"}, at about
      {f"1/{ratio}" if ratio else "a fraction"} of the large model's cost.</li>
- <li>The small model's mistakes were all on trick questions. The next slide shows which ones.</li>
+ <li>{"The small model's mistakes were all on trick questions." if not hk_real_misses else
+      "Most of the small model's mistakes were on trick questions (its other misses: " + ", ".join(hk_real_misses)
+      + ")."} The next slide shows the tricks it fell for.</li>
 </ul>
-<p class="fine">Black dots are separate runs (small model 3 times; large model once on the full set, because two more
-full runs would break the $10 budget, and 3 times on the look-alike tricks). Cost per question:
+<p class="fine">Black dots are separate runs (small model 3 times; large model once per set). All runs use the
+assistant's current instructions and tools. Cost per question:
 {' · '.join(f"{k} ${v:.4f}" for k, v in cost_cells.items() if v is not None)}.</p>"""))
 
     gtxt = ""
@@ -516,7 +557,9 @@ Real questions: still {', '.join(r['answerable_correct'] for r in hg_ch) if hg_c
          f"names, {pct(gd['synthetic_pos_excluding_acronym']['flag_rate'], 2)} of synthetic same-company pairs, and "
          f"{gd['replay_logged_opus_resolver_calls']['answerable']['flagged']} of "
          f"{gd['replay_logged_opus_resolver_calls']['answerable']['calls']} logged large-model lookups on real questions. "
-         "One trick every model missed is arguably mislabelled; it is still counted as a miss.")}"""))
+         + (" The one trick the large model missed is arguably mislabelled (the matched company shares every other "
+            "distinctive word, and the model said it was a likely, not certain, match); it is still counted as a miss."
+            if opus_nm_miss else ""))}"""))
 
     slides.append(("trust", f"""
 <h2>Why these numbers can be trusted</h2>
@@ -528,8 +571,9 @@ Real questions: still {', '.join(r['answerable_correct'] for r in hg_ch) if hg_c
      {js['agreement'] * 100:.0f}% of {js['n_cases']} subtle ones (a count off by one, a percentage off by 5 points).</li>
  <li><b>No hand-made labels.</b> Test labels come from ID numbers, deliberate misspellings and the government's own
      termination codes.</li>
- <li><b>Changes made after seeing results are disclosed.</b> The harder question set was revised once after a trial run,
-     and the address check was added after studying failures. Both are reported with before and after numbers.</li>
+ <li><b>Changes made after seeing results are disclosed.</b> The harder question set was revised once after a trial run
+     (and later extended with eight what-if questions for the scenario tool), and the address check was added after
+     studying failures. Both are reported with before and after numbers.</li>
  <li><b>Automatic checks.</b> The test suite fails if any of these results gets worse.</li>
 </ul>"""))
 

@@ -75,6 +75,8 @@ def write_report(res: dict) -> None:
 
     def spread(k: str) -> str:
         vals = sorted({r["answerable_correct"] for r in reps(k)})
+        if not vals:
+            return "not run"
         return "identical" if len(vals) == 1 else f"{vals[0]} to {vals[-1]}"
 
     oc = reps("challenge/opus_tools")[0]["cost_mean_usd"] if reps("challenge/opus_tools") else None
@@ -88,6 +90,29 @@ def write_report(res: dict) -> None:
         return full + part
 
     opus_cost = sum(r["cost_mean_usd"] * (r["n_answerable"] + r["n_unanswerable"]) for r in reps("challenge/opus_tools"))
+
+    def wi(k: str) -> str:
+        out = []
+        for r in reps(k):
+            bt = r.get("by_template", {})
+            ans = sum(v.get("correct", 0) for t, v in bt.items() if t.startswith("c_what_if"))
+            n_ans = sum(v.get("n", 0) for t, v in bt.items() if t.startswith("c_what_if"))
+            tr = sum(v.get("correct", 0) for t, v in bt.items() if t.startswith("u_what_if"))
+            n_tr = sum(v.get("n", 0) for t, v in bt.items() if t.startswith("u_what_if"))
+            out.append(f"{ans}/{n_ans} + {tr}/{n_tr}")
+        return ", ".join(out) or "-"
+
+    first = (reps("challenge/opus_tools") or [{}])[0].get("by_template", {})
+    n_wi_ans = sum(v.get("n", 0) for t, v in first.items() if t.startswith("c_what_if"))
+    n_wi_traps = sum(v.get("n", 0) for t, v in first.items() if t.startswith("u_what_if"))
+    hm = [f["qid"] for r in reps("challenge/haiku_tools") for f in r["failures"] if f["qid"].startswith("c_")]
+    whatif_miss = (f" (its misses: {', '.join(sorted(set(hm)))})" if hm else "")
+    om = sorted({f["qid"] for r in reps("challenge/opus_tools") for f in r["failures"]
+                 if f["qid"].startswith("u_near_miss")})
+    opus_nm_note = ("Opus's near-miss miss (" + ", ".join(f"`{q}`" for q in om) + ") is the most debatable label: the "
+                    "look-alike shares the other distinctive words, and Opus said the matched name lacks the swapped "
+                    "word and called it a likely rather than certain match. It is scored as a miss, as labelled "
+                    "before the runs.") if om else ""
     gtxt = ""
     if guard:
         er = guard["er_pairs_test"]
@@ -106,7 +131,7 @@ def write_report(res: dict) -> None:
         dtxt = (f"The first draft of the challenge set (`reports/challenge_set_draft.jsonl`) saturated: Haiku scored "
                 f"{' / '.join(r['answerable_correct'] for r in d)} on its answerable questions in three runs. Four "
                 f"reasoning-over-output templates were added and the near-miss traps increased; the agent's prompt and "
-                f"tools were not changed in response. The final set below was then run once per configuration.")
+                f"tools were not changed in response. The final set below was then run as listed for each configuration.")
     sub = ""
     if subtle:
         by_case = ", ".join(f"{k}: {v['agreement']:.0%} of {v['n']}" for k, v in subtle["agreement_by_case"].items())
@@ -119,26 +144,30 @@ main eval log). Same deterministic scorer as `reports/eval_report.md`. Portfolio
 
 ## Bottom line
 
+Results use the agent's current prompt (answers the answerable part of a question, cites nothing for the missing part)
+and its five tools, including `what_if_remove`. Runs under the earlier prompt are not mixed in.
+
 1. **The graph is what answers the questions.** Without tools, Opus declines everything on the challenge set
    ({reps('challenge/opus_no_tools')[0]['answerable_correct'] if reps('challenge/opus_no_tools') else '-'} answerable). It does not invent answers, but it cannot help.
-2. **With named, verified queries, structured questions are easy even for a small model.** Haiku 5.5 answers every
-   answerable challenge question in three runs ({' / '.join(r['answerable_correct'] for r in reps('challenge/haiku_tools'))})
-   at {ratio} of Opus's cost per question on this set. On the v1 set it scores {' / '.join(r['answerable_correct'] for r in reps('golden/haiku_tools'))}
-   vs Opus {reps('golden/opus_tools')[0]['answerable_correct'] if reps('golden/opus_tools') else '-'}; of Haiku's misses per run, {' / '.join(map(str, contract_dicts('golden/haiku_tools')))} are output-contract
-   violations (a dict in the answer field that contains the right value).
+2. **With named, verified queries, structured questions are easy even for a small model.** Haiku 5.5 scores
+   {' / '.join(r['answerable_correct'] for r in reps('challenge/haiku_tools'))} on the answerable challenge questions in three
+   runs{whatif_miss} at {ratio} of Opus's cost per question on this set. On the v1 set it scores
+   {' / '.join(r['answerable_correct'] for r in reps('golden/haiku_tools'))} vs Opus {reps('golden/opus_tools')[0]['answerable_correct'] if reps('golden/opus_tools') else '-'}; of Haiku's misses per run,
+   {' / '.join(map(str, contract_dicts('golden/haiku_tools')))} are output-contract violations (a dict in the answer field that contains the right value).
 3. **The real failure mode is entity grounding.** On near-miss names (a real supplier with one distinctive word
-   swapped), Haiku silently answered for the look-alike: correct on {', '.join(f'{x}/8' for x in nm('challenge/haiku_tools'))} of 8 traps across
-   runs. Opus got {', '.join(f'{x}/8' for x in nm('challenge/opus_tools'))} (the near-miss traps were re-run twice for Opus to
-   measure its variance there; see *Run-to-run variance*).
-4. **A tool-side fix closes most of the gap.** The resolver's grounding guard lists query words the matched name
-   lacks and tells the model not to substitute silently. Haiku with the guard: {', '.join(f'{x}/8' for x in nm('challenge/haiku_tools_guard'))} of 8,
-   with no loss on answerable challenge questions (v1 with the guard: {' / '.join(r['answerable_correct'] for r in reps('golden/haiku_tools_guard'))}).
+   swapped), Haiku often answered for the look-alike: it caught {', '.join(f'{x}/8' for x in nm('challenge/haiku_tools'))}
+   across runs. Opus caught {', '.join(f'{x}/8' for x in nm('challenge/opus_tools'))}.
+4. **A tool-side fix closes the gap.** The resolver's grounding guard lists query words the matched name lacks and
+   tells the model not to substitute silently. Haiku with the guard: {', '.join(f'{x}/8' for x in nm('challenge/haiku_tools_guard'))},
+   with {' / '.join(r['answerable_correct'] for r in reps('challenge/haiku_tools_guard'))} on answerable challenge questions
+   (v1 with the guard: {' / '.join(r['answerable_correct'] for r in reps('golden/haiku_tools_guard'))}).
    Replaying the {rp['calls'] if rp else '?'} logged Opus resolver calls on answerable questions, the guard fires on
    {rp['flagged'] if rp else '?'}, so it cannot change those answers. It is on by default (`RESOLVER_GUARD=1`).
+5. **What-if questions** (the `what_if_remove` tool; {n_wi_ans} answerable plus {n_wi_traps} traps: a look-alike company and
+   "how many months would a switch take"): Opus {wi('challenge/opus_tools')}, Haiku {wi('challenge/haiku_tools')},
+   Haiku with the guard {wi('challenge/haiku_tools_guard')} (answerable correct / traps declined, per run).
 
-The one trap every configuration missed (`u_near_miss-ebf5d8f3`, "Execujet Mro Svcs Middle East Dwc Optics") is the
-most debatable label: the look-alike shares five distinctive words, and both models said they were substituting the
-closest candidate rather than doing it silently. It is scored as a miss, as labelled before the runs.
+{opus_nm_note}
 
 {dtxt}
 
@@ -168,18 +197,16 @@ Repeated configurations show each run separated by "/". 95% CIs are Wilson inter
 
 {sub}
 * **Run-to-run variance (Haiku, three runs each):** answerable accuracy across runs is {spread('challenge/haiku_tools')}
-  (challenge), {spread('golden/haiku_tools')} (v1), {spread('golden/haiku_tools_guard')} (v1 with guard); trap refusals vary by up
-  to two questions. **Opus:** the full challenge set ran once (one run cost ${opus_cost:.2f}; two more would take total
-  spend past the $10 cap), so its answerable-question variance is not measured. Its eight near-miss traps, where
-  variance matters most for the guard comparison, were re-run twice more: {', '.join(f'{x}/8' for x in nm('challenge/opus_tools'))}.
-* **Cost:** total Anthropic spend for the whole project is ${res['anthropic_spend_total_usd']:.2f}, under the $10 cap
-  (`logs/spend_ledger.jsonl`).
+  (challenge), {spread('golden/haiku_tools')} (v1), {spread('golden/haiku_tools_guard')} (v1 with guard). **Opus:** each set ran
+  once with the current prompt (the challenge run cost ${opus_cost:.2f}), so its run-to-run variance is not measured here.
+* **Cost:** total Anthropic spend for the whole project is ${res['anthropic_spend_total_usd']:.2f}, under the $20 cap
+  (raised from $10 on 2026-11-19; `logs/spend_ledger.jsonl`).
 
 ## Limits
 
-* Small sets: 38 answerable challenge questions and 14 traps. A one-question difference is not significant.
-* The challenge set was revised once after a pilot (disclosed above), which makes it harder by design, not
-  representative of real analyst traffic.
-* Opus results are single runs, except the near-miss traps (three runs).
+* Small sets: {reps('challenge/opus_tools')[0]['n_answerable'] if reps('challenge/opus_tools') else '?'} answerable challenge questions and {reps('challenge/opus_tools')[0]['n_unanswerable'] if reps('challenge/opus_tools') else '?'} traps. A one-question difference is not significant.
+* The challenge set was revised once after a pilot (disclosed above) and extended with eight what-if questions when
+  the `what_if_remove` tool was added; it is harder by design, not representative of real analyst traffic.
+* Opus results are single runs.
 """
     (REPORTS / "comparison.md").write_text(text)

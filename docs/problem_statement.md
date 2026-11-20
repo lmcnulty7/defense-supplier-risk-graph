@@ -40,4 +40,4 @@ at country risk. The work is slow and not reproducible, and nobody can trace a n
 See `docs/requirements.md` for the testable requirements and acceptance criteria. Headline targets:
 entity-resolution precision and recall reported separately on identifier-derived and synthetic labels; assistant
 answer correctness >= 90% and correct-refusal rate >= 90% on the golden set; zero fabricated citations; total LLM
-spend under $10.
+spend under $20 (raised from $10 by the owner on 2026-11-19).

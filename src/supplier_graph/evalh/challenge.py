@@ -23,6 +23,12 @@ unanswerable (traps)
                      the real company with a high score. Correct behaviour: say it is not in the data.
   u_false_premise    asks why a per-year trend happened; the graph holds no per-year breakdown
   u_us_only_risk     escalation risk "where X performs"; X performs only in the USA, which the feed does not cover
+what-if scenario (the what_if_remove tool; appended so the questions above are unchanged)
+  c_what_if_pair     two suppliers that share offices: count the union of affected offices
+  c_what_if_no_alt   offices left with no supplier already doing the same service-code work for them
+  c_what_if_top_alt  the top-ranked alternative supplier for one named office
+  u_what_if_absent   what-if for a company that is not in the data (look-alike name)
+  u_what_if_capacity how long a switch would take (no capacity or lead-time data)
 
 Writes reports/challenge_set.jsonl and reports/challenge_dropped.jsonl. Run: `make challenge` (no API spend).
 """
@@ -378,11 +384,123 @@ class ChallengeBuilder(Builder):
                      reference_facts={"why": "the supplier performs only in the USA; the risk feed covers 14 MENA countries"},
                      label_source="feed coverage metadata + verified US-only place of performance"))
 
+    # ------------------------------------------------------------------ what-if scenario (what_if_remove tool)
+    def _what_if_pool(self) -> list[tuple[str, str]]:
+        return self.unique_name_suppliers("n_dependent_offices >= 3 AND n_prime_awards >= 3")
+
+    def c_what_if_pair(self, n: int = 2):
+        """Two suppliers that share at least one office: the union of affected offices is not a simple sum."""
+        pool = dict(self._what_if_pool())
+        pairs = self.con.execute("""SELECT a.supplier_id, b.supplier_id FROM supplier_office a
+                                    JOIN supplier_office b ON a.office_code = b.office_code AND a.supplier_id < b.supplier_id
+                                    GROUP BY 1, 2 ORDER BY 1, 2""").fetchall()
+        pairs = [(x, y) for x, y in pairs if x in pool and y in pool]
+        for x, y in self.pick(pairs, n):
+            r = self.both("what_if_remove", {"supplier_ids": [x, y]})
+            if r:
+                k = r[0]["summary"]["n_offices"]
+                self.add(GoldenItem(_qid("c_what_if_pair", x + y), "c_what_if_pair",
+                         f"If {pool[x]} and {pool[y]} both stopped operating, how many distinct awarding offices would "
+                         f"be affected, counting offices where either one is only a subcontractor? Give the count.",
+                         True, "int", k, expected_query="what_if_remove", expected_params={"supplier_ids": [x, y]},
+                         alt_queries=["blast_radius", "dependent_offices"],
+                         required_citations=[f"supplier:{x}", f"supplier:{y}"],
+                         reference_facts=r[0]["summary"], label_source=LS))
+
+    def c_what_if_no_alt(self, n: int = 2):
+        """Offices left with no supplier already doing the same service-code work for them."""
+        made = 0
+        for sid, nm in self.pick(self._what_if_pool(), 40):
+            r = self.both("what_if_remove", {"supplier_ids": [sid], "limit": 50})
+            if not r:
+                continue
+            s = r[0]["summary"]
+            k = s["n_offices_no_alternative_at_office"]
+            if not 0 < k < s["n_offices"]:
+                continue  # all or none is too easy to guess
+            self.add(GoldenItem(_qid("c_what_if_no_alt", sid), "c_what_if_no_alt",
+                     f"If {nm} failed, how many of the offices that depend on it would have no other supplier already "
+                     f"doing the same type of work (same 4-character service code) for that office? Give the count.",
+                     True, "int", k, expected_query="what_if_remove", expected_params={"supplier_ids": [sid]},
+                     required_citations=[f"supplier:{sid}"], reference_facts=s, label_source=LS))
+            made += 1
+            if made >= n:
+                break
+
+    def c_what_if_top_alt(self, n: int = 2):
+        """The top-ranked alternative for one named office (already serves the office, most obligations)."""
+        made = 0
+        for sid, nm in self.pick(self._what_if_pool(), 40):
+            r = self.both("what_if_remove", {"supplier_ids": [sid], "limit": 50})
+            if not r:
+                continue
+            rows = [x for x in r[0]["rows"] if x["n_alternatives_at_office"] >= 2]
+            if not rows:
+                continue
+            row = rows[0]
+            top = row["top_alternatives"][0]
+            self.add(GoldenItem(_qid("c_what_if_top_alt", sid + row["office_code"]), "c_what_if_top_alt",
+                     f"If {nm} failed, which supplier is the strongest alternative for office {row['office_code']} "
+                     f"({row['office_name'].strip()}): among suppliers already doing the same type of work (same "
+                     f"service code) for that office, the one with the most obligations in those codes? Give its "
+                     f"supplier ID (UEI).", True, "id", top["supplier_id"], expected_query="what_if_remove",
+                     expected_params={"supplier_ids": [sid]}, required_citations=[f"supplier:{sid}"],
+                     reference_facts={"office": row, "summary": r[0]["summary"]}, label_source=LS))
+            made += 1
+            if made >= n:
+                break
+
+    def u_what_if_absent(self, n: int = 1):
+        """What-if for a company that is not in the data (one word of a real name swapped)."""
+        from supplier_graph.agent.tools import resolve_supplier
+        made = 0
+        for sid, nm in self.pick(self._what_if_pool(), 40):
+            toks = core_name(nm).split()
+            idx = next((i for i in range(len(toks) - 1, 0, -1) if toks[i].isalpha() and len(toks[i]) >= 4), None)
+            if idx is None:
+                continue
+            fake_core = " ".join(toks[:idx] + [self.rng.choice([w for w in SWAP_WORDS if w not in toks])] + toks[idx + 1:])
+            hit = process.extractOne(fake_core, self.all_cores, scorer=fuzz.token_sort_ratio)
+            if hit and hit[1] >= 90:
+                continue
+            fake = fake_core.title() + " Inc"
+            cands = resolve_supplier(fake)["candidates"]
+            if not cands or cands[0]["supplier_id"] != sid:
+                continue
+            self.add(GoldenItem(_qid("u_what_if_absent", fake), "u_what_if_absent",
+                     f"What would break if {fake} failed? How many offices would be affected?", False, "null", None,
+                     expected_query="resolve_supplier", expected_params={"name": fake},
+                     reference_facts={"why": "no supplier with this name; a real company differs by one word",
+                                      "look_alike": cands[0]["name"]},
+                     label_source="synthetic near-miss name (verified: fuzzy scan < 90 against every supplier name)"))
+            made += 1
+            if made >= n:
+                break
+
+    def u_what_if_capacity(self, n: int = 1):
+        """Asks how long a switch would take: the graph has no capacity or transition-time data."""
+        for sid, nm in self.pick(self._what_if_pool(), n):
+            r = self.both("what_if_remove", {"supplier_ids": [sid]})
+            if not r or not r[0]["rows"] or not r[0]["rows"][0]["top_alternatives"]:
+                continue
+            row = r[0]["rows"][0]
+            alt = row["top_alternatives"][0]["name"]
+            q = (f"If {nm} failed, how many months would it take {alt} to take over its work for office "
+                 f"{row['office_code']}?")
+            self.add(GoldenItem(_qid("u_what_if_capacity", q), "u_what_if_capacity", q, False, "null", None,
+                     expected_query=None,
+                     reference_facts={"why": "the graph holds no capacity, lead-time or transition data; an alternative "
+                                             "only means the same type of work"},
+                     label_source="schema metadata (no capacity or transition-time fields in the graph)"))
+
     def build(self) -> list[GoldenItem]:  # type: ignore[override]
         for t in (self.c_acronym, self.c_compare_two, self.c_rank_three, self.c_parent_total, self.c_paraphrase_blast,
                   self.c_indirect_only, self.c_program_ss_share, self.c_shared_offices, self.c_office_filter,
                   self.c_program_ratio_argmax, self.c_parent_award_sum, self.u_near_miss, self.u_false_premise,
-                  self.u_us_only_risk):
+                  self.u_us_only_risk,
+                  # added with the what_if_remove tool; appended last so the earlier questions are unchanged
+                  self.c_what_if_pair, self.c_what_if_no_alt, self.c_what_if_top_alt, self.u_what_if_absent,
+                  self.u_what_if_capacity):
             t()
         seen: set[str] = set()
         self.items = [i for i in self.items if not (i.qid in seen or seen.add(i.qid))]

@@ -1,5 +1,5 @@
 {
-  "scored_at_utc": "2026-11-20T05:26:51.351280+00:00",
+  "scored_at_utc": "2026-11-20T07:13:29.937756+00:00",
   "configs": {
     "opus_tools": {
       "model": "claude-opus-5-5",
@@ -32,35 +32,35 @@
       "complete_repetitions": 3,
       "reps": [
         {
-          "n": 52,
-          "n_answerable": 38,
-          "n_unanswerable": 14,
-          "answer_correctness": 1.0,
-          "correct_refusal_rate": 0.5,
+          "n": 60,
+          "n_answerable": 44,
+          "n_unanswerable": 16,
+          "answer_correctness": 0.9773,
+          "correct_refusal_rate": 0.75,
           "false_refusal_rate": 0.0,
-          "overall_accuracy": 0.8654,
+          "overall_accuracy": 0.9167,
           "citation_precision_micro": 1.0,
           "citation_precision_macro": 1.0,
           "citation_exists_rate": 1.0,
           "required_citation_hit_rate": 1.0,
           "n_fabricated_citations": 0,
-          "tool_call_correctness": 1.0,
-          "steps_mean": 3.0769,
-          "steps_max": 4,
-          "cost_total_usd": 0.0557,
-          "cost_mean_usd": 0.0011,
-          "latency_mean_s": 4.9554,
-          "latency_p90_s": 6.64,
+          "tool_call_correctness": 0.9821,
+          "steps_mean": 3.1,
+          "steps_max": 5,
+          "cost_total_usd": 0.0727,
+          "cost_mean_usd": 0.0012,
+          "latency_mean_s": 4.9537,
+          "latency_p90_s": 6.34,
           "n_errors": 0,
-          "answerable_correct": "38/38",
+          "answerable_correct": "43/44",
           "answer_correctness_ci95": [
-            0.9082,
-            1.0
+            0.8819,
+            0.996
           ],
-          "refusals_correct": "7/14",
+          "refusals_correct": "12/16",
           "correct_refusal_ci95": [
-            0.268,
-            0.732
+            0.505,
+            0.8982
           ],
           "by_template": {
             "c_acronym": {
@@ -107,20 +107,46 @@
               "correct": 5,
               "n": 5
             },
-            "u_false_premise": {
-              "correct": 3,
-              "n": 3
+            "c_what_if_no_alt": {
+              "correct": 2,
+              "n": 2
             },
-            "u_near_miss": {
+            "c_what_if_pair": {
+              "correct": 2,
+              "n": 2
+            },
+            "c_what_if_top_alt": {
               "correct": 1,
+              "n": 2
+            },
+            "u_false_premise": {
+              "correct": 3,
+              "n": 3
+            },
+            "u_near_miss": {
+              "correct": 4,
               "n": 8
             },
             "u_us_only_risk": {
               "correct": 3,
               "n": 3
+            },
+            "u_what_if_absent": {
+              "correct": 1,
+              "n": 1
+            },
+            "u_what_if_capacity": {
+              "correct": 1,
+              "n": 1
             }
           },
           "failures": [
+            {
+              "qid": "c_what_if_top_alt-f8972b7e",
+              "category": "wrong_value",
+              "expected": "V46DN5AQ9MS6",
+              "got": "N4KXT2H8J878"
+            },
             {
               "qid": "u_near_miss-2464e18e",
               "category": "answered_unanswerable",
@@ -129,24 +155,6 @@
             },
             {
               "qid": "u_near_miss-5edbffaa",
-              "category": "answered_unanswerable",
-              "expected": null,
-              "got": 1
-            },
-            {
-              "qid": "u_near_miss-a165f23e",
-              "category": "answered_unanswerable",
-              "expected": null,
-              "got": 1
-            },
-            {
-              "qid": "u_near_miss-aec033c1",
-              "category": "answered_unanswerable",
-              "expected": null,
-              "got": 1
-            },
-            {
-              "qid": "u_near_miss-df2dae8e",
               "category": "answered_unanswerable",
               "expected": null,
               "got": 1
@@ -166,35 +174,35 @@
           ]
         },
         {
-          "n": 52,
-          "n_answerable": 38,
-          "n_unanswerable": 14,
+          "n": 60,
+          "n_answerable": 44,
+          "n_unanswerable": 16,
           "answer_correctness": 1.0,
-          "correct_refusal_rate": 0.6429,
+          "correct_refusal_rate": 0.75,
           "false_refusal_rate": 0.0,
-          "overall_accuracy": 0.9038,
+          "overall_accuracy": 0.9333,
           "citation_precision_micro": 1.0,
           "citation_precision_macro": 1.0,
           "citation_exists_rate": 1.0,
           "required_citation_hit_rate": 1.0,
           "n_fabricated_citations": 0,
           "tool_call_correctness": 1.0,
-          "steps_mean": 3.0769,
-          "steps_max": 4,
-          "cost_total_usd": 0.0371,
+          "steps_mean": 3.1167,
+          "steps_max": 5,
+          "cost_total_usd": 0.0441,
           "cost_mean_usd": 0.0007,
-          "latency_mean_s": 4.6712,
-          "latency_p90_s": 6.3,
+          "latency_mean_s": 4.7725,
+          "latency_p90_s": 6.04,
           "n_errors": 0,
-          "answerable_correct": "38/38",
+          "answerable_correct": "44/44",
           "answer_correctness_ci95": [
-            0.9082,
+            0.9197,
             1.0
           ],
-          "refusals_correct": "9/14",
+          "refusals_correct": "12/16",
           "correct_refusal_ci95": [
-            0.3876,
-            0.8366
+            0.505,
+            0.8982
           ],
           "by_template": {
             "c_acronym": {
@@ -241,17 +249,37 @@
               "correct": 5,
               "n": 5
             },
+            "c_what_if_no_alt": {
+              "correct": 2,
+              "n": 2
+            },
+            "c_what_if_pair": {
+              "correct": 2,
+              "n": 2
+            },
+            "c_what_if_top_alt": {
+              "correct": 2,
+              "n": 2
+            },
             "u_false_premise": {
               "correct": 3,
               "n": 3
             },
             "u_near_miss": {
-              "correct": 3,
+              "correct": 4,
               "n": 8
             },
             "u_us_only_risk": {
               "correct": 3,
               "n": 3
+            },
+            "u_what_if_absent": {
+              "correct": 1,
+              "n": 1
+            },
+            "u_what_if_capacity": {
+              "correct": 1,
+              "n": 1
             }
           },
           "failures": [
@@ -263,12 +291,6 @@
             },
             {
               "qid": "u_near_miss-5edbffaa",
-              "category": "answered_unanswerable",
-              "expected": null,
-              "got": 1
-            },
-            {
-              "qid": "u_near_miss-df2dae8e",
               "category": "answered_unanswerable",
               "expected": null,
               "got": 1
@@ -288,35 +310,35 @@
           ]
         },
         {
-          "n": 52,
-          "n_answerable": 38,
-          "n_unanswerable": 14,
-          "answer_correctness": 1.0,
-          "correct_refusal_rate": 0.6429,
-          "false_refusal_rate": 0.0,
-          "overall_accuracy": 0.9038,
+          "n": 60,
+          "n_answerable": 44,
+          "n_unanswerable": 16,
+          "answer_correctness": 0.9773,
+          "correct_refusal_rate": 0.75,
+          "false_refusal_rate": 0.0227,
+          "overall_accuracy": 0.9167,
           "citation_precision_micro": 1.0,
           "citation_precision_macro": 1.0,
           "citation_exists_rate": 1.0,
           "required_citation_hit_rate": 1.0,
           "n_fabricated_citations": 0,
-          "tool_call_correctness": 1.0,
-          "steps_mean": 3.0769,
-          "steps_max": 4,
-          "cost_total_usd": 0.0351,
+          "tool_call_correctness": 0.9821,
+          "steps_mean": 3.15,
+          "steps_max": 7,
+          "cost_total_usd": 0.0416,
           "cost_mean_usd": 0.0007,
-          "latency_mean_s": 4.6919,
-          "latency_p90_s": 6.41,
+          "latency_mean_s": 4.749,
+          "latency_p90_s": 6.55,
           "n_errors": 0,
-          "answerable_correct": "38/38",
+          "answerable_correct": "43/44",
           "answer_correctness_ci95": [
-            0.9082,
-            1.0
+            0.8819,
+            0.996
           ],
-          "refusals_correct": "9/14",
+          "refusals_correct": "12/16",
           "correct_refusal_ci95": [
-            0.3876,
-            0.8366
+            0.505,
+            0.8982
           ],
           "by_template": {
             "c_acronym": {
@@ -363,20 +385,46 @@
               "correct": 5,
               "n": 5
             },
+            "c_what_if_no_alt": {
+              "correct": 2,
+              "n": 2
+            },
+            "c_what_if_pair": {
+              "correct": 2,
+              "n": 2
+            },
+            "c_what_if_top_alt": {
+              "correct": 1,
+              "n": 2
+            },
             "u_false_premise": {
               "correct": 3,
               "n": 3
             },
             "u_near_miss": {
-              "correct": 3,
+              "correct": 4,
               "n": 8
             },
             "u_us_only_risk": {
               "correct": 3,
               "n": 3
+            },
+            "u_what_if_absent": {
+              "correct": 1,
+              "n": 1
+            },
+            "u_what_if_capacity": {
+              "correct": 1,
+              "n": 1
             }
           },
           "failures": [
+            {
+              "qid": "c_what_if_top_alt-7b88b430",
+              "category": "false_refusal",
+              "expected": "FAK7LNGRNAN5",
+              "got": "FAK7LNGRNAN5"
+            },
             {
               "qid": "u_near_miss-2464e18e",
               "category": "answered_unanswerable",
@@ -385,12 +433,6 @@
             },
             {
               "qid": "u_near_miss-5edbffaa",
-              "category": "answered_unanswerable",
-              "expected": null,
-              "got": 1
-            },
-            {
-              "qid": "u_near_miss-df2dae8e",
               "category": "answered_unanswerable",
               "expected": null,
               "got": 1
@@ -412,7 +454,7 @@
       ],
       "partial_reps_by_template": [],
       "answer_correctness_range": [
-        1.0,
+        0.9773,
         1.0
       ]
     },
@@ -420,35 +462,35 @@
       "complete_repetitions": 3,
       "reps": [
         {
-          "n": 52,
-          "n_answerable": 38,
-          "n_unanswerable": 14,
+          "n": 60,
+          "n_answerable": 44,
+          "n_unanswerable": 16,
           "answer_correctness": 1.0,
-          "correct_refusal_rate": 0.9286,
+          "correct_refusal_rate": 0.9375,
           "false_refusal_rate": 0.0,
-          "overall_accuracy": 0.9808,
+          "overall_accuracy": 0.9833,
           "citation_precision_micro": 1.0,
           "citation_precision_macro": 1.0,
           "citation_exists_rate": 1.0,
           "required_citation_hit_rate": 1.0,
           "n_fabricated_citations": 0,
-          "tool_call_correctness": 1.0,
-          "steps_mean": 3.0192,
-          "steps_max": 4,
-          "cost_total_usd": 0.0455,
-          "cost_mean_usd": 0.0009,
-          "latency_mean_s": 4.8333,
-          "latency_p90_s": 6.69,
+          "tool_call_correctness": 0.9821,
+          "steps_mean": 3.1167,
+          "steps_max": 6,
+          "cost_total_usd": 0.0731,
+          "cost_mean_usd": 0.0012,
+          "latency_mean_s": 4.949,
+          "latency_p90_s": 6.53,
           "n_errors": 0,
-          "answerable_correct": "38/38",
+          "answerable_correct": "44/44",
           "answer_correctness_ci95": [
-            0.9082,
+            0.9197,
             1.0
           ],
-          "refusals_correct": "13/14",
+          "refusals_correct": "15/16",
           "correct_refusal_ci95": [
-            0.6853,
-            0.9873
+            0.7167,
+            0.9889
           ],
           "by_template": {
             "c_acronym": {
@@ -495,32 +537,52 @@
               "correct": 5,
               "n": 5
             },
+            "c_what_if_no_alt": {
+              "correct": 2,
+              "n": 2
+            },
+            "c_what_if_pair": {
+              "correct": 2,
+              "n": 2
+            },
+            "c_what_if_top_alt": {
+              "correct": 2,
+              "n": 2
+            },
             "u_false_premise": {
               "correct": 3,
               "n": 3
             },
             "u_near_miss": {
-              "correct": 7,
+              "correct": 8,
               "n": 8
             },
             "u_us_only_risk": {
-              "correct": 3,
+              "correct": 2,
               "n": 3
+            },
+            "u_what_if_absent": {
+              "correct": 1,
+              "n": 1
+            },
+            "u_what_if_capacity": {
+              "correct": 1,
+              "n": 1
             }
           },
           "failures": [
             {
-              "qid": "u_near_miss-ebf5d8f3",
+              "qid": "u_us_only_risk-31ece8c2",
               "category": "answered_unanswerable",
               "expected": null,
-              "got": 1
+              "got": []
             }
           ]
         },
         {
-          "n": 52,
-          "n_answerable": 38,
-          "n_unanswerable": 14,
+          "n": 60,
+          "n_answerable": 44,
+          "n_unanswerable": 16,
           "answer_correctness": 1.0,
           "correct_refusal_rate": 1.0,
           "false_refusal_rate": 0.0,
@@ -531,21 +593,21 @@
           "required_citation_hit_rate": 1.0,
           "n_fabricated_citations": 0,
           "tool_call_correctness": 1.0,
-          "steps_mean": 3.0962,
-          "steps_max": 4,
-          "cost_total_usd": 0.0357,
+          "steps_mean": 3.1333,
+          "steps_max": 6,
+          "cost_total_usd": 0.0443,
           "cost_mean_usd": 0.0007,
-          "latency_mean_s": 4.6621,
-          "latency_p90_s": 6.28,
+          "latency_mean_s": 4.8907,
+          "latency_p90_s": 6.11,
           "n_errors": 0,
-          "answerable_correct": "38/38",
+          "answerable_correct": "44/44",
           "answer_correctness_ci95": [
-            0.9082,
+            0.9197,
             1.0
           ],
-          "refusals_correct": "14/14",
+          "refusals_correct": "16/16",
           "correct_refusal_ci95": [
-            0.7847,
+            0.8064,
             1.0
           ],
           "by_template": {
@@ -592,6 +654,18 @@
             "c_shared_offices": {
               "correct": 5,
               "n": 5
+            },
+            "c_what_if_no_alt": {
+              "correct": 2,
+              "n": 2
+            },
+            "c_what_if_pair": {
+              "correct": 2,
+              "n": 2
+            },
+            "c_what_if_top_alt": {
+              "correct": 2,
+              "n": 2
             },
             "u_false_premise": {
               "correct": 3,
@@ -604,40 +678,48 @@
             "u_us_only_risk": {
               "correct": 3,
               "n": 3
+            },
+            "u_what_if_absent": {
+              "correct": 1,
+              "n": 1
+            },
+            "u_what_if_capacity": {
+              "correct": 1,
+              "n": 1
             }
           },
           "failures": []
         },
         {
-          "n": 52,
-          "n_answerable": 38,
-          "n_unanswerable": 14,
+          "n": 60,
+          "n_answerable": 44,
+          "n_unanswerable": 16,
           "answer_correctness": 1.0,
-          "correct_refusal_rate": 0.9286,
+          "correct_refusal_rate": 1.0,
           "false_refusal_rate": 0.0,
-          "overall_accuracy": 0.9808,
+          "overall_accuracy": 1.0,
           "citation_precision_micro": 1.0,
           "citation_precision_macro": 1.0,
           "citation_exists_rate": 1.0,
           "required_citation_hit_rate": 1.0,
           "n_fabricated_citations": 0,
-          "tool_call_correctness": 1.0,
-          "steps_mean": 3.0192,
-          "steps_max": 5,
-          "cost_total_usd": 0.0339,
+          "tool_call_correctness": 0.9821,
+          "steps_mean": 3.0667,
+          "steps_max": 4,
+          "cost_total_usd": 0.0429,
           "cost_mean_usd": 0.0007,
-          "latency_mean_s": 4.4969,
-          "latency_p90_s": 6.2,
+          "latency_mean_s": 4.7123,
+          "latency_p90_s": 6.39,
           "n_errors": 0,
-          "answerable_correct": "38/38",
+          "answerable_correct": "44/44",
           "answer_correctness_ci95": [
-            0.9082,
+            0.9197,
             1.0
           ],
-          "refusals_correct": "13/14",
+          "refusals_correct": "16/16",
           "correct_refusal_ci95": [
-            0.6853,
-            0.9873
+            0.8064,
+            1.0
           ],
           "by_template": {
             "c_acronym": {
@@ -684,27 +766,40 @@
               "correct": 5,
               "n": 5
             },
+            "c_what_if_no_alt": {
+              "correct": 2,
+              "n": 2
+            },
+            "c_what_if_pair": {
+              "correct": 2,
+              "n": 2
+            },
+            "c_what_if_top_alt": {
+              "correct": 2,
+              "n": 2
+            },
             "u_false_premise": {
               "correct": 3,
               "n": 3
             },
             "u_near_miss": {
-              "correct": 7,
+              "correct": 8,
               "n": 8
             },
             "u_us_only_risk": {
               "correct": 3,
               "n": 3
+            },
+            "u_what_if_absent": {
+              "correct": 1,
+              "n": 1
+            },
+            "u_what_if_capacity": {
+              "correct": 1,
+              "n": 1
             }
           },
-          "failures": [
-            {
-              "qid": "u_near_miss-ebf5d8f3",
-              "category": "answered_unanswerable",
-              "expected": null,
-              "got": 1
-            }
-          ]
+          "failures": []
         }
       ],
       "partial_reps_by_template": [],
@@ -717,13 +812,13 @@
       "complete_repetitions": 1,
       "reps": [
         {
-          "n": 52,
-          "n_answerable": 38,
-          "n_unanswerable": 14,
+          "n": 60,
+          "n_answerable": 44,
+          "n_unanswerable": 16,
           "answer_correctness": 0.0,
           "correct_refusal_rate": 1.0,
           "false_refusal_rate": 1.0,
-          "overall_accuracy": 0.2692,
+          "overall_accuracy": 0.2667,
           "citation_precision_micro": null,
           "citation_precision_macro": null,
           "citation_exists_rate": null,
@@ -732,19 +827,19 @@
           "tool_call_correctness": 0.0,
           "steps_mean": 1.0,
           "steps_max": 1,
-          "cost_total_usd": 0.3483,
+          "cost_total_usd": 0.4017,
           "cost_mean_usd": 0.0067,
-          "latency_mean_s": 3.6367,
-          "latency_p90_s": 4.4,
+          "latency_mean_s": 3.4565,
+          "latency_p90_s": 4.39,
           "n_errors": 0,
-          "answerable_correct": "0/38",
+          "answerable_correct": "0/44",
           "answer_correctness_ci95": [
             0.0,
-            0.0918
+            0.0803
           ],
-          "refusals_correct": "14/14",
+          "refusals_correct": "16/16",
           "correct_refusal_ci95": [
-            0.7847,
+            0.8064,
             1.0
           ],
           "by_template": {
@@ -792,6 +887,18 @@
               "correct": 0,
               "n": 5
             },
+            "c_what_if_no_alt": {
+              "correct": 0,
+              "n": 2
+            },
+            "c_what_if_pair": {
+              "correct": 0,
+              "n": 2
+            },
+            "c_what_if_top_alt": {
+              "correct": 0,
+              "n": 2
+            },
             "u_false_premise": {
               "correct": 3,
               "n": 3
@@ -803,6 +910,14 @@
             "u_us_only_risk": {
               "correct": 3,
               "n": 3
+            },
+            "u_what_if_absent": {
+              "correct": 1,
+              "n": 1
+            },
+            "u_what_if_capacity": {
+              "correct": 1,
+              "n": 1
             }
           },
           "failures": [
@@ -1033,6 +1148,42 @@
               "category": "false_refusal",
               "expected": 1,
               "got": null
+            },
+            {
+              "qid": "c_what_if_no_alt-8fb51eba",
+              "category": "false_refusal",
+              "expected": 4,
+              "got": null
+            },
+            {
+              "qid": "c_what_if_no_alt-ecf49cd2",
+              "category": "false_refusal",
+              "expected": 4,
+              "got": null
+            },
+            {
+              "qid": "c_what_if_pair-dc8f5223",
+              "category": "false_refusal",
+              "expected": 7,
+              "got": null
+            },
+            {
+              "qid": "c_what_if_pair-f5a3de0b",
+              "category": "false_refusal",
+              "expected": 5,
+              "got": null
+            },
+            {
+              "qid": "c_what_if_top_alt-7b88b430",
+              "category": "false_refusal",
+              "expected": "FAK7LNGRNAN5",
+              "got": null
+            },
+            {
+              "qid": "c_what_if_top_alt-f8972b7e",
+              "category": "false_refusal",
+              "expected": "V46DN5AQ9MS6",
+              "got": null
             }
           ]
         }
@@ -1043,35 +1194,35 @@
       "complete_repetitions": 1,
       "reps": [
         {
-          "n": 52,
-          "n_answerable": 38,
-          "n_unanswerable": 14,
+          "n": 60,
+          "n_answerable": 44,
+          "n_unanswerable": 16,
           "answer_correctness": 1.0,
-          "correct_refusal_rate": 0.9286,
+          "correct_refusal_rate": 0.9375,
           "false_refusal_rate": 0.0,
-          "overall_accuracy": 0.9808,
+          "overall_accuracy": 0.9833,
           "citation_precision_micro": 1.0,
           "citation_precision_macro": 1.0,
           "citation_exists_rate": 1.0,
           "required_citation_hit_rate": 1.0,
           "n_fabricated_citations": 0,
           "tool_call_correctness": 1.0,
-          "steps_mean": 3.0,
+          "steps_mean": 2.9333,
           "steps_max": 4,
-          "cost_total_usd": 2.1444,
-          "cost_mean_usd": 0.0412,
-          "latency_mean_s": 9.6906,
-          "latency_p90_s": 12.04,
+          "cost_total_usd": 2.6827,
+          "cost_mean_usd": 0.0447,
+          "latency_mean_s": 9.4425,
+          "latency_p90_s": 12.7,
           "n_errors": 0,
-          "answerable_correct": "38/38",
+          "answerable_correct": "44/44",
           "answer_correctness_ci95": [
-            0.9082,
+            0.9197,
             1.0
           ],
-          "refusals_correct": "13/14",
+          "refusals_correct": "15/16",
           "correct_refusal_ci95": [
-            0.6853,
-            0.9873
+            0.7167,
+            0.9889
           ],
           "by_template": {
             "c_acronym": {
@@ -1118,6 +1269,18 @@
               "correct": 5,
               "n": 5
             },
+            "c_what_if_no_alt": {
+              "correct": 2,
+              "n": 2
+            },
+            "c_what_if_pair": {
+              "correct": 2,
+              "n": 2
+            },
+            "c_what_if_top_alt": {
+              "correct": 2,
+              "n": 2
+            },
             "u_false_premise": {
               "correct": 3,
               "n": 3
@@ -1129,6 +1292,14 @@
             "u_us_only_risk": {
               "correct": 3,
               "n": 3
+            },
+            "u_what_if_absent": {
+              "correct": 1,
+              "n": 1
+            },
+            "u_what_if_capacity": {
+              "correct": 1,
+              "n": 1
             }
           },
           "failures": [
@@ -1141,20 +1312,7 @@
           ]
         }
       ],
-      "partial_reps_by_template": [
-        {
-          "u_near_miss": {
-            "correct": 7,
-            "n": 8
-          }
-        },
-        {
-          "u_near_miss": {
-            "correct": 7,
-            "n": 8
-          }
-        }
-      ]
+      "partial_reps_by_template": []
     },
     "golden/haiku_tools": {
       "complete_repetitions": 3,
@@ -1167,193 +1325,18 @@
           "correct_refusal_rate": 1.0,
           "false_refusal_rate": 0.0,
           "overall_accuracy": 0.9505,
-          "citation_precision_micro": 1.0,
-          "citation_precision_macro": 1.0,
-          "citation_exists_rate": 1.0,
-          "required_citation_hit_rate": 1.0,
-          "n_fabricated_citations": 0,
-          "tool_call_correctness": 1.0,
-          "steps_mean": 2.495,
-          "steps_max": 5,
-          "cost_total_usd": 0.0886,
-          "cost_mean_usd": 0.0009,
-          "latency_mean_s": 3.6395,
-          "latency_p90_s": 5.43,
-          "n_errors": 0,
-          "answerable_correct": "83/88",
-          "answer_correctness_ci95": [
-            0.8738,
-            0.9755
-          ],
-          "refusals_correct": "13/13",
-          "correct_refusal_ci95": [
-            0.7719,
-            1.0
-          ],
-          "by_template": {
-            "absent_award": {
-              "correct": 2,
-              "n": 2
-            },
-            "absent_program": {
-              "correct": 1,
-              "n": 1
-            },
-            "absent_supplier": {
-              "correct": 3,
-              "n": 3
-            },
-            "award_sole_source": {
-              "correct": 5,
-              "n": 5
-            },
-            "blast_radius_awards": {
-              "correct": 4,
-              "n": 5
-            },
-            "blast_radius_programs": {
-              "correct": 5,
-              "n": 5
-            },
-            "country_prime_awards": {
-              "correct": 5,
-              "n": 5
-            },
-            "country_risk": {
-              "correct": 5,
-              "n": 5
-            },
-            "dependent_offices_count": {
-              "correct": 5,
-              "n": 5
-            },
-            "hard_company_rollup": {
-              "correct": 3,
-              "n": 3
-            },
-            "hard_feed_country": {
-              "correct": 0,
-              "n": 3
-            },
-            "hard_noisy_name": {
-              "correct": 3,
-              "n": 3
-            },
-            "hard_office_flagged_blast": {
-              "correct": 3,
-              "n": 3
-            },
-            "hard_prime_customers": {
-              "correct": 3,
-              "n": 3
-            },
-            "hard_single_point": {
-              "correct": 3,
-              "n": 3
-            },
-            "office_flagged_share": {
-              "correct": 5,
-              "n": 5
-            },
-            "office_hhi": {
-              "correct": 5,
-              "n": 5
-            },
-            "office_top_supplier": {
-              "correct": 5,
-              "n": 5
-            },
-            "out_of_schema": {
-              "correct": 3,
-              "n": 3
-            },
-            "parent_subsidiaries": {
-              "correct": 4,
-              "n": 5
-            },
-            "program_top_supplier": {
-              "correct": 5,
-              "n": 5
-            },
-            "risk_not_in_feed": {
-              "correct": 4,
-              "n": 4
-            },
-            "sole_source_share": {
-              "correct": 5,
-              "n": 5
-            },
-            "subcontractor_count": {
-              "correct": 5,
-              "n": 5
-            },
-            "top_sole_source_country": {
-              "correct": 5,
-              "n": 5
-            }
-          },
-          "failures": [
-            {
-              "qid": "blast_radius_awards-2d272272",
-              "category": "wrong_value",
-              "expected": 11,
-              "got": 8
-            },
-            {
-              "qid": "hard_feed_country-478e62b1",
-              "category": "wrong_value",
-              "expected": 0.1006,
-              "got": {
-                "prime_obligations": 181481103.84,
-                "p_escalation": 0.1006
-              }
-            },
-            {
-              "qid": "hard_feed_country-5ea2e6c0",
-              "category": "wrong_value",
-              "expected": 0.0219,
-              "got": {
-                "prime_obligations_jordan": 13207348.43,
-                "p_escalation_jordan": 0.0219
-              }
-            },
-            {
-              "qid": "hard_feed_country-6dcf0894",
-              "category": "wrong_value",
-              "expected": 0.0702,
-              "got": {
-                "iraq_prime_obligation": 213150580.76,
-                "p_escalation": 0.0702
-              }
-            },
-            {
-              "qid": "parent_subsidiaries-cfad86ee",
-              "category": "wrong_value",
-              "expected": 3,
-              "got": 2
-            }
-          ]
-        },
-        {
-          "n": 101,
-          "n_answerable": 88,
-          "n_unanswerable": 13,
-          "answer_correctness": 0.9432,
-          "correct_refusal_rate": 1.0,
-          "false_refusal_rate": 0.0,
-          "overall_accuracy": 0.9505,
-          "citation_precision_micro": 1.0,
-          "citation_precision_macro": 1.0,
-          "citation_exists_rate": 1.0,
-          "required_citation_hit_rate": 1.0,
-          "n_fabricated_citations": 0,
-          "tool_call_correctness": 1.0,
-          "steps_mean": 2.495,
+          "citation_precision_micro": 0.9977,
+          "citation_precision_macro": 0.9982,
+          "citation_exists_rate": 0.9977,
+          "required_citation_hit_rate": 0.9773,
+          "n_fabricated_citations": 1,
+          "tool_call_correctness": 0.9796,
+          "steps_mean": 2.604,
           "steps_max": 4,
-          "cost_total_usd": 0.0535,
-          "cost_mean_usd": 0.0005,
-          "latency_mean_s": 3.5817,
-          "latency_p90_s": 5.27,
+          "cost_total_usd": 0.1005,
+          "cost_mean_usd": 0.001,
+          "latency_mean_s": 3.953,
+          "latency_p90_s": 5.93,
           "n_errors": 0,
           "answerable_correct": "83/88",
           "answer_correctness_ci95": [
@@ -1480,7 +1463,7 @@
               "expected": 0.1006,
               "got": {
                 "prime_obligations_egypt": 181481103.84,
-                "p_escalation": 0.1006
+                "escalation_p": 0.1006
               }
             },
             {
@@ -1488,182 +1471,7 @@
               "category": "wrong_value",
               "expected": 0.0219,
               "got": {
-                "prime_obligations": 13207348.43,
-                "escalation_probability": 0.0219
-              }
-            },
-            {
-              "qid": "hard_feed_country-6dcf0894",
-              "category": "wrong_value",
-              "expected": 0.0702,
-              "got": {
-                "prime_obligations": 213150580.76,
-                "p_escalation": 0.0702
-              }
-            },
-            {
-              "qid": "parent_subsidiaries-cfad86ee",
-              "category": "wrong_value",
-              "expected": 3,
-              "got": 2
-            }
-          ]
-        },
-        {
-          "n": 101,
-          "n_answerable": 88,
-          "n_unanswerable": 13,
-          "answer_correctness": 0.9432,
-          "correct_refusal_rate": 1.0,
-          "false_refusal_rate": 0.0,
-          "overall_accuracy": 0.9505,
-          "citation_precision_micro": 0.9943,
-          "citation_precision_macro": 0.9965,
-          "citation_exists_rate": 0.9943,
-          "required_citation_hit_rate": 1.0,
-          "n_fabricated_citations": 3,
-          "tool_call_correctness": 1.0,
-          "steps_mean": 2.505,
-          "steps_max": 5,
-          "cost_total_usd": 0.0498,
-          "cost_mean_usd": 0.0005,
-          "latency_mean_s": 3.5446,
-          "latency_p90_s": 5.14,
-          "n_errors": 0,
-          "answerable_correct": "83/88",
-          "answer_correctness_ci95": [
-            0.8738,
-            0.9755
-          ],
-          "refusals_correct": "13/13",
-          "correct_refusal_ci95": [
-            0.7719,
-            1.0
-          ],
-          "by_template": {
-            "absent_award": {
-              "correct": 2,
-              "n": 2
-            },
-            "absent_program": {
-              "correct": 1,
-              "n": 1
-            },
-            "absent_supplier": {
-              "correct": 3,
-              "n": 3
-            },
-            "award_sole_source": {
-              "correct": 5,
-              "n": 5
-            },
-            "blast_radius_awards": {
-              "correct": 4,
-              "n": 5
-            },
-            "blast_radius_programs": {
-              "correct": 5,
-              "n": 5
-            },
-            "country_prime_awards": {
-              "correct": 5,
-              "n": 5
-            },
-            "country_risk": {
-              "correct": 5,
-              "n": 5
-            },
-            "dependent_offices_count": {
-              "correct": 5,
-              "n": 5
-            },
-            "hard_company_rollup": {
-              "correct": 3,
-              "n": 3
-            },
-            "hard_feed_country": {
-              "correct": 0,
-              "n": 3
-            },
-            "hard_noisy_name": {
-              "correct": 3,
-              "n": 3
-            },
-            "hard_office_flagged_blast": {
-              "correct": 3,
-              "n": 3
-            },
-            "hard_prime_customers": {
-              "correct": 3,
-              "n": 3
-            },
-            "hard_single_point": {
-              "correct": 3,
-              "n": 3
-            },
-            "office_flagged_share": {
-              "correct": 5,
-              "n": 5
-            },
-            "office_hhi": {
-              "correct": 5,
-              "n": 5
-            },
-            "office_top_supplier": {
-              "correct": 5,
-              "n": 5
-            },
-            "out_of_schema": {
-              "correct": 3,
-              "n": 3
-            },
-            "parent_subsidiaries": {
-              "correct": 4,
-              "n": 5
-            },
-            "program_top_supplier": {
-              "correct": 5,
-              "n": 5
-            },
-            "risk_not_in_feed": {
-              "correct": 4,
-              "n": 4
-            },
-            "sole_source_share": {
-              "correct": 5,
-              "n": 5
-            },
-            "subcontractor_count": {
-              "correct": 5,
-              "n": 5
-            },
-            "top_sole_source_country": {
-              "correct": 5,
-              "n": 5
-            }
-          },
-          "failures": [
-            {
-              "qid": "blast_radius_awards-2d272272",
-              "category": "wrong_value",
-              "expected": 11,
-              "got": 8
-            },
-            {
-              "qid": "hard_feed_country-478e62b1",
-              "category": "wrong_value",
-              "expected": 0.1006,
-              "got": {
-                "prime_obligations_egypt": 181481103.84,
-                "p_escalation": 0.1006
-              }
-            },
-            {
-              "qid": "hard_feed_country-5ea2e6c0",
-              "category": "wrong_value",
-              "expected": 0.0219,
-              "got": {
-                "prime_obligations": 13207348.43,
+                "prime_obligations_usd": 13207348.43,
                 "p_escalation": 0.0219
               }
             },
@@ -1672,7 +1480,357 @@
               "category": "wrong_value",
               "expected": 0.0702,
               "got": {
-                "prime_obligations_iraq": 213150580.76,
+                "prime_obligations_usd": 213150580.76,
+                "p_escalation": 0.0702
+              }
+            },
+            {
+              "qid": "parent_subsidiaries-cfad86ee",
+              "category": "wrong_value",
+              "expected": 3,
+              "got": 2
+            }
+          ]
+        },
+        {
+          "n": 101,
+          "n_answerable": 88,
+          "n_unanswerable": 13,
+          "answer_correctness": 0.9432,
+          "correct_refusal_rate": 1.0,
+          "false_refusal_rate": 0.0,
+          "overall_accuracy": 0.9505,
+          "citation_precision_micro": 1.0,
+          "citation_precision_macro": 1.0,
+          "citation_exists_rate": 1.0,
+          "required_citation_hit_rate": 1.0,
+          "n_fabricated_citations": 0,
+          "tool_call_correctness": 0.9796,
+          "steps_mean": 2.5842,
+          "steps_max": 5,
+          "cost_total_usd": 0.0558,
+          "cost_mean_usd": 0.0006,
+          "latency_mean_s": 3.8696,
+          "latency_p90_s": 5.47,
+          "n_errors": 0,
+          "answerable_correct": "83/88",
+          "answer_correctness_ci95": [
+            0.8738,
+            0.9755
+          ],
+          "refusals_correct": "13/13",
+          "correct_refusal_ci95": [
+            0.7719,
+            1.0
+          ],
+          "by_template": {
+            "absent_award": {
+              "correct": 2,
+              "n": 2
+            },
+            "absent_program": {
+              "correct": 1,
+              "n": 1
+            },
+            "absent_supplier": {
+              "correct": 3,
+              "n": 3
+            },
+            "award_sole_source": {
+              "correct": 5,
+              "n": 5
+            },
+            "blast_radius_awards": {
+              "correct": 4,
+              "n": 5
+            },
+            "blast_radius_programs": {
+              "correct": 5,
+              "n": 5
+            },
+            "country_prime_awards": {
+              "correct": 5,
+              "n": 5
+            },
+            "country_risk": {
+              "correct": 5,
+              "n": 5
+            },
+            "dependent_offices_count": {
+              "correct": 5,
+              "n": 5
+            },
+            "hard_company_rollup": {
+              "correct": 3,
+              "n": 3
+            },
+            "hard_feed_country": {
+              "correct": 0,
+              "n": 3
+            },
+            "hard_noisy_name": {
+              "correct": 3,
+              "n": 3
+            },
+            "hard_office_flagged_blast": {
+              "correct": 3,
+              "n": 3
+            },
+            "hard_prime_customers": {
+              "correct": 3,
+              "n": 3
+            },
+            "hard_single_point": {
+              "correct": 3,
+              "n": 3
+            },
+            "office_flagged_share": {
+              "correct": 5,
+              "n": 5
+            },
+            "office_hhi": {
+              "correct": 5,
+              "n": 5
+            },
+            "office_top_supplier": {
+              "correct": 5,
+              "n": 5
+            },
+            "out_of_schema": {
+              "correct": 3,
+              "n": 3
+            },
+            "parent_subsidiaries": {
+              "correct": 4,
+              "n": 5
+            },
+            "program_top_supplier": {
+              "correct": 5,
+              "n": 5
+            },
+            "risk_not_in_feed": {
+              "correct": 4,
+              "n": 4
+            },
+            "sole_source_share": {
+              "correct": 5,
+              "n": 5
+            },
+            "subcontractor_count": {
+              "correct": 5,
+              "n": 5
+            },
+            "top_sole_source_country": {
+              "correct": 5,
+              "n": 5
+            }
+          },
+          "failures": [
+            {
+              "qid": "blast_radius_awards-2d272272",
+              "category": "wrong_value",
+              "expected": 11,
+              "got": 8
+            },
+            {
+              "qid": "hard_feed_country-478e62b1",
+              "category": "wrong_value",
+              "expected": 0.1006,
+              "got": {
+                "prime_obligations_egypt": 181481103.84,
+                "escalation_probability": 0.1006
+              }
+            },
+            {
+              "qid": "hard_feed_country-5ea2e6c0",
+              "category": "wrong_value",
+              "expected": 0.0219,
+              "got": {
+                "prime_obligations_usd": 13207348.43,
+                "escalation_probability": 0.0219
+              }
+            },
+            {
+              "qid": "hard_feed_country-6dcf0894",
+              "category": "wrong_value",
+              "expected": 0.0702,
+              "got": {
+                "prime_obligations_usd": 213150580.76,
+                "p_escalation": 0.0702
+              }
+            },
+            {
+              "qid": "parent_subsidiaries-cfad86ee",
+              "category": "wrong_value",
+              "expected": 3,
+              "got": 2
+            }
+          ]
+        },
+        {
+          "n": 101,
+          "n_answerable": 88,
+          "n_unanswerable": 13,
+          "answer_correctness": 0.9432,
+          "correct_refusal_rate": 1.0,
+          "false_refusal_rate": 0.0,
+          "overall_accuracy": 0.9505,
+          "citation_precision_micro": 1.0,
+          "citation_precision_macro": 1.0,
+          "citation_exists_rate": 1.0,
+          "required_citation_hit_rate": 0.9773,
+          "n_fabricated_citations": 0,
+          "tool_call_correctness": 1.0,
+          "steps_mean": 2.5941,
+          "steps_max": 4,
+          "cost_total_usd": 0.0515,
+          "cost_mean_usd": 0.0005,
+          "latency_mean_s": 3.8441,
+          "latency_p90_s": 5.68,
+          "n_errors": 0,
+          "answerable_correct": "83/88",
+          "answer_correctness_ci95": [
+            0.8738,
+            0.9755
+          ],
+          "refusals_correct": "13/13",
+          "correct_refusal_ci95": [
+            0.7719,
+            1.0
+          ],
+          "by_template": {
+            "absent_award": {
+              "correct": 2,
+              "n": 2
+            },
+            "absent_program": {
+              "correct": 1,
+              "n": 1
+            },
+            "absent_supplier": {
+              "correct": 3,
+              "n": 3
+            },
+            "award_sole_source": {
+              "correct": 5,
+              "n": 5
+            },
+            "blast_radius_awards": {
+              "correct": 4,
+              "n": 5
+            },
+            "blast_radius_programs": {
+              "correct": 5,
+              "n": 5
+            },
+            "country_prime_awards": {
+              "correct": 5,
+              "n": 5
+            },
+            "country_risk": {
+              "correct": 5,
+              "n": 5
+            },
+            "dependent_offices_count": {
+              "correct": 5,
+              "n": 5
+            },
+            "hard_company_rollup": {
+              "correct": 3,
+              "n": 3
+            },
+            "hard_feed_country": {
+              "correct": 0,
+              "n": 3
+            },
+            "hard_noisy_name": {
+              "correct": 3,
+              "n": 3
+            },
+            "hard_office_flagged_blast": {
+              "correct": 3,
+              "n": 3
+            },
+            "hard_prime_customers": {
+              "correct": 3,
+              "n": 3
+            },
+            "hard_single_point": {
+              "correct": 3,
+              "n": 3
+            },
+            "office_flagged_share": {
+              "correct": 5,
+              "n": 5
+            },
+            "office_hhi": {
+              "correct": 5,
+              "n": 5
+            },
+            "office_top_supplier": {
+              "correct": 5,
+              "n": 5
+            },
+            "out_of_schema": {
+              "correct": 3,
+              "n": 3
+            },
+            "parent_subsidiaries": {
+              "correct": 4,
+              "n": 5
+            },
+            "program_top_supplier": {
+              "correct": 5,
+              "n": 5
+            },
+            "risk_not_in_feed": {
+              "correct": 4,
+              "n": 4
+            },
+            "sole_source_share": {
+              "correct": 5,
+              "n": 5
+            },
+            "subcontractor_count": {
+              "correct": 5,
+              "n": 5
+            },
+            "top_sole_source_country": {
+              "correct": 5,
+              "n": 5
+            }
+          },
+          "failures": [
+            {
+              "qid": "blast_radius_awards-2d272272",
+              "category": "wrong_value",
+              "expected": 11,
+              "got": 8
+            },
+            {
+              "qid": "hard_feed_country-478e62b1",
+              "category": "wrong_value",
+              "expected": 0.1006,
+              "got": {
+                "prime_obligations_usd": 181481103.84,
+                "escalation_p": 0.1006
+              }
+            },
+            {
+              "qid": "hard_feed_country-5ea2e6c0",
+              "category": "wrong_value",
+              "expected": 0.0219,
+              "got": {
+                "prime_obligations_usd": 13207348.43,
+                "p_escalation": 0.0219
+              }
+            },
+            {
+              "qid": "hard_feed_country-6dcf0894",
+              "category": "wrong_value",
+              "expected": 0.0702,
+              "got": {
+                "prime_obligations_usd": 213150580.76,
                 "p_escalation": 0.0702
               }
             },
@@ -1698,22 +1856,373 @@
           "n": 101,
           "n_answerable": 88,
           "n_unanswerable": 13,
-          "answer_correctness": 0.9318,
+          "answer_correctness": 0.9432,
           "correct_refusal_rate": 1.0,
           "false_refusal_rate": 0.0,
-          "overall_accuracy": 0.9406,
+          "overall_accuracy": 0.9505,
           "citation_precision_micro": 1.0,
           "citation_precision_macro": 1.0,
           "citation_exists_rate": 1.0,
-          "required_citation_hit_rate": 1.0,
+          "required_citation_hit_rate": 0.9659,
           "n_fabricated_citations": 0,
-          "tool_call_correctness": 1.0,
-          "steps_mean": 2.495,
+          "tool_call_correctness": 0.9796,
+          "steps_mean": 2.5842,
+          "steps_max": 4,
+          "cost_total_usd": 0.1013,
+          "cost_mean_usd": 0.001,
+          "latency_mean_s": 3.8652,
+          "latency_p90_s": 5.95,
+          "n_errors": 0,
+          "answerable_correct": "83/88",
+          "answer_correctness_ci95": [
+            0.8738,
+            0.9755
+          ],
+          "refusals_correct": "13/13",
+          "correct_refusal_ci95": [
+            0.7719,
+            1.0
+          ],
+          "by_template": {
+            "absent_award": {
+              "correct": 2,
+              "n": 2
+            },
+            "absent_program": {
+              "correct": 1,
+              "n": 1
+            },
+            "absent_supplier": {
+              "correct": 3,
+              "n": 3
+            },
+            "award_sole_source": {
+              "correct": 5,
+              "n": 5
+            },
+            "blast_radius_awards": {
+              "correct": 4,
+              "n": 5
+            },
+            "blast_radius_programs": {
+              "correct": 5,
+              "n": 5
+            },
+            "country_prime_awards": {
+              "correct": 5,
+              "n": 5
+            },
+            "country_risk": {
+              "correct": 5,
+              "n": 5
+            },
+            "dependent_offices_count": {
+              "correct": 5,
+              "n": 5
+            },
+            "hard_company_rollup": {
+              "correct": 3,
+              "n": 3
+            },
+            "hard_feed_country": {
+              "correct": 0,
+              "n": 3
+            },
+            "hard_noisy_name": {
+              "correct": 3,
+              "n": 3
+            },
+            "hard_office_flagged_blast": {
+              "correct": 3,
+              "n": 3
+            },
+            "hard_prime_customers": {
+              "correct": 3,
+              "n": 3
+            },
+            "hard_single_point": {
+              "correct": 3,
+              "n": 3
+            },
+            "office_flagged_share": {
+              "correct": 5,
+              "n": 5
+            },
+            "office_hhi": {
+              "correct": 5,
+              "n": 5
+            },
+            "office_top_supplier": {
+              "correct": 5,
+              "n": 5
+            },
+            "out_of_schema": {
+              "correct": 3,
+              "n": 3
+            },
+            "parent_subsidiaries": {
+              "correct": 4,
+              "n": 5
+            },
+            "program_top_supplier": {
+              "correct": 5,
+              "n": 5
+            },
+            "risk_not_in_feed": {
+              "correct": 4,
+              "n": 4
+            },
+            "sole_source_share": {
+              "correct": 5,
+              "n": 5
+            },
+            "subcontractor_count": {
+              "correct": 5,
+              "n": 5
+            },
+            "top_sole_source_country": {
+              "correct": 5,
+              "n": 5
+            }
+          },
+          "failures": [
+            {
+              "qid": "blast_radius_awards-2d272272",
+              "category": "wrong_value",
+              "expected": 11,
+              "got": 8
+            },
+            {
+              "qid": "hard_feed_country-478e62b1",
+              "category": "wrong_value",
+              "expected": 0.1006,
+              "got": {
+                "prime_obligations_usd": 181481103.84,
+                "prime_awards": 19,
+                "p_escalation": 0.1006
+              }
+            },
+            {
+              "qid": "hard_feed_country-5ea2e6c0",
+              "category": "wrong_value",
+              "expected": 0.0219,
+              "got": {
+                "prime_obligations_usd": 13207348.43,
+                "p_escalation": 0.0219
+              }
+            },
+            {
+              "qid": "hard_feed_country-6dcf0894",
+              "category": "wrong_value",
+              "expected": 0.0702,
+              "got": {
+                "prime_obligations_usd": 213150580.76,
+                "p_escalation": 0.0702
+              }
+            },
+            {
+              "qid": "parent_subsidiaries-cfad86ee",
+              "category": "wrong_value",
+              "expected": 3,
+              "got": 2
+            }
+          ]
+        },
+        {
+          "n": 101,
+          "n_answerable": 88,
+          "n_unanswerable": 13,
+          "answer_correctness": 0.9432,
+          "correct_refusal_rate": 1.0,
+          "false_refusal_rate": 0.0,
+          "overall_accuracy": 0.9505,
+          "citation_precision_micro": 1.0,
+          "citation_precision_macro": 1.0,
+          "citation_exists_rate": 1.0,
+          "required_citation_hit_rate": 0.9773,
+          "n_fabricated_citations": 0,
+          "tool_call_correctness": 0.9796,
+          "steps_mean": 2.5842,
+          "steps_max": 4,
+          "cost_total_usd": 0.0539,
+          "cost_mean_usd": 0.0005,
+          "latency_mean_s": 3.7598,
+          "latency_p90_s": 5.2,
+          "n_errors": 0,
+          "answerable_correct": "83/88",
+          "answer_correctness_ci95": [
+            0.8738,
+            0.9755
+          ],
+          "refusals_correct": "13/13",
+          "correct_refusal_ci95": [
+            0.7719,
+            1.0
+          ],
+          "by_template": {
+            "absent_award": {
+              "correct": 2,
+              "n": 2
+            },
+            "absent_program": {
+              "correct": 1,
+              "n": 1
+            },
+            "absent_supplier": {
+              "correct": 3,
+              "n": 3
+            },
+            "award_sole_source": {
+              "correct": 5,
+              "n": 5
+            },
+            "blast_radius_awards": {
+              "correct": 4,
+              "n": 5
+            },
+            "blast_radius_programs": {
+              "correct": 5,
+              "n": 5
+            },
+            "country_prime_awards": {
+              "correct": 5,
+              "n": 5
+            },
+            "country_risk": {
+              "correct": 5,
+              "n": 5
+            },
+            "dependent_offices_count": {
+              "correct": 5,
+              "n": 5
+            },
+            "hard_company_rollup": {
+              "correct": 3,
+              "n": 3
+            },
+            "hard_feed_country": {
+              "correct": 0,
+              "n": 3
+            },
+            "hard_noisy_name": {
+              "correct": 3,
+              "n": 3
+            },
+            "hard_office_flagged_blast": {
+              "correct": 3,
+              "n": 3
+            },
+            "hard_prime_customers": {
+              "correct": 3,
+              "n": 3
+            },
+            "hard_single_point": {
+              "correct": 3,
+              "n": 3
+            },
+            "office_flagged_share": {
+              "correct": 5,
+              "n": 5
+            },
+            "office_hhi": {
+              "correct": 5,
+              "n": 5
+            },
+            "office_top_supplier": {
+              "correct": 5,
+              "n": 5
+            },
+            "out_of_schema": {
+              "correct": 3,
+              "n": 3
+            },
+            "parent_subsidiaries": {
+              "correct": 4,
+              "n": 5
+            },
+            "program_top_supplier": {
+              "correct": 5,
+              "n": 5
+            },
+            "risk_not_in_feed": {
+              "correct": 4,
+              "n": 4
+            },
+            "sole_source_share": {
+              "correct": 5,
+              "n": 5
+            },
+            "subcontractor_count": {
+              "correct": 5,
+              "n": 5
+            },
+            "top_sole_source_country": {
+              "correct": 5,
+              "n": 5
+            }
+          },
+          "failures": [
+            {
+              "qid": "blast_radius_awards-2d272272",
+              "category": "wrong_value",
+              "expected": 11,
+              "got": 8
+            },
+            {
+              "qid": "hard_feed_country-478e62b1",
+              "category": "wrong_value",
+              "expected": 0.1006,
+              "got": {
+                "prime_obligations_usd": 181481103.84,
+                "p_escalation": 0.1006
+              }
+            },
+            {
+              "qid": "hard_feed_country-5ea2e6c0",
+              "category": "wrong_value",
+              "expected": 0.0219,
+              "got": {
+                "prime_obligations_usd": 13207348.43,
+                "escalation_p": 0.0219
+              }
+            },
+            {
+              "qid": "hard_feed_country-6dcf0894",
+              "category": "wrong_value",
+              "expected": 0.0702,
+              "got": {
+                "prime_obligations_iraq_usd": 213150580.76,
+                "p_escalation": 0.0702
+              }
+            },
+            {
+              "qid": "parent_subsidiaries-cfad86ee",
+              "category": "wrong_value",
+              "expected": 3,
+              "got": 2
+            }
+          ]
+        },
+        {
+          "n": 101,
+          "n_answerable": 88,
+          "n_unanswerable": 13,
+          "answer_correctness": 0.9318,
+          "correct_refusal_rate": 1.0,
+          "false_refusal_rate": 0.0114,
+          "overall_accuracy": 0.9406,
+          "citation_precision_micro": 0.9935,
+          "citation_precision_macro": 0.9959,
+          "citation_exists_rate": 0.9935,
+          "required_citation_hit_rate": 0.9773,
+          "n_fabricated_citations": 3,
+          "tool_call_correctness": 0.9592,
+          "steps_mean": 2.604,
           "steps_max": 5,
-          "cost_total_usd": 0.0901,
-          "cost_mean_usd": 0.0009,
-          "latency_mean_s": 3.8186,
-          "latency_p90_s": 5.84,
+          "cost_total_usd": 0.0536,
+          "cost_mean_usd": 0.0005,
+          "latency_mean_s": 3.8384,
+          "latency_p90_s": 5.74,
           "n_errors": 0,
           "answerable_correct": "82/88",
           "answer_correctness_ci95": [
@@ -1771,188 +2280,7 @@
               "n": 3
             },
             "hard_noisy_name": {
-              "correct": 3,
-              "n": 3
-            },
-            "hard_office_flagged_blast": {
               "correct": 2,
-              "n": 3
-            },
-            "hard_prime_customers": {
-              "correct": 3,
-              "n": 3
-            },
-            "hard_single_point": {
-              "correct": 3,
-              "n": 3
-            },
-            "office_flagged_share": {
-              "correct": 5,
-              "n": 5
-            },
-            "office_hhi": {
-              "correct": 5,
-              "n": 5
-            },
-            "office_top_supplier": {
-              "correct": 5,
-              "n": 5
-            },
-            "out_of_schema": {
-              "correct": 3,
-              "n": 3
-            },
-            "parent_subsidiaries": {
-              "correct": 4,
-              "n": 5
-            },
-            "program_top_supplier": {
-              "correct": 5,
-              "n": 5
-            },
-            "risk_not_in_feed": {
-              "correct": 4,
-              "n": 4
-            },
-            "sole_source_share": {
-              "correct": 5,
-              "n": 5
-            },
-            "subcontractor_count": {
-              "correct": 5,
-              "n": 5
-            },
-            "top_sole_source_country": {
-              "correct": 5,
-              "n": 5
-            }
-          },
-          "failures": [
-            {
-              "qid": "blast_radius_awards-2d272272",
-              "category": "wrong_value",
-              "expected": 11,
-              "got": 8
-            },
-            {
-              "qid": "hard_feed_country-478e62b1",
-              "category": "wrong_value",
-              "expected": 0.1006,
-              "got": {
-                "prime_obligations_egypt": 181481103.84,
-                "p_escalation_egypt": 0.1006
-              }
-            },
-            {
-              "qid": "hard_feed_country-5ea2e6c0",
-              "category": "wrong_value",
-              "expected": 0.0219,
-              "got": {
-                "prime_obligations_jordan_usd": 13207348.43,
-                "p_escalation": 0.0219
-              }
-            },
-            {
-              "qid": "hard_feed_country-6dcf0894",
-              "category": "wrong_value",
-              "expected": 0.0702,
-              "got": {
-                "prime_obligation_iraq": 213150580.76,
-                "p_escalation_iraq": 0.0702
-              }
-            },
-            {
-              "qid": "hard_office_flagged_blast-4754b6da",
-              "category": "wrong_value",
-              "expected": 11,
-              "got": 10
-            },
-            {
-              "qid": "parent_subsidiaries-cfad86ee",
-              "category": "wrong_value",
-              "expected": 3,
-              "got": 2
-            }
-          ]
-        },
-        {
-          "n": 101,
-          "n_answerable": 88,
-          "n_unanswerable": 13,
-          "answer_correctness": 0.9432,
-          "correct_refusal_rate": 1.0,
-          "false_refusal_rate": 0.0,
-          "overall_accuracy": 0.9505,
-          "citation_precision_micro": 1.0,
-          "citation_precision_macro": 1.0,
-          "citation_exists_rate": 1.0,
-          "required_citation_hit_rate": 1.0,
-          "n_fabricated_citations": 0,
-          "tool_call_correctness": 1.0,
-          "steps_mean": 2.495,
-          "steps_max": 5,
-          "cost_total_usd": 0.0537,
-          "cost_mean_usd": 0.0005,
-          "latency_mean_s": 3.6223,
-          "latency_p90_s": 5.16,
-          "n_errors": 0,
-          "answerable_correct": "83/88",
-          "answer_correctness_ci95": [
-            0.8738,
-            0.9755
-          ],
-          "refusals_correct": "13/13",
-          "correct_refusal_ci95": [
-            0.7719,
-            1.0
-          ],
-          "by_template": {
-            "absent_award": {
-              "correct": 2,
-              "n": 2
-            },
-            "absent_program": {
-              "correct": 1,
-              "n": 1
-            },
-            "absent_supplier": {
-              "correct": 3,
-              "n": 3
-            },
-            "award_sole_source": {
-              "correct": 5,
-              "n": 5
-            },
-            "blast_radius_awards": {
-              "correct": 4,
-              "n": 5
-            },
-            "blast_radius_programs": {
-              "correct": 5,
-              "n": 5
-            },
-            "country_prime_awards": {
-              "correct": 5,
-              "n": 5
-            },
-            "country_risk": {
-              "correct": 5,
-              "n": 5
-            },
-            "dependent_offices_count": {
-              "correct": 5,
-              "n": 5
-            },
-            "hard_company_rollup": {
-              "correct": 3,
-              "n": 3
-            },
-            "hard_feed_country": {
-              "correct": 0,
-              "n": 3
-            },
-            "hard_noisy_name": {
-              "correct": 3,
               "n": 3
             },
             "hard_office_flagged_blast": {
@@ -2020,7 +2348,7 @@
               "category": "wrong_value",
               "expected": 0.1006,
               "got": {
-                "prime_obligations": 181481103.84,
+                "prime_obligations_usd": 181481103.84,
                 "p_escalation": 0.1006
               }
             },
@@ -2038,184 +2366,15 @@
               "category": "wrong_value",
               "expected": 0.0702,
               "got": {
-                "prime_obligations_iraq": 213150580.76,
-                "p_escalation": 0.0702
-              }
-            },
-            {
-              "qid": "parent_subsidiaries-cfad86ee",
-              "category": "wrong_value",
-              "expected": 3,
-              "got": 2
-            }
-          ]
-        },
-        {
-          "n": 101,
-          "n_answerable": 88,
-          "n_unanswerable": 13,
-          "answer_correctness": 0.9432,
-          "correct_refusal_rate": 1.0,
-          "false_refusal_rate": 0.0,
-          "overall_accuracy": 0.9505,
-          "citation_precision_micro": 0.9919,
-          "citation_precision_macro": 0.9946,
-          "citation_exists_rate": 0.9919,
-          "required_citation_hit_rate": 1.0,
-          "n_fabricated_citations": 4,
-          "tool_call_correctness": 1.0,
-          "steps_mean": 2.4653,
-          "steps_max": 4,
-          "cost_total_usd": 0.0489,
-          "cost_mean_usd": 0.0005,
-          "latency_mean_s": 3.5671,
-          "latency_p90_s": 5.16,
-          "n_errors": 0,
-          "answerable_correct": "83/88",
-          "answer_correctness_ci95": [
-            0.8738,
-            0.9755
-          ],
-          "refusals_correct": "13/13",
-          "correct_refusal_ci95": [
-            0.7719,
-            1.0
-          ],
-          "by_template": {
-            "absent_award": {
-              "correct": 2,
-              "n": 2
-            },
-            "absent_program": {
-              "correct": 1,
-              "n": 1
-            },
-            "absent_supplier": {
-              "correct": 3,
-              "n": 3
-            },
-            "award_sole_source": {
-              "correct": 5,
-              "n": 5
-            },
-            "blast_radius_awards": {
-              "correct": 4,
-              "n": 5
-            },
-            "blast_radius_programs": {
-              "correct": 5,
-              "n": 5
-            },
-            "country_prime_awards": {
-              "correct": 5,
-              "n": 5
-            },
-            "country_risk": {
-              "correct": 5,
-              "n": 5
-            },
-            "dependent_offices_count": {
-              "correct": 5,
-              "n": 5
-            },
-            "hard_company_rollup": {
-              "correct": 3,
-              "n": 3
-            },
-            "hard_feed_country": {
-              "correct": 0,
-              "n": 3
-            },
-            "hard_noisy_name": {
-              "correct": 3,
-              "n": 3
-            },
-            "hard_office_flagged_blast": {
-              "correct": 3,
-              "n": 3
-            },
-            "hard_prime_customers": {
-              "correct": 3,
-              "n": 3
-            },
-            "hard_single_point": {
-              "correct": 3,
-              "n": 3
-            },
-            "office_flagged_share": {
-              "correct": 5,
-              "n": 5
-            },
-            "office_hhi": {
-              "correct": 5,
-              "n": 5
-            },
-            "office_top_supplier": {
-              "correct": 5,
-              "n": 5
-            },
-            "out_of_schema": {
-              "correct": 3,
-              "n": 3
-            },
-            "parent_subsidiaries": {
-              "correct": 4,
-              "n": 5
-            },
-            "program_top_supplier": {
-              "correct": 5,
-              "n": 5
-            },
-            "risk_not_in_feed": {
-              "correct": 4,
-              "n": 4
-            },
-            "sole_source_share": {
-              "correct": 5,
-              "n": 5
-            },
-            "subcontractor_count": {
-              "correct": 5,
-              "n": 5
-            },
-            "top_sole_source_country": {
-              "correct": 5,
-              "n": 5
-            }
-          },
-          "failures": [
-            {
-              "qid": "blast_radius_awards-2d272272",
-              "category": "wrong_value",
-              "expected": 11,
-              "got": 8
-            },
-            {
-              "qid": "hard_feed_country-478e62b1",
-              "category": "wrong_value",
-              "expected": 0.1006,
-              "got": {
-                "prime_obligations": 181481103.84,
-                "p_escalation": 0.1006
-              }
-            },
-            {
-              "qid": "hard_feed_country-5ea2e6c0",
-              "category": "wrong_value",
-              "expected": 0.0219,
-              "got": {
-                "prime_obligations_jordan": 13207348.43,
-                "p_escalation_jordan": 0.0219
-              }
-            },
-            {
-              "qid": "hard_feed_country-6dcf0894",
-              "category": "wrong_value",
-              "expected": 0.0702,
-              "got": {
                 "prime_obligations_usd": 213150580.76,
                 "p_escalation": 0.0702
               }
+            },
+            {
+              "qid": "hard_noisy_name-3b531f36",
+              "category": "false_refusal",
+              "expected": 2,
+              "got": 2
             },
             {
               "qid": "parent_subsidiaries-cfad86ee",
@@ -2246,15 +2405,15 @@
           "citation_precision_micro": 1.0,
           "citation_precision_macro": 1.0,
           "citation_exists_rate": 1.0,
-          "required_citation_hit_rate": 1.0,
+          "required_citation_hit_rate": 0.9886,
           "n_fabricated_citations": 0,
-          "tool_call_correctness": 0.9898,
-          "steps_mean": 2.4257,
-          "steps_max": 4,
-          "cost_total_usd": 3.286,
-          "cost_mean_usd": 0.0325,
-          "latency_mean_s": 7.1044,
-          "latency_p90_s": 9.8,
+          "tool_call_correctness": 0.9592,
+          "steps_mean": 2.505,
+          "steps_max": 5,
+          "cost_total_usd": 3.7745,
+          "cost_mean_usd": 0.0374,
+          "latency_mean_s": 7.2545,
+          "latency_p90_s": 10.21,
           "n_errors": 0,
           "answerable_correct": "87/88",
           "answer_correctness_ci95": [
@@ -2381,5 +2540,5 @@
       "partial_reps_by_template": []
     }
   },
-  "anthropic_spend_total_usd": 9.148296
+  "anthropic_spend_total_usd": 16.742539
 }

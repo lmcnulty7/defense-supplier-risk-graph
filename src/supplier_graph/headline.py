@@ -108,6 +108,13 @@ def build(n_tests: int | None = None) -> list[H]:
     feed = gs["risk_feed"]
     gp, ge = bt["feed_policy"]["candidates"]["feed_p_escalation"], bt["feed_policy"]["candidates"]["feed_exposure"]
     D, E, G, B, A, T = "Data", "Entity resolution", "Graph", "Risk backtest", "Agent", "Trust and cost"
+    from supplier_graph.office_view import s_sole_source_majority_offices
+    from supplier_graph.stage import connect
+    con = connect(read_only=True)
+    try:
+        n_ss_major = len(s_sole_source_majority_offices(con))
+    finally:
+        con.close()
     h = [
         H("n_prime_awards", f"{sc['n_prime_awards']:,}", "DoD PSC-J prime awards, FY2023-FY2025", "graph_summary.json", D),
         H("total_obligations", f"${sc['total_prime_obligations'] / 1e9:,.1f}B", "lifetime obligations on those awards",
@@ -116,6 +123,9 @@ def build(n_tests: int | None = None) -> list[H]:
         H("n_suppliers", f"{gs['nodes']['Supplier']:,}", "resolved suppliers", "graph_summary.json", D),
         H("n_parents", f"{gs['nodes']['ParentCompany']:,}", "parent companies", "graph_summary.json", D),
         H("n_offices", f"{gs['nodes']['Office']:,}", "awarding offices", "graph_summary.json", D),
+        H("offices_sole_source_majority", f"{n_ss_major:,}",
+          "awarding offices where one supplier gets over half the office's obligations and over half of that "
+          "supplier's obligations from the office were not competed", "awards_scope (office_view.py)", D),
         H("n_transactions", f"{bt['source']['files']['transactions']['rows']:,}", "contract transactions FY2022-FY2025",
           "risk_backtest.json", D),
         H("sub_coverage", pct(sc["prime_awards_with_subawards_in_scope"] / sc["n_prime_awards"]),
@@ -247,7 +257,7 @@ def build(n_tests: int | None = None) -> list[H]:
         H("nm_guard", ", ".join(f"{x}/8" for x in nm("challenge/haiku_tools_guard")),
           "near-miss traps caught, Haiku + guard", "comparison.json", A),
         H("nm_opus", ", ".join(f"{x}/8" for x in nm("challenge/opus_tools")),
-          "near-miss traps caught, Opus (three runs of the trap template)", "comparison.json", A),
+          "near-miss traps caught, Opus (one run with the current prompt)", "comparison.json", A),
         H("cost_opus", f"${opus_cost:.3f}", "Opus cost per challenge question", "comparison.json", A),
         H("cost_ratio", f"1/{round(opus_cost / haiku_cost)}", "Haiku cost relative to Opus per challenge question",
           "comparison.json", A),
@@ -257,7 +267,7 @@ def build(n_tests: int | None = None) -> list[H]:
           "LLM judge agreement, blatant corruptions", "judge_validation.json", T),
         H("judge_subtle", f"{round(js['agreement'] * js['n_cases'])}/{js['n_cases']}",
           "LLM judge agreement, subtle corruptions in real agent prose", "judge_validation_subtle.json", T),
-        H("spend", f"${spend_total():.2f}", "total Anthropic API spend (cap $10)", "logs/spend_ledger.jsonl", T),
+        H("spend", f"${spend_total():.2f}", "total Anthropic API spend (cap $20, raised from $10 on 2026-11-19)", "logs/spend_ledger.jsonl", T),
     ]
     if n_tests is not None:
         h.append(H("tests", f"{n_tests} tests", "pytest tests collected (`make test`)", "pytest --collect-only", T))

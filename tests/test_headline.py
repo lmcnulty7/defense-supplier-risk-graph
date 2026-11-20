@@ -31,7 +31,7 @@ SUMMARY_KEYS = ["lk_split", "top5_model", "lk_base_rate", "top5_size", "top5_fla
 # texts written after HEADLINE.md existed: every number in them must be a headline value. Exceptions: the random
 # ROC-AUC (0.5), the "above 1" threshold of excess_vs_size, "top 5%" and "95% intervals". (The agent tab's
 # "about N questions left" is live state from the spend ledger, not a reported result, so it is not listed.)
-STRICT = ["docs/model_card_likelihood.md", "app:header", "app:likelihood", "app:about", "site:title",
+STRICT = ["docs/model_card_likelihood.md", "app:header", "app:overview", "app:likelihood", "app:about", "site:title",
           "site:likelihood-model"]
 STRICT_OK = {"0.5", "1", "5", "95"}
 
@@ -49,12 +49,13 @@ DOCS = {
     "site/index.html": ["n_prime_awards", "n_suppliers", "er_v1_correct", "er_blocking_correct", "neo4j_blast",
                         "v1_opus", "spend", "cost_ratio"],
     "docs/brief.md": ["n_prime_awards", "auc_flags", "auc_size", "nm_guard", "spend"],
-    "docs/demo_script.md": ["er_v1_correct", "er_blocking_correct", "nm_haiku", "nm_guard", "spend"],
+    "docs/demo_script.md": ["flagged_share", "offices_sole_source_majority", "n_offices", "nm_haiku", "nm_guard", "spend"],
     "docs/INTERVIEW_WALKTHROUGH.md": [k for k in H if k != "tests"],
     "docs/model_card_likelihood.md": ["n_transactions", "feed_gate_p", *LIKELIHOOD_KEYS, *LIKELIHOOD_TABLE],
     # rendered Streamlit text (AppTest), see _app_texts()
     "app:likelihood": SUMMARY_KEYS,
     "app:header": [],
+    "app:overview": ["flagged_share", "offices_sole_source_majority", "n_offices", "auc_size", "auc_flags"],
     "app:about": ["n_prime_awards", "n_subawards", "n_suppliers", "pulled", "feed_snapshot", "feed_file", "feed_version",
                   "er_blocking_correct", "er_blocking_wrong", "top5_model", "lk_base_rate", "v1_opus", "v1_opus_ref",
                   "conv_share", "sub_coverage", "cluster_share"],
@@ -74,10 +75,20 @@ def _app_texts() -> dict[str, str]:
     """Render the Streamlit app headless once and return the model descriptions as displayed."""
     if not _APP:
         from streamlit.testing.v1 import AppTest
-        at = AppTest.from_file(str(ROOT / "app" / "streamlit_app.py"), default_timeout=120).run()
-        assert not at.exception, at.exception
-        outlook, about = at.tabs[1], at.tabs[4]
-        assert (outlook.label, about.label) == ("Likelihood x impact", "About the data")
+
+        def opened(label):  # tabs run lazily: open one, render, return the app and that tab
+            at = AppTest.from_file(str(ROOT / "app" / "streamlit_app.py"), default_timeout=300)
+            at.session_state["tab"] = label
+            at.run()
+            assert not at.exception, at.exception
+            return at, next(t for t in at.tabs if t.label == label)
+        at, overview = opened("Overview")
+        # the three headline facts (the featured-supplier cards below them come from the tested scenario query)
+        _APP["app:overview"] = "\n".join(f"{v.value} {w.value} {c.value}" for v, w, c in
+                                          zip(overview.subheader[:3], overview.markdown[:3], overview.caption[:3],
+                                              strict=True))
+        _, outlook = opened("Likelihood x impact")
+        _, about = opened("About the data")
         (_APP["app:likelihood"],) = [m.value for m in outlook.markdown if "**What it predicts:**" in m.value]
         # everything in the About tab, including the collapsed feed details
         _APP["app:about"] = "\n".join(m.value for m in about.markdown)
@@ -123,9 +134,12 @@ def test_document_quotes_headline_numbers(doc):
     assert not missing, f"{doc} lacks: {missing}"
 
 
+# denominators that have appeared in results; "38" and "14" (the challenge set before the what-if questions) stay
+# listed so an old value like 38/38 or 13/14 is caught as stale
 FRACTIONS = {"88": ("v1_opus", "v1_haiku", "v1_haiku_guard"), "38": ("ch_opus", "ch_haiku", "ch_notools"),
              "14": ("ch_opus_traps", "ch_haiku_traps", "ch_guard_traps"), "13": ("v1_opus_ref",),
-             "8": ("nm_haiku", "nm_guard", "nm_opus"), "44": ("draft_haiku",), "40": ("judge_blatant",),
+             "8": ("nm_haiku", "nm_guard", "nm_opus"), "44": ("draft_haiku", "ch_opus", "ch_haiku", "ch_notools"),
+             "16": ("ch_opus_traps", "ch_haiku_traps", "ch_guard_traps"), "40": ("judge_blatant",),
              "30": ("judge_subtle", "neo4j_blast")}
 
 
@@ -133,9 +147,9 @@ FRACTIONS = {"88": ("v1_opus", "v1_haiku", "v1_haiku_guard"), "38": ("ch_opus", 
 def test_no_stale_numbers(doc):
     text = _text(doc)
     bad = []
-    for m in re.finditer(r"(?<![\d/.])(\d{1,2})/(88|38|14|13|8|44|40|30)(?![\d/])", text):
+    for m in re.finditer(r"(?<![\d/.])(\d{1,2})/(88|38|16|14|13|8|44|40|30)(?![\d/])", text):
         ok = {H[k]["text"] for k in FRACTIONS[m.group(2)]}
-        if not any(m.group(0) in s for s in ok) and m.group(0) not in ("14/14", "13/13", "8/8", "38/38", "0/38"):
+        if not any(m.group(0) in s for s in ok) and m.group(0) not in ("13/13", "8/8", "16/16"):
             bad.append(m.group(0))
     for m in re.finditer(r"(?<![\d.])(\d{2,3})\s+(?:passed|tests\b)", text):
         if f"{m.group(1)} tests" != H["tests"]["text"]:

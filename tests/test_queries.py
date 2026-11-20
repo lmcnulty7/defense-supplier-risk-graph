@@ -50,6 +50,9 @@ def _cases(ids):
         ("parent_subsidiaries", {"parent_uei": ids["parent"]}),
         ("subcontractors_of", {"supplier_id": ids["prime"]}),
         ("office_flagged_suppliers", {"office_code": ids["office"]}),
+        ("what_if_remove", {"supplier_ids": [ids["supplier"]]}),
+        ("what_if_remove", {"supplier_ids": [ids["sub_only"]]}),
+        ("what_if_remove", {"supplier_ids": [ids["supplier"], ids["prime"]], "limit": 5}),
     ]
 
 
@@ -57,7 +60,7 @@ def test_every_query_is_covered(ids):
     assert {n for n, _ in _cases(ids)} == set(Q.QUERIES)
 
 
-@pytest.mark.parametrize("i", range(16))
+@pytest.mark.parametrize("i", range(19))
 def test_graph_and_sql_agree(ids, con, i):
     name, params = _cases(ids)[i]
     g = Q.run(name, params, "graph")
@@ -77,7 +80,9 @@ def test_unknown_entities_raise_query_error(backend, con):
     for name, params in [("supplier_profile", {"supplier_id": "NOTAREALUEI1"}),
                          ("office_concentration", {"office_code": "ZZZZZZ"}),
                          ("country_exposure", {"country_iso3": "ATA"}),
-                         ("program_suppliers", {"program_code": "ZZZ"})]:
+                         ("program_suppliers", {"program_code": "ZZZ"}),
+                         ("what_if_remove", {"supplier_ids": ["NOTAREALUEI1"]}),
+                         ("what_if_remove", {"supplier_ids": []})]:
         with pytest.raises(Q.QueryError):
             Q.run(name, params, backend, con)
 

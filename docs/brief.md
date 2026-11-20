@@ -44,11 +44,12 @@ activity from October 2022 through September 2025: 57,596 contracts worth $225 b
   half, then traded a few correct matches (to about 78%) for far fewer mistakes: under 1% matched to the wrong company,
   and companies missing from the data wrongly matched about 4% of the time instead of 9%. It handles acronyms ("GDLS"
   for General Dynamics Land Systems).
-* Assistant: 87 of 88 standard questions and all 38 harder questions answered correctly, with every citation
-  traceable to a real record. Its weak spot was a company name that is one word off from a real one. A check in the
-  name lookup now flags those: the smaller, 49-times-cheaper assistant went from catching 1, 3 and 3 of 8 such names
-  in three runs to 7/8, 8/8, 7/8, about as well as the large one.
-* Cost: about 3 to 4 cents and 7 to 10 seconds per question. The whole build used $9.15 of a $10 AI budget.
+* Assistant: 87 of 88 standard questions and all 44 harder questions (including "what if this supplier fails?")
+  answered correctly, with every citation traceable to a real record. Its weak spot was a company name that is one
+  word off from a real one. A check in the name lookup now flags those: the smaller, 52-times-cheaper assistant went
+  from catching 4 of 8 such names in each of three runs to 8/8, 8/8, 8/8, slightly better than the large one (7 of 8).
+* Cost: about 4 to 5 cents and 7 to 10 seconds per question. The whole build used $16.74 of a $20 AI budget (raised
+  from $10).
 
 **What would make it decision-grade:** supplier performance and financial data (to predict failure, not just
 terminations), a country-risk feed that has demonstrated forecasting skill, complete subcontract reporting, and the

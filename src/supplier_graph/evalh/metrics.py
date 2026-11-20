@@ -113,12 +113,12 @@ def tool_call_correct(run: dict, item: GoldenItem) -> bool | None:
     if item.expected_query is None:
         return None
     calls = run.get("tool_calls", [])
-    exp = {k: str(v).upper() for k, v in item.expected_params.items()}
+    exp = {k: str(sorted(v) if isinstance(v, list) else v).upper() for k, v in item.expected_params.items()}
     for t in calls:
-        if item.expected_query in ("country_risk", "award_details", "resolve_supplier"):
+        if item.expected_query in ("country_risk", "award_details", "resolve_supplier", "what_if_remove"):
             if t["name"] != item.expected_query:
                 continue
-            got = {k: str(v).upper() for k, v in t["input"].items()}
+            got = {k: str(sorted(v) if isinstance(v, list) else v).upper() for k, v in t["input"].items()}
             if item.expected_query == "resolve_supplier" or all(got.get(k) == v for k, v in exp.items()):
                 return True
         elif t["name"] == "run_query" and t["input"].get("query_name") in [item.expected_query, *item.alt_queries]:
